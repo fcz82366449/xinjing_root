@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layout">
+
+<div layout:fragment="body">
+    <div class="l-form">
+    <table class="l-table-form">
+        <tr>
+            <th th:text="#{user.realname}"></th>
+            <td style="width: 30%;" th:text="${user.realname}"></td>
+            <th th:text="#{user.username}"></th>
+            <td th:text="${user.username}"></td>
+        </tr>
+        <tr>
+            <th th:text="#{user.gender}"></th>
+            <td th:text="${user.gender}"></td>
+            <th th:text="#{user.position}"></th>
+            <td th:text="${user.position}"></td>
+        </tr>
+        <tr>
+            <th th:text="#{user.email}"></th>
+            <td th:text="${user.email}"></td>
+            <th th:text="#{user.mobile}"></th>
+            <td th:text="${user.mobile}"></td>
+        </tr>
+        <tr>
+            <th th:text="#{userDoctor.idNumber}"></th>
+            <td th:text="${userDoctor.idNumber}"></td>
+            <th th:text="#{userDoctor.age}"></th>
+            <td th:text="${userDoctor.age}"></td>
+        </tr>
+        <tr>
+            <th th:text="#{userDoctor.psychologicalConsultantImageUrl}"></th>
+            <td colspan="3">
+                <img th:src="${userDoctor.psychologicalConsultantImageUrl}" width="100%"/>
+            </td>
+        </tr>
+        <tr>
+            <th th:text="#{userDoctor.employeeImageUrl}"></th>
+            <td colspan="3">
+                <img th:src="${userDoctor.employeeImageUrl}" width="100%"/>
+            </td>
+        </tr>
+        <tr>
+            <th th:text="#{userDoctor.doctorProfessionImageUrl}"></th>
+            <td colspan="3">
+                <img th:src="${userDoctor.doctorProfessionImageUrl}" width="100%"/>
+            </td>
+        </tr>
+        <tr>
+            <th th:text="#{userDoctor.professionalQualificationImageUrl}"></th>
+            <td colspan="3">
+                <img th:src="${userDoctor.professionalQualificationImageUrl}" width="100%"/>
+            </td>
+        </tr>
+        <tr>
+            <th th:text="#{userDoctor.professionalTitleId}"></th>
+            <td th:text="${userDoctor.professionalTitleId}">
+            </td>
+            <th th:text="#{userDoctor.consultationTimes}"></th>
+            <td th:text="${userDoctor.consultationTimes}">
+            </td>
+        </tr>
+        <tr>
+            <th th:text="#{userDoctor.idCardFront}"></th>
+            <td th:text="${userDoctor.idCardFront}"></td>
+            <th th:text="#{userDoctor.idCardInverse}"></th>
+            <td th:text="${userDoctor.idCardInverse}"></td>
+        </tr>
+        <tr>
+            <th th:text="#{userDoctor.photo}"></th>
+            <td colspan="3" th:text="*{photo}"></td>
+        </tr>
+        <tr>
+            <th th:text="#{userDoctor.hospital}"></th>
+            <td th:text="${userDoctor.hospital}"></td>
+            <th th:text="#{userDoctor.entryDate}"></th>
+            <td th:text="${userDoctor.entryDate}"></td>
+        </tr>
+        <tr>
+            <th th:text="#{userDoctor.introduction}"></th>
+            <td colspan="3" th:text="${userDoctor.introduction}"></td>
+        </tr>
+        <tr>
+            <th th:text="#{userDoctor.expertise}"></th>
+            <td colspan="3" th:text="${userDoctor.expertise}"></td>
+        </tr>
+        <tr>
+            <th th:text="#{userDoctor.signature}"></th>
+            <td colspan="3" th:text="${userDoctor.signature}"></td>
+        </tr>
+        <tr>
+            <th th:text="#{userDoctor.level}"></th>
+            <td colspan="3" th:text="${userDoctor.level}"></td>
+        </tr>
+        <tr>
+            <th th:text="#{user.enabled}"></th>
+            <td th:text="${user.enabled} ? '是' : '否'">
+            </td>
+            <th th:text="#{user.notLocked}"></th>
+            <td th:text="${user.accountNonLocked} ? '是' : '否'">
+            </td>
+        </tr>
+        <tr>
+            <th th:text="#{user.regAt}"></th>
+            <td th:text="${user.regAt} ? ${#dates.format(user.regAt, 'yyyy-MM-dd HH:mm')} : ''">
+            </td>
+            <th th:text="#{user.lastLoginAt}"></th>
+            <td th:text="${user.lastLoginAt} ? ${#dates.format(user.lastLoginAt, 'yyyy-MM-dd HH:mm')} : ''">
+            </td>
+        </tr>
+    </table>
+
+        <h3>审核记录</h3>
+        <table class="l-table-grid">
+            <tr>
+                <th style="width: 80px;">审核结果</th>
+                <th>审核意见</th>
+                <th style="width: 80px;">审核人</th>
+                <th style="width: 120px;">审核时间</th>
+            </tr>
+            <tr th:each="approveLog : ${approveLogList}">
+                <td style="text-align: center;" th:text="${approveLog.result}"></td>
+                <td th:text="${approveLog.remark}"></td>
+                <td style="text-align: center;" th:text="${approveLog.creator_realname}"></td>
+                <td style="text-align: center;" th:text="${#dates.format(approveLog.createdAt, 'yyyy-MM-dd HH:mm')}"></td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+<script type="text/javascript" layout:fragment="script">/*<![CDATA[*/
+$(function() {
+
+});
+/*]]>*/</script>
+
+</html>

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layout">
+
+<div layout:fragment="body">
+    <div id="toptoolbar"></div>
+    <div id="searchformDiv">
+        <form id='searchform' class="l-search-form">
+            <table>
+                <tr>
+                    <td>
+                        <input type="text" class="l-text" id="search_realName" name="search_realName" onkeyup="f_search()" placeholder="用户名字"/>
+                    </td>
+                    <td>
+                        vr室
+                    </td>
+                    <td>
+                        <select id="selVrRoom" th:field="*{userVrRooms}" validate="{required:true}" onchange="GetValue();f_search();">
+                        <!--&lt;!&ndash; onchange="btnChange(this[selectedIndex].value); &ndash;&gt;-->
+                            <option selected="selected" value="">所有</option>
+                            <option th:each="userVrRoom,userVrRoomStat:${userVrRooms}" th:value="${userVrRoom.vrRoomId}" th:text="${userVrRoom.vrRoom_name}"></option>
+                        </select>
+                        <input id="search_vrRoomId" type="hidden" />
+                    </td>
+
+                </tr>
+            </table>
+        </form>
+    </div>
+    <div id="maingrid"></div>
+</div>
+
+<!-- page specific plugin scripts -->
+<script type="text/javascript" layout:fragment="script">/*<![CDATA[*/
+var maingrid;
+$(function() {
+    maingrid = newGrid("maingrid", {
+        columns : [{
+                display : '[[#{userVrRoom.type}]]',
+                name : 'config_type',
+                width : 120
+            },
+            {
+                display : '[[#{user.username}]]',
+                name : 'user_username',
+                align : 'left',
+                width : 120
+            }, {
+                display : '[[#{user.realname}]]',
+                name : 'user_realname',
+                align : 'left',
+                width : 120
+            }, {
+                display : '[[#{vrRoom.name}]]',
+                name : 'vrRoom_name',
+                align : 'left',
+                width : 160
+            }, {
+                display : '[[#{userVrRoom.remark}]]',
+                name : 'remark',
+                align : 'left',
+                width : 500
+            }, {
+                display : '[[#{createdAt}]]',
+                name : 'createdAt',
+                type:'datetime',
+                width : 120
+            }, {
+                display : '[[#{updatedAt}]]',
+                name : 'updatedAt',
+                type : 'datetime',
+                width : 120
+            }],
+        url : '/userVrRoom/list'
+    });
+
+
+
+    maingrid.setHeight(document.documentElement.clientHeight - $("#toptoolbar").height() -  $("#searchform").height() - 18);
+});
+
+function f_select() {
+    return maingrid.getSelectedRow();
+}
+
+function f_search() {
+    loadGridData(maingrid, "searchform");
+}
+
+function f_reload() {
+    maingrid.loadData(true);
+}
+
+
+$(function () {
+            $("#selVrRoom").ligerComboBox({
+                valueFieldID: 'search_vrRoomId'
+            });
+        });
+
+function GetValue() {
+    $("#search_vrRoomId").val($("#selVrRoom").val());
+}
+
+/*]]>*/</script>
+</html>

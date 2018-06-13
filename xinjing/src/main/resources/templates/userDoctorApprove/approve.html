@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layout">
+
+<div layout:fragment="body">
+    <div class="l-form">
+        <table class="l-table-form">
+            <tr>
+                <th th:text="#{user.realname}"></th>
+                <td style="width: 30%;" th:text="${user.realname}"></td>
+                <th th:text="#{user.username}"></th>
+                <td th:text="${user.username}"></td>
+            </tr>
+            <tr>
+                <th th:text="#{user.enabled}"></th>
+                <td th:text="${user.enabled} ? '是' : '否'">
+                </td>
+                <th th:text="#{user.notLocked}"></th>
+                <td th:text="${user.accountNonLocked} ? '是' : '否'">
+                </td>
+            </tr>
+            <tr>
+                <th th:text="#{user.regAt}"></th>
+                <td th:text="${user.regAt} ? ${#dates.format(user.regAt, 'yyyy-MM-dd HH:mm')} : ''">
+                </td>
+                <th th:text="#{user.lastLoginAt}"></th>
+                <td th:text="${user.lastLoginAt} ? ${#dates.format(user.lastLoginAt, 'yyyy-MM-dd HH:mm')} : ''">
+                </td>
+            </tr>
+        </table>
+        <br/>
+
+        <table class="l-table-form">
+            <tr>
+                <th style="width: 20%;">标题</th>
+                <th style="width: 40%;text-align: center;">审核前</th>
+                <th style="width: 40%;text-align: center;">审核后</th>
+            </tr>
+            <tr>
+                <th th:text="#{user.realname}"></th>
+                <td th:text="${user.realname}"></td>
+                <td th:text="${userDoctorApprove.realname}"></td>
+            </tr>
+            <tr>
+                <th th:text="#{user.gender}"></th>
+                <td th:text="${user.gender}"></td>
+                <td th:text="${userDoctorApprove.gender}"></td>
+            </tr>
+            <tr>
+                <th th:text="#{userDoctor.region}"></th>
+                <td th:text="${userDoctor.region}"></td>
+                <td th:text="${userDoctorApprove.region}"></td>
+            </tr>
+            <tr>
+                <th th:text="#{userDoctor.professionalTitleId}"></th>
+                <td th:text="${userDoctor.professionalTitleId}"></td>
+                <td th:text="${userDoctorApprove.professionalTitleId}"></td>
+            </tr>
+            <tr>
+                <th th:text="#{userDoctor.workplaceType}"></th>
+                <td th:text="${userDoctor.workplaceType}"></td>
+                <td th:text="${userDoctorApprove.workplaceType}"></td>
+            </tr>
+            <tr>
+                <th th:text="#{userDoctor.hospital}"></th>
+                <td th:text="${userDoctor.hospital}"></td>
+                <td th:text="${userDoctorApprove.hospital}"></td>
+            </tr>
+            <tr>
+                <th th:text="#{userDoctor.position}"></th>
+                <td th:text="${userDoctor.position}"></td>
+                <td th:text="${userDoctorApprove.position}"></td>
+            </tr>
+            <tr>
+                <th th:text="#{userDoctor.headPictureUrl}"></th>
+                <td>
+                    <img width="100%" th:src="${userDoctor.headPictureUrl}"/>
+                </td>
+                <td>
+                    <img width="100%" th:src="${userDoctorApprove.headPictureUrl}"/>
+                </td>
+            </tr>
+            <tr>
+                <th th:text="#{userDoctor.introduction}"></th>
+                <td th:text="${userDoctor.introduction}"></td>
+                <td th:text="${userDoctorApprove.introduction}"></td>
+            </tr>
+            <tr>
+                <th th:text="#{userDoctor.expertise}"></th>
+                <td th:text="${userDoctor.expertise}"></td>
+                <td th:text="${userDoctorApprove.expertise}"></td>
+            </tr>
+            <tr>
+                <th th:text="#{userDoctor.psychologicalConsultantImageUrl}"></th>
+                <td>
+                    <img width="50%" th:each="img : ${T(cn.easy.xinjing.utils.ProjectUtil).str2Arr(userDoctor.psychologicalConsultantImageUrl)}" th:src="${img}" />
+                </td>
+                <td>
+                    <img width="50%" th:each="img : ${T(cn.easy.xinjing.utils.ProjectUtil).str2Arr(userDoctorApprove.psychologicalConsultantImageUrl)}" th:src="${img}" />
+                </td>
+            </tr>
+            <tr>
+                <th th:text="#{userDoctor.employeeImageUrl}"></th>
+                <td>
+                    <img width="50%" th:each="img : ${T(cn.easy.xinjing.utils.ProjectUtil).str2Arr(userDoctor.employeeImageUrl)}" th:src="${img}" />
+                </td>
+                <td>
+                    <img width="50%" th:each="img : ${T(cn.easy.xinjing.utils.ProjectUtil).str2Arr(userDoctorApprove.employeeImageUrl)}" th:src="${img}" />
+                </td>
+            </tr>
+            <tr>
+                <th th:text="#{userDoctor.doctorProfessionImageUrl}"></th>
+                <td>
+                    <img width="50%" th:each="img : ${T(cn.easy.xinjing.utils.ProjectUtil).str2Arr(userDoctor.doctorProfessionImageUrl)}" th:src="${img}" />
+                </td>
+                <td>
+                    <img width="50%" th:each="img : ${T(cn.easy.xinjing.utils.ProjectUtil).str2Arr(userDoctorApprove.doctorProfessionImageUrl)}" th:src="${img}" />
+                </td>
+            </tr>
+            <tr>
+                <th th:text="#{userDoctor.professionalQualificationImageUrl}"></th>
+                <td>
+                    <img width="50%"th:each="img : ${T(cn.easy.xinjing.utils.ProjectUtil).str2Arr(userDoctor.professionalQualificationImageUrl)}" th:src="${img}" />
+                </td>
+                <td>
+                    <img width="50%" th:each="img : ${T(cn.easy.xinjing.utils.ProjectUtil).str2Arr(userDoctorApprove.professionalQualificationImageUrl)}" th:src="${img}" />
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <form id="config-form" method="post" th:action="@{/userDoctorApprove/approve}" th:object="${userDoctorApprove}" liger="{type : 'ligerForm'}">
+        <input type="hidden" th:field="*{id}"/>
+
+        <table class="l-table-form">
+            <tr>
+                <th th:text="#{approveLog.result}"></th>
+                <td>
+                    <select name="result">
+                        <option value="4">通过</option>
+                        <option value="3">不通过</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th th:text="#{approveLog.remark}"></th>
+                <td>
+                    <textarea cols="60" rows="4" th:placeholder="#{approveLog.remark}" name="remark" id="remark" ></textarea>
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+<script type="text/javascript" layout:fragment="script">/*<![CDATA[*/
+var $form;
+$(function() {
+
+});
+/*]]>*/</script>
+
+</html>

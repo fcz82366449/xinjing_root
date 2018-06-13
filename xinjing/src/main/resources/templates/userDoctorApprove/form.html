@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layout">
+
+<div layout:fragment="body">
+    <form id="config-form" method="post" enctype="multipart/form-data" th:action="@{/userDoctorApprove/form}" th:object="${userDoctorApprove}" liger="{type : 'ligerForm'}" >
+        <input type="hidden" th:field="*{id}"/>
+        <input type="hidden" id="psychologicalConsultantImageUrl" name= "psychologicalConsultantImageUrl" th:value="${psychologicalConsultantImageUrl}"/>
+        <input type="hidden" id="employeeImageUrl" name= "employeeImageUrl" th:value="${employeeImageUrl}"/>
+        <input type="hidden" id="doctorProfessionImageUrl" name= "doctorProfessionImageUrl" th:value="${doctorProfessionImageUrl}"/>
+        <input type="hidden" id="professionalQualificationImageUrl" name= "professionalQualificationImageUrl" th:value="${professionalQualificationImageUrl}"/>
+        <table class="l-table-form">
+            <tr>
+                <th th:text="#{userDoctorApprove.hospital}"></th>
+                <td><input type="text" ltype="text" th:placeholder="#{userDoctorApprove.hospital}" th:field="*{hospital}" validate="{required:true}" readonly="readonly"/></td>
+            </tr>
+            <tr>
+                <th th:text="#{userDoctorApprove.userId}"></th>
+                <td><input type="text" ltype="text" th:placeholder="#{userDoctorApprove.userId}" th:field="*{userId}" validate="{required:true}" readonly="readonly"/></td>
+            </tr>
+            <tr>
+                <th th:text="#{userDoctorApprove.realname}"></th>
+                <td><input type="text" ltype="text" th:placeholder="#{userDoctorApprove.realname}" th:field="*{realname}" validate="{required:true}" readonly="readonly"/></td>
+            </tr>
+            <tr>
+                <th th:text="#{userDoctorApprove.gender}"></th>
+                <td colspan="3"><input type="text" ltype="text" th:placeholder="#{userDoctorApprove.status}" liger="{type:'comboBox',valueFieldID:'gender',configCode:'DOCTOR_GENDERSTATUS_ENUM'}" validate="{required:true}"/>
+                    <input type="hidden" th:field="*{status}"/>
+                </td>
+                <!--<td><input type="text" ltype="text" th:placeholder="#{userDoctorApprove.gender}" th:field="*{gender}" validate="{required:true}"/></td>-->
+            </tr>
+            <tr>
+                <th th:text="#{userDoctorApprove.region}"></th>
+                <td colspan="3">
+                    <input type="hidden" th:field="*{region}" />
+                    <table>
+                        <tr>
+                            <td style="padding: 0 0 0 0;border: 0;"><input type="text" id="provinceBox" name="provinceVal" th:placeholder="#{area.province}" validate="{required:true}"/></td>
+                            <td style="padding: 0 0 0 3px;border: 0;"><input type="text" id="cityBox" name="cityVal" th:placeholder="#{area.city}" validate="{required:true}"/></td>
+                            <td style="padding: 0 0 0 3px;border: 0;"><input type="text" id="areaBox" name="areaVal" th:placeholder="#{area.area}" validate="{required:true}"/></td>
+                        </tr>
+                    </table>
+                </td>
+                <!--<td><input type="text" ltype="text" th:placeholder="#{userDoctorApprove.region}" th:field="*{region}" validate="{required:true}"/></td>-->
+            </tr>
+            <tr>
+                <th th:text="#{userDoctorApprove.professionalTitleId}"></th>
+                <td colspan="3">
+                    <!--<input id="professionalTitleId" type="text" ltype="text" th:placeholder="#{userDoctorApprove.professionalTitleId}" liger="{type:'comboBox',valueFieldID:'professionalTitleId',configCode:'PROFESSIONAL_TITLES_ENUM'}" validate="{required:true}"/>-->
+                    <!--<input type="hidden" th:field="*{professionalTitleId}"/>-->
+                    <select  validate="{required:true}" th:field="*{professionalTitleId}" >
+                        <option value="1">主任医师</option>
+                        <option value="2">副主任医师</option>
+                        <option value="3">主治医师</option>
+                        <option value="4">住院医师</option>
+                        <option value="5">心理咨询师二级</option>
+                        <option value="6">心理咨询师三级</option>
+                    </select>
+                </td>
+                <!--<td><input type="text" ltype="text" th:placeholder="#{userDoctorApprove.professionalTitleId}" th:field="*{professionalTitleId}" validate="{required:true}"/></td>-->
+            </tr>
+            <tr>
+                <th th:text="#{userDoctorApprove.workplaceType}"></th>
+                <!--<td><input type="text" ltype="text" th:placeholder="#{userDoctorApprove.workplaceType}" th:field="*{workplaceType}" validate="{required:true}"/></td>-->
+                <td colspan="3"><input type="text" ltype="text" th:placeholder="#{userDoctorApprove.workplaceType}" liger="{type:'comboBox',valueFieldID:'workplaceType',configCode:'DOCTOR_WORKTYPE_ENUM'}" validate="{required:true}"/>
+                    <input type="hidden" th:field="*{workplaceType}"/>
+                </td>
+            </tr>
+
+            <tr>
+                <th th:text="#{userDoctorApprove.position}"></th>
+                <td><input type="text" ltype="text" th:placeholder="#{userDoctorApprove.position}" th:field="*{position}" /></td>
+            </tr>
+            <tr>
+                <th th:text="#{userDoctorApprove.department}"></th>
+                <td><input id="department" type="text" ltype="text" th:placeholder="#{userDoctorApprove.department}" th:field="*{department}"  /></td>
+            </tr>
+            <tr>
+                <th th:text="#{userDoctorApprove.headPictureUrl}"></th>
+                <td>
+                    <!--<input type="text" ltype="text" th:placeholder="#{userDoctorApprove.headPictureUrl}" th:field="*{headPictureUrl}" validate="{required:true}"/>-->
+                    <input type="file" ltype="text" th:placeholder="上传头像文件" id="coverPicFile" name="coverPicFile" th:value="*{headPictureUrl}" validate="{required:true}" />
+                </td>
+            </tr>
+            <tr th:if="${userDoctorApprove.id != null}">
+                <th th:text="头像预览"></th>
+                <td colspan="3">
+                    <img id="coverPicImg" th:src="${headPictureUrl}" height="100"></img>
+                </td>
+            </tr>
+            <tr>
+                <th th:text="#{userDoctorApprove.introduction}"></th>
+                <td><input type="text" ltype="text" th:placeholder="#{userDoctorApprove.introduction}" th:field="*{introduction}" validate="{required:true}"/></td>
+            </tr>
+            <tr>
+                <th th:text="#{userDoctorApprove.expertise}"></th>
+                <td><input type="text" ltype="text" th:placeholder="#{userDoctorApprove.expertise}" th:field="*{expertise}" validate="{required:true}"/></td>
+            </tr>
+            <tr >
+                <th th:text="证书上传"></th>
+                <td>
+                    <h4>您所选择的文件列表和证书类型：</h4>
+
+                    <select id="certtype" validate="{required:true}" >
+                        <option value="0">请选择</option>
+                        <option value="1">心理咨询证</option>
+                        <option value="2">工作证</option>
+                        <option value="3">医师职业证</option>
+                        <option value="4">职称资格证</option>
+                    </select>
+
+                    <div id="ossfile">你的浏览器不支持flash,Silverlight或者HTML5！</div>
+                    <br/>
+                    <div id="container">
+                        <a id="selectfiles" href="javascript:void(0);" class='btn'>选择文件</a>
+                        <a id="postImgFiles" href="javascript:void(0);" class='btn postFiles' >开始上传</a>
+                    </div>
+                    <pre id="console"></pre>
+                </td>
+            </tr>
+            <tr>
+                <th th:text="#{userDoctorApprove.psychologicalConsultantImageUrl}"></th>
+                <td>
+                    <input id="image1" type="text" ltype="text"  />
+                </td>
+                <!--<td colspan="3">-->
+                    <!--<img th:each="pic : ${psychologicalConsultantImageUrlList}" th:src="${pic}" height="100"></img>-->
+                <!--</td>-->
+            </tr>
+
+            <tr>
+                <th th:text="#{userDoctorApprove.employeeImageUrl}"></th>
+                <!--<td>-->
+                    <!--<input type="text" ltype="text" th:placeholder="#{userDoctorApprove.employeeImageUrl}" th:field="*{employeeImageUrl}" validate="{required:true}"/>-->
+                <!--</td>-->
+                <!--<td colspan="3">-->
+                    <!--<img th:each="pic : ${employeeImageUrlList}" th:src="${pic}" height="100"></img>-->
+                <!--</td>-->
+                <td>
+                    <input id="image2" type="text" ltype="text"  />
+                </td>
+            </tr>
+            <tr>
+                <th th:text="#{userDoctorApprove.doctorProfessionImageUrl}"></th>
+                <!--<td><input type="text" ltype="text" th:placeholder="#{userDoctorApprove.doctorProfessionImageUrl}" th:field="*{doctorProfessionImageUrl}" validate="{required:true}"/></td>-->
+                <!--<td colspan="3">-->
+                    <!--<img th:each="pic : ${doctorProfessionImageUrlList}" th:src="${pic}" height="100"></img>-->
+                <!--</td>-->
+                <td>
+                    <input id="image3" type="text" ltype="text"  />
+                </td>
+            </tr>
+            <tr>
+                <th th:text="#{userDoctorApprove.professionalQualificationImageUrl}"></th>
+                <!--<td colspan="3">-->
+                    <!--<img th:each="pic : ${professionalQualificationImageUrlList}" th:src="${pic}" height="100"></img>-->
+                <!--</td>-->
+                <td>
+                    <input id="image4" type="text" ltype="text"  />
+                </td>
+                <!--<td><input type="text" ltype="text" th:placeholder="#{userDoctorApprove.professionalQualificationImageUrl}" th:field="*{professionalQualificationImageUrl}" validate="{required:true}"/></td>-->
+            </tr>
+            <!--<tr>-->
+                <!--<th th:text="#{userDoctorApprove.status}"></th>-->
+                <!--<td><input type="text" ltype="text" th:placeholder="#{userDoctorApprove.status}" th:field="*{status}" validate="{required:true}"/></td>-->
+            <!--</tr>-->
+            <!--<tr>-->
+                <!--<th th:text="#{userDoctorApprove.approver}"></th>-->
+                <!--<td><input type="text" ltype="text" th:placeholder="#{userDoctorApprove.approver}" th:field="*{approver}" validate="{required:true}"/></td>-->
+            <!--</tr>-->
+            <!--<tr>-->
+                <!--<th th:text="#{userDoctorApprove.remark}"></th>-->
+                <!--<td><textarea cols="60" rows="4" th:placeholder="#{userDoctorApprove.remark}" th:field="*{remark}" />-->
+                    <!--</td>-->
+            <!--</tr>-->
+        </table>
+    </form>
+    <script type="text/javascript" charset="utf-8" src="/js/ueditor/ueditor.config.js"></script>
+    <script type="text/javascript" charset="utf-8" src="/js/ueditor/ueditor.all.min.js"> </script>
+    <script type="text/javascript" charset="utf-8" src="/js/ueditor/lang/zh-cn/zh-cn.js"></script>
+    <script type="text/javascript" src="/js/plupload/js/plupload.full.min.js"></script>
+    <script type="text/javascript" src="/js/upload/upload.js"></script>
+</div>
+
+<script type="text/javascript" layout:fragment="script">/*<![CDATA[*/
+var $form;
+var provinceBox;
+var cityBox;
+var areaBox;
+var provinceCode = '[[${provinceCode}]]';
+var cityCode = '[[${cityCode}]]';
+var areaCode = '[[${areaCode}]]';
+$(function() {
+    uc = newEditor('description', {
+        initialFrameWidth : 600
+    });
+    initProvinceBox();
+    initCityBox();
+    initAreaBox();
+
+    provinceBox.setValue(provinceCode);
+    cityBox.setValue(cityCode);
+    areaBox.setValue(areaCode);
+});
+
+function initProvinceBox(){
+    provinceBox = $("#provinceBox").ligerComboBox({
+        width : 120,
+        selectBoxWidth : 120,
+        selectBoxHeight : 250,
+        valueField : 'id',
+        textField : 'text',
+        url : '/area/list?parentCode=' + '&codeType=province',
+        ajaxType : 'get',
+        onSelected: function (value){
+            provinceCode = value;
+            initCityBox();
+        },
+        initValue : provinceCode
+    });
+}
+
+function initCityBox(){
+    cityBox = $("#cityBox").ligerComboBox({
+        width : 120,
+        selectBoxWidth : 180,
+        selectBoxHeight : 250,
+        valueField : 'id',
+        textField : 'text',
+        initValue : cityCode,
+        url : '/area/list?parentCode=' + provinceCode + '&codeType=city',
+        ajaxType : 'get',
+        onSelected: function (value){
+            cityCode = value;
+            initAreaBox();
+        }
+    });
+}
+
+function initAreaBox(){
+    areaBox = $("#areaBox").ligerComboBox({
+        width : 120,
+        selectBoxWidth : 180,
+        selectBoxHeight : 250,
+        valueField : 'id',
+        textField : 'text',
+        initValue : areaCode,
+        url : '/area/list?parentCode=' + cityCode + '&codeType=area',
+        ajaxType : 'get',
+        onSelected: function (value){
+            $("#region").val(value);
+        }
+    });
+}
+
+//图片上传的回调函数,方便处理一些事物
+function uploadCallback(fileName){
+
+
+
+    var index = document.getElementById('certtype').selectedIndex;
+    if(index == 0){
+        alert('请先选择证书类型!');
+        return false;
+    }else if(index == 1){
+        var psychologicalConsultantImageUrl = $("#psychologicalConsultantImageUrl").val();
+        if (psychologicalConsultantImageUrl != "") {
+            psychologicalConsultantImageUrl += "," + fileName;
+        }else{
+            psychologicalConsultantImageUrl +=  fileName;
+        }
+        $("#image1").val(psychologicalConsultantImageUrl);
+        $("#psychologicalConsultantImageUrl").val(psychologicalConsultantImageUrl);
+    }else if(index == 2){
+        var employeeImageUrl = $("#employeeImageUrl").val();
+        if (employeeImageUrl != "") {
+            employeeImageUrl += "," + fileName;
+        }else{
+            employeeImageUrl +=  fileName;
+        }
+        $("#image2").val(employeeImageUrl);
+        $("#employeeImageUrl").val(employeeImageUrl);
+    }else if(index == 3){
+        var doctorProfessionImageUrl = $("#doctorProfessionImageUrl").val();
+        if (doctorProfessionImageUrl != "") {
+            doctorProfessionImageUrl += "," + fileName;
+        }else{
+            doctorProfessionImageUrl +=  fileName;
+        }
+        $("#image3").val(doctorProfessionImageUrl);
+        $("#doctorProfessionImageUrl").val(doctorProfessionImageUrl);
+    }else if(index == 4){
+        var professionalQualificationImageUrl = $("#professionalQualificationImageUrl").val();
+        if (professionalQualificationImageUrl != "") {
+            professionalQualificationImageUrl += "," + fileName;
+        }else{
+            professionalQualificationImageUrl +=  fileName;
+        }
+        $("#image4").val(professionalQualificationImageUrl);
+        $("#professionalQualificationImageUrl").val(professionalQualificationImageUrl);
+    }
+
+    dialog.close();
+
+}
+
+function f_save() {
+   alert('ss');
+}
+
+
+/*]]>*/</script>
+
+</html>

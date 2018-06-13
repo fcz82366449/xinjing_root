@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layout">
+
+<div layout:fragment="body">
+    <form id="config-form" method="post" th:action="@{/comment/form}" th:object="${comment}" liger="{type : 'ligerForm'}">
+        <input type="hidden" th:field="*{id}"/>
+        <table class="l-table-form">
+            <tr>
+                <th th:text="#{comment.objectId}"></th>
+                <td><input type="text" ltype="text" th:placeholder="#{comment.objectId}" th:field="*{objectId}" validate="{required:true}"/></td>
+            </tr>
+            <tr>
+                <th th:text="#{comment.objectType}"></th>
+                <td><input type="text" ltype="text" th:placeholder="#{comment.objectType}" th:field="*{objectType}" validate="{required:true}"/></td>
+            </tr>
+            <tr>
+                <th th:text="#{comment.content}"></th>
+                <td><input type="text" ltype="text" th:placeholder="#{comment.content}" th:field="*{content}" validate="{required:true}"/></td>
+            </tr>
+            <tr>
+                <th th:text="#{comment.status}"></th>
+                <td><input type="text" ltype="text" th:placeholder="#{comment.status}" th:field="*{status}" validate="{required:true}"/></td>
+            </tr>
+            <tr>
+                <th th:text="#{comment.feedback}"></th>
+                <td><input type="text" ltype="text" th:placeholder="#{comment.feedback}" th:field="*{feedback}" validate="{required:true}"/></td>
+            </tr>
+            <tr>
+                <th th:text="#{comment.score}"></th>
+                <td><input type="text" ltype="text" th:placeholder="#{comment.score}" th:field="*{score}" validate="{required:true}"/></td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+<script type="text/javascript" layout:fragment="script">/*<![CDATA[*/
+var $form;
+$(function() {
+
+});
+/*]]>*/</script>
+
+</html>

@@ -1,0 +1,105 @@
+
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <link rel="stylesheet" href="/m/weuiplus/style/weui.css"/>
+    <link rel="stylesheet" href="/m/weuiplus/style/weui2.css"/>
+    <link rel="stylesheet" href="/m/weuiplus/style/weui3.css"/>
+    <script src="/m/weuiplus/zepto.min.js"></script>
+    <script>
+        $(function(){
+
+
+        });
+
+    </script>
+</head>
+
+<body ontouchstart style="background-color: #f8f8f8;">
+<div class="weui-header bg-blue">
+    <div class="weui-header-left"> <a class="icon icon-109 f-white" href="javascript:window.history.back();"></a>  </div>
+    <h1 class="weui-header-title">内容介绍</h1>
+</div>
+<div class="weui-weixin">
+    <div class="weui-weixin-ui">
+        <!--页面开始-->
+        <div class="weui-weixin-page">
+            <div class="weui-weixin-img" style="text-align:center"><!--图片开始-->
+                <img src="" th:src="${content.coverPic}" style="text-align:center">
+            </div><!--图片结束-->
+            <h3 th:text="${content.name}"></h3><br/>
+            <span th:text="${content.remark}"></span><br/><br/>
+
+            <div class="weui-weixin-info"><!--meta-->
+                <span class="weui-weixin-em">使用指数:36</span>
+                <em class="weui-weixin-em"  style=" float: right;" th:text="${content.createdAt}"></em>
+                <br/>
+                <span class="weui-weixin-em" >时长约：<em th:text="${content.duration}"/>分钟</em></span>
+               <!-- <span class="weui-weixin-em" style="color: #FF4B4B;font-size:16px;"><strong>¥ <span th:text="${content.price}" /></strong></span>-->
+               <!-- <em class="weui-weixin-em"  style=" float: right;">时长约：<em th:text="${content.duration}"/>分钟</em>-->
+
+            </div>
+
+            <!--meta结束-->
+
+
+            <div class="weui-weixin-content"><!--内容-->
+                <section>
+
+                    <p><p style="margin-top: 0px; line-height: 1.5em;"><strong style="line-height: 1.5em;"><span style="font-family: 宋体;">【归属疗法】</span></strong></p>
+                    <p style="line-height: 1.5em;"><a style="font-family: 宋体;margin-right: 10px;border-bottom: 1px solid red; color: #cd0000 " th:each="therapy:${content.therapyList}" th:text="${therapy.name}"  ></a></p>
+                    <p style="line-height: 1.5em;"><strong><span style="font-family: 宋体;">【用于疾病】</span></strong></p>
+                    <p style="line-height: 1.5em;"><a style="font-family: 宋体;margin-right: 10px;border-bottom: 1px solid red; color: #cd0000 " th:each="disease:${content.diseaseList}" th:text="${disease.name}"  ></a><span th:text="${content.otherdisease}"></span></p>
+                    <!--<p style="margin-bottom: 0px; line-height: 1.5em;"><strong><span style="font-family:宋体">【治疗方法】</span></strong></p>
+                    <div style="width: 100%;line-height: 1.5em;" >
+                        <span><a th:each="therapy:${content.therapyList}"  style="  margin-right: 10px; text-decoration: none; border-bottom: 1px solid red; color: #cd0000 " th:text="${therapy.name}" th:href="${therapy.helpCode}"></a> </span>
+                    </div>
+                    <h3>【病症】</h3>
+                    <div style="width: 100%" >
+                        <span><a th:each="disease:${content.diseaseList}"  style=" margin-right: 10px; text-decoration: none; border-bottom: 1px solid red; color: #cd0000 " th:text="${disease.name}" th:href="${disease.helpCode}"></a> </span>
+                        <span th:text="${content.otherdisease}"></span>
+                    </div>-->
+
+                    <!--<p th:utext="${#strings.isEmpty(content.description)} ? '暂无内容' :  ${content.description}">-->
+                    <!--</p>-->
+                </section>
+                  </div><!--内容结束-->
+
+
+            <script>
+                $(function(){
+                    $("img").addClass('weixin');
+                    $('.weui-weixin-zan').click(function(){
+                        if($(this).hasClass('zaned')){
+                            $(this).removeClass('zaned');
+                            var  val = $(this).next().html();
+                            if(parseInt(val)==0){
+                                var i=1;
+                            }else{
+                                var  i  =  parseInt(val)-1;
+                            }
+                            $(this).next().html(i);
+
+                        }else{
+                            $(this).addClass('zaned');
+                            var  val = $(this).next().html();
+                            $(this).next().html(parseInt(val)+1);
+                            //ajax操作
+                        }
+
+                    });
+
+
+                });
+            </script>
+
+        </div><!--页面结束-->
+
+
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layout">
+
+<div layout:fragment="body">
+    <div id="toptoolbar"></div>
+    <div id="maingrid"></div>
+</div>
+
+<!-- page specific plugin scripts -->
+<script type="text/javascript" layout:fragment="script">/*<![CDATA[*/
+var maingrid;
+$(function() {
+    maingrid = newTreeGrid("maingrid", {
+        columns : [{
+                display : '[[#{therapy.sort}]]',
+                name : 'sort',
+                width : 60
+            },{
+                display : '[[#{therapy.name}]]',
+                name : 'name',
+                align : 'left',
+                width : 260
+            },{
+                display : '[[#{therapy.helpCode}]]',
+                name : 'helpCode',
+                align : 'left',
+                width : 120
+            },{
+                display : '[[#{therapy.status}]]',
+                name : 'config_status',
+                width : 80
+            }, {
+                display : '[[#{therapy.remark}]]',
+                name : 'remark',
+                align : 'left',
+                width : 200
+            },{
+                display : '[[#{createdAt}]]',
+                name : 'createdAt',
+                type:'datetime',
+                width : 120
+            }, {
+                display : '[[#{updatedAt}]]',
+                name : 'updatedAt',
+                type : 'datetime',
+                width : 120
+            }, {
+                display: '操作',
+                width: '14%',
+                render: function (row) {
+                    return ' <a href="javascript:void(0);" onclick="modifyClick(\'' + row.id + '\')"> 编辑</a>'
+                            + ' <a href="javascript:void(0);" onclick="deleteClick(\'' + row.id + '\')"> 删除</a>';
+                }
+            }],
+        url : '/therapy/list'
+    });
+
+    $("#toptoolbar").ligerToolBar({
+        items : [ {
+            text : '增加',
+            click : addClick,
+            icon : 'add'
+        }, {
+            text : '发布',
+            click : publishClick,
+            icon : 'right'
+        }, {
+            text : '下架',
+            click : unPublishClick,
+            icon : 'delete'
+        } ]
+    });
+
+    maingrid.setHeight(document.documentElement.clientHeight - $("#toptoolbar").height() -  $("#searchform").height() + 15);
+});
+
+function addClick(item) {
+    openForm({
+        width : 1000,
+        url : '/therapy/form',
+        title : '新增'})
+}
+
+function modifyClick(id) {
+        openForm({
+            width : 1000,
+            url : '/therapy/form?id=' + id,
+            title : '编辑'
+        });
+}
+
+function deleteClick(id) {
+    top.$.ligerDialog.confirm('确定要删除', function(yes) {
+        if (yes) {
+            ajaxDo('/therapy/delete?id=' + id);
+        }
+    });
+}
+
+function f_search() {
+    loadGridData(maingrid, "searchform");
+}
+
+function f_reload() {
+    maingrid.loadData(true);
+}
+
+function publishClick(item) {
+    isSingleSelected(maingrid, function(row) {
+        top.$.ligerDialog.confirm('确定要发布该疗法', function(yes) {
+            if (yes) {
+                ajaxDo('/therapy/publish?id=' + row['id']);
+            }
+        });
+    });
+}
+
+function unPublishClick(item) {
+    isSingleSelected(maingrid, function(row) {
+        top.$.ligerDialog.confirm('确定要下架该疗法', function(yes) {
+            if (yes) {
+                ajaxDo('/therapy/unPublish?id=' + row['id']);
+            }
+        });
+    });
+}
+
+function addSonClick(id) {
+    openForm({url : '/therapy/form?id=' + id + '&type=addSon',title : '子类新增'})
+}
+
+//移动节点
+function moveClick(id){
+    openForm({
+        url : '/therapy/move?moveId=' + id,
+        title : '分类移动'
+    });
+}
+/*]]>*/</script>
+</html>

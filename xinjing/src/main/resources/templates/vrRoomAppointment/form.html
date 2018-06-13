@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layout">
+
+<div layout:fragment="body">
+    <form id="config-form" method="post" th:action="@{/vrRoomAppointment/form}" th:object="${vrRoomAppointment}" liger="{type : 'ligerForm'}">
+        <input type="hidden" th:field="*{id}"/>
+        <table class="l-table-form">
+            <tr>
+                <th th:text="#{vrRoomAppointment.vrRoomId}"></th>
+                <td>
+                    <input type="text" data-width="178" class="liger-popupedit l-text-field" onbuttonclick="f_vrRoom_click" id="vrRoomName" th:value="${vrRoomName}" validate="{required:true}"/>
+                    <input type="hidden" th:field="*{vrRoomId}" />
+                </td>
+            </tr>
+            <tr>
+                <th th:text="#{vrRoomAppointment.startAt}"></th>
+                <td><input type="text" ltype="text" th:placeholder="#{vrRoomAppointment.startAt}" th:field="*{startAt}" validate="{required:true}" liger="{type:'datetime'}"/></td>
+            </tr>
+            <tr>
+                <th th:text="#{vrRoomAppointment.endAt}"></th>
+                <td><input type="text" ltype="text" th:placeholder="#{vrRoomAppointment.endAt}" th:field="*{endAt}" validate="{required:true}" liger="{type:'datetime'}"/></td>
+            </tr>
+            <tr>
+                <th th:text="#{vrRoomAppointment.type}"></th>
+                <td>
+                    <input type="text" data-width="178" th:placeholder="#{vrRoomAppointment.type}" liger="{type:'comboBox',valueFieldID:'type',configCode:'VR_ROOM_APPOINTMENT_TYPE_ENUM'}" required="true"/>
+                    <input th:field="*{type}" style="display: none;"/>
+                </td>
+            </tr>
+            <tr>
+                <th th:text="#{vrRoomAppointment.status}"></th>
+                <td>
+                    <input type="text" data-width="178" th:placeholder="#{vrRoomAppointment.status}" liger="{type:'comboBox',valueFieldID:'status',configCode:'VR_ROOM_APPOINTMENT_STATUS_ENUM'}" validate="{required:true}"/>
+                    <input th:field="*{status}" style="display: none;"/>
+                </td>
+            </tr>
+            <tr>
+                <th th:text="#{vrRoomAppointment.bookingPerson}"></th>
+                <td>
+                    <input type="text" th:placeholder="#{vrRoomAppointment.bookingPerson}" data-width="178" class="liger-popupedit l-text-field" onbuttonclick="f_buttonclick" th:value="*{bookingPerson}"/>
+                    <input type="hidden" th:field="*{bookingPersonId}" />
+                </td>
+            </tr>
+            <tr>
+                <th th:text="#{vrRoomAppointment.bookingPerson}"></th>
+                <td>
+                    <input type="text" ltype="text" th:placeholder="#{vrRoomAppointment.bookingPerson}" th:field="*{bookingPerson}" validate="{required:true}"/>
+                </td>
+            </tr>
+            <tr>
+                <th th:text="#{vrRoomAppointment.bookingContact}"></th>
+                <td>
+                    <input type="text" ltype="text" th:placeholder="#{vrRoomAppointment.bookingContact}" th:field="*{bookingContact}" validate="{required:true}"/>
+                </td>
+            </tr>
+            <tr>
+                <th th:text="#{vrRoomAppointment.remark}"></th>
+                <td colspan="3">
+                    <textarea cols="60" rows="4" th:placeholder="#{vrRoomAppointment.remark}" th:field="*{remark}" />
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+<script type="text/javascript" layout:fragment="script">/*<![CDATA[*/
+var $form;
+$(function() {
+
+});
+
+function f_buttonclick() {
+    return openSelect({
+        title : '预约人选择',
+        url : '/user/select?isMultiSelect=false',
+        callback : function(item, dialog) {
+            var fn = dialog.frame.f_select || dialog.frame.window.f_select;
+            var data = fn();
+            if (!data) {
+                top.$.ligerDialog.error('请选择预约人!');
+                return;
+            }
+            $("#bookingPerson").val(data.selectNames);
+            $("#bookingPersonId").val(data.selectIds);
+            dialog.close();
+        }
+    });
+}
+
+function f_vrRoom_click() {
+    return openSelect({
+        title : 'VR室选择',
+        url : '/vrRoom/select',
+        callback : function(item, dialog) {
+            var fn = dialog.frame.f_select || dialog.frame.window.f_select;
+            var data = fn();
+            if (!data) {
+                top.$.ligerDialog.error('请选择VR室!');
+                return;
+            }
+            $("#vrRoomName").val(data.name);
+            $("#vrRoomId").val(data.id);
+            dialog.close();
+        }
+    });
+}
+/*]]>*/</script>
+
+</html>

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layout">
+
+<div layout:fragment="body">
+    <div class="l-form">
+        <table class="l-table-form">
+                        <tr>
+                    <th th:text="#{frontpageCollect.newsId}"></th>
+                    <td th:text="${frontpageCollect.newsId}"></td>
+                </tr>
+                <tr>
+                    <th th:text="#{frontpageCollect.userId}"></th>
+                    <td th:text="${frontpageCollect.userId}"></td>
+                </tr>
+                <tr>
+                    <th th:text="#{frontpageCollect.isCollect}"></th>
+                    <td th:text="${frontpageCollect.isCollect}"></td>
+                </tr>
+        </table>
+    </div>
+</div>
+
+<script type="text/javascript" layout:fragment="script">/*<![CDATA[*/
+$(function() {
+
+});
+/*]]>*/</script>
+
+</html>

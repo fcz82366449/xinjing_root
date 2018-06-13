@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+	  layout:decorator="layout">
+
+<div layout:fragment="body">
+	<div id="toptoolbar"></div>
+	<div id="searchformDiv">
+		<form id='searchform' class="l-search-form">
+			<table>
+				<tr>
+					<td>
+						<input type="text" class="l-text" id="search_LIKE_name" name="search_LIKE_name" th:placeholder="#{vrRoom.name}" />
+					</td>
+					<td>
+						<input th:placeholder="#{vrRoom.status}" liger="{type:'comboBox',valueFieldID:'search_EQ_status',configCode:'VR_ROOM_STATUS_ENUM'}"/>
+						<input name="search_EQ_status" id="search_EQ_status" style="display: none;"/>
+					</td>
+					<td>
+						<input type="reset" class="l-reset" th:value="#{reset}" />
+						<input type="button" class="l-search" th:value="#{search}" onclick="f_search();" />
+					</td>
+				</tr>
+			</table>
+		</form>
+	</div>
+	<div id="maingrid"></div>
+</div>
+
+<!-- page specific plugin scripts -->
+<script type="text/javascript" layout:fragment="script">/*<![CDATA[*/
+var maingrid;
+$(function() {
+	maingrid = newGrid("maingrid", {
+		columns : [
+			{
+				display : '[[#{vrRoom.name}]]',
+				name : 'name',
+				align : 'left',
+				width : 120
+			},{
+				display : '[[#{vrRoom.region}]]',
+				name : 'area_fullName',
+				align : 'left',
+				width : 200
+			},{
+				display : '[[#{vrRoom.address}]]',
+				name : 'address',
+				align : 'left',
+				width : 120
+			},{
+				display : '[[#{vrRoom.status}]]',
+				name : 'config_status',
+				width : 80
+			},{
+				display : '[[#{vrRoom.remark}]]',
+				name : 'remark',
+				align : 'left',
+				width : 220
+			},{
+				display : '[[#{createdAt}]]',
+				name : 'createdAt',
+				type : 'datetime',
+				width : 120
+			},{
+				display : '[[#{updatedAt}]]',
+				name : 'updatedAt',
+				type : 'datetime',
+				width : 120
+			}],
+		url : '/vrRoom/list'
+	});
+	maingrid.setHeight(document.documentElement.clientHeight -  $("#searchform").height() - 18);
+});
+
+function f_search() {
+	loadGridData(maingrid, "searchform");
+}
+
+function f_reload() {
+	maingrid.loadData(true);
+}
+function f_select() {
+	return maingrid.getSelectedRow();
+}
+/*]]>*/</script>
+</html>

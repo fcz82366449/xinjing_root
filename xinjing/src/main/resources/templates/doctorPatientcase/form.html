@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layout">
+
+<div layout:fragment="body">
+    <form id="doctorPatientcase-form" method="post" th:action="@{/doctorPatientcase/form}" th:object="${doctorPatientcase}" liger="{type : 'ligerForm'}">
+        <input type="hidden" th:field="*{id}"/>
+        <table class="l-table-form">
+            <tr>
+                <th th:text="#{doctorPatientcase.doctorId}"></th>
+                <td><input type="text" ltype="text" th:placeholder="#{doctorPatientcase.doctorId}" th:field="*{doctorId}" validate="{required:true}"/></td>
+            </tr>
+            <tr>
+                <th th:text="#{doctorPatientcase.prescriptioncaseId}"></th>
+                <td><input type="text" ltype="text" th:placeholder="#{doctorPatientcase.prescriptioncaseId}" th:field="*{prescriptioncaseId}" validate="{required:true}"/></td>
+            </tr>
+            <tr>
+                <th th:text="#{doctorPatientcase.remark}"></th>
+                <td><textarea cols="60" rows="4" th:placeholder="#{doctorPatientcase.remark}" th:field="*{remark}" />
+                    </td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+<script type="text/javascript" layout:fragment="script">/*<![CDATA[*/
+var $form;
+$(function() {
+
+});
+/*]]>*/</script>
+
+</html>

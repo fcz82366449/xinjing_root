@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+	layout:decorator="layout">
+
+<div layout:fragment="body" style="background-color: white;">
+	<form id="therapy-form" method="post" th:action="@{/therapy/move}">
+		<input type="hidden" id="moveId" name="moveId" th:value="${moveId}"/>
+		<input type="hidden" id="desId" name="desId"/>
+	</form>
+     <ul id="therapyTree"></ul>
+</div>
+
+<script type="text/javascript" layout:fragment="script">/*<![CDATA[*/
+var therapyTree;
+var $form;
+$(function (){
+	//生成树
+	therapyTree = $("#therapyTree").ligerTree({
+    	 url:'/therapy/treeList?type=moveTree',
+         idFieldName :'id',
+         textFieldName : 'name',
+         parentIDFieldName :'pid',
+         ajaxType : 'GET',
+         checkbox: false,
+         nodeWidth:160,
+         onSelect: onSelect,
+         onCancelselect:onCancelselect
+     });
+	
+	$form = $("#therapy-form");
+	$.metadata.setType("attr", "validate");
+    $form.ligerForm({validate : true});
+});
+
+function onSelect(note){
+	$("#desId").val(note.data.id);
+}
+
+function onCancelselect(note){
+	$("#desId").val("");
+}
+
+function f_save() {
+    if ($form.valid()) {
+    	var desId= $("#desId").val();
+    	if(!desId){
+    		top.$.ligerDialog.error("请选择目标节点");
+    	}
+    	else{
+    		var moveId = $("#moveId").val();
+        	if(desId == moveId){
+        		top.$.ligerDialog.error("分类不能移动至自己的分类下");
+        	}else{
+		        return $form.formSerialize();
+        	}
+    	}
+    }
+}
+/*]]>*/</script>
+	
+</html>

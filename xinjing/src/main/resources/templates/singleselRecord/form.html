@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layout">
+
+<div layout:fragment="body">
+    <form id="config-form" method="post" th:action="@{/singleselRecord/form}" th:object="${singleselRecord}" liger="{type : 'ligerForm'}">
+        <input type="hidden" th:field="*{id}"/>
+        <table class="l-table-form">
+            <tr>
+                <th th:text="#{singleselRecord.evaluationPeople}"></th>
+                <td><input type="text" ltype="text" th:placeholder="#{singleselRecord.evaluationPeople}" th:field="*{evaluationPeople}" validate="{required:true}"/></td>
+            </tr>
+            <tr>
+                <th th:text="#{singleselRecord.evaluatingId}"></th>
+                <!--<td><input type="text" ltype="text" th:placeholder="#{singleselRecord.evaluatingId}" th:field="*{evaluatingId}" validate="{required:true}"/></td>-->
+                <td>
+                    <input type="text" data-width="178" class="liger-popupedit l-text-field"  onbuttonclick="f_evaluating_buttonclick" id="evaluatingName" th:value="${evaluatingName}" validate="{required:true}"/>
+                    <input type="hidden" th:field="*{evaluatingId}" /></td>
+            </tr>
+
+            <tr>
+                <th th:text="#{singleselRecord.singleselId}"></th>
+              <!--  <td><input type="text" ltype="text" th:placeholder="#{singleselRecord.singleselId}" th:field="*{singleselId}" validate="{required:true}"/></td>-->
+                <td>
+                    <input type="text" data-width="178" class="liger-popupedit l-text-field"  onbuttonclick="f_singlesel_buttonclick" id="singleselName" th:value="${singleselCode}" validate="{required:true}"/>
+                    <input type="hidden" th:field="*{singleselId}" /></td>
+            </tr>
+            <tr>
+                <th th:text="#{singleselRecord.tmscore}"></th>
+                <td><input type="text" ltype="text" th:placeholder="#{singleselRecord.tmscore}" th:field="*{tmscore}" validate="{required:true}"/></td>
+            </tr>
+            <tr>
+                <th th:text="#{singleselRecord.description}"></th>
+                <td><input type="text" ltype="text" th:placeholder="#{singleselRecord.description}" th:field="*{description}" validate="{required:true}"/></td>
+            </tr>
+            <tr>
+                <th th:text="#{singleselRecord.evaluationTime}"></th>
+                <td><input type="text" ltype="text" th:placeholder="#{singleselRecord.evaluationTime}" th:field="*{evaluationTime}" validate="{required:true}"  liger="{type:'datetime'}"/></td>
+            </tr>
+            <tr>
+                <th th:text="#{singleselRecord.remark}"></th>
+                <td><textarea cols="60" rows="4" th:placeholder="#{singleselRecord.remark}" th:field="*{remark}" />
+                    </td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+<script type="text/javascript" layout:fragment="script">/*<![CDATA[*/
+var $form;
+$(function() {
+
+});
+
+function f_evaluating_buttonclick(){
+    return openSelect({
+        title : '评测选择',
+        url : '/evaluating/select',
+        callback : function(item, dialog) {
+            var fn = dialog.frame.f_select || dialog.frame.window.f_select;
+            var data = fn();
+            if (!data) {
+                top.$.ligerDialog.error('请选择行!');
+                return;
+            }
+            $("#evaluatingName").val(data.name);
+            $("#evaluatingId").val(data.id);
+            dialog.close();
+        }
+    });
+}
+function f_singlesel_buttonclick(){
+    return openSelect({
+        title : '题目选择',
+        url : '/singlesel/select',
+        callback : function(item, dialog) {
+            var fn = dialog.frame.f_select || dialog.frame.window.f_select;
+            var data = fn();
+            if (!data) {
+                top.$.ligerDialog.error('请选择行!');
+                return;
+            }
+            $("#singleselName").val(data.code);
+            $("#singleselId").val(data.id);
+            dialog.close();
+        }
+    });
+}
+
+
+/*]]>*/</script>
+
+</html>

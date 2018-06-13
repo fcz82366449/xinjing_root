@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layout">
+
+<div layout:fragment="body">
+    <form id="config-form" method="post" th:action="@{/appToken/form}" th:object="${appToken}" liger="{type : 'ligerForm'}">
+        <input type="hidden" th:field="*{id}"/>
+        <table class="l-table-form">
+            <tr>
+                <th th:text="#{appToken.appVersion}"></th>
+                <td><input type="text" ltype="text" th:placeholder="#{appToken.appVersion}" th:field="*{appVersion}" validate="{required:true}"/></td>
+            </tr>
+            <tr>
+                <th th:text="#{appToken.deviceSystem}"></th>
+                <td><input type="text" ltype="text" th:placeholder="#{appToken.deviceSystem}" th:field="*{deviceSystem}" validate="{required:true}"/></td>
+            </tr>
+            <tr>
+                <th th:text="#{appToken.deviceVersion}"></th>
+                <td><input type="text" ltype="text" th:placeholder="#{appToken.deviceVersion}" th:field="*{deviceVersion}" validate="{required:true}"/></td>
+            </tr>
+            <tr>
+                <th th:text="#{appToken.deviceModel}"></th>
+                <td><input type="text" ltype="text" th:placeholder="#{appToken.deviceModel}" th:field="*{deviceModel}" validate="{required:true}"/></td>
+            </tr>
+            <tr>
+                <th th:text="#{appToken.appId}"></th>
+                <td><input type="text" ltype="text" th:placeholder="#{appToken.appId}" th:field="*{appId}" validate="{required:true}"/></td>
+            </tr>
+            <tr>
+                <th th:text="#{appToken.channel}"></th>
+                <td><input type="text" ltype="text" th:placeholder="#{appToken.channel}" th:field="*{channel}" validate="{required:true}"/></td>
+            </tr>
+            <tr>
+                <th th:text="#{appToken.userId}"></th>
+                <td><input type="text" ltype="text" th:placeholder="#{appToken.userId}" th:field="*{userId}" validate="{required:true}"/></td>
+            </tr>
+            <tr>
+                <th th:text="#{appToken.userType}"></th>
+                <td><input type="text" ltype="text" th:placeholder="#{appToken.userType}" th:field="*{userType}" validate="{required:true}"/></td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+<script type="text/javascript" layout:fragment="script">/*<![CDATA[*/
+var $form;
+$(function() {
+
+});
+/*]]>*/</script>
+
+</html>

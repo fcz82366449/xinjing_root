@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layout">
+
+<div layout:fragment="body">
+    <form id="config-form" method="post" th:action="@{/sectionOffice/form}" th:object="${sectionOffice}" liger="{type : 'ligerForm'}">
+        <input type="hidden" name="id" th:field="*{id}"/>
+        <input type="hidden" name="pid" th:field="*{pid}"/>
+        <table class="l-table-form">
+            <tr>
+                <th th:text="#{sectionOffice.sort}"></th>
+                <td><input type="text" ltype="text" th:placeholder="#{sectionOffice.sort}" th:field="*{sort}" validate="{required:true}"/></td>
+                <th th:text="#{sectionOffice.name}"></th>
+                <td><input type="text" ltype="text" th:placeholder="#{sectionOffice.name}" th:field="*{name}" validate="{required:true}"/></td>
+            </tr>
+            <tr>
+                <th th:text="#{sectionOffice.helpCode}"></th>
+                <td><input type="text" ltype="text" th:placeholder="#{sectionOffice.helpCode}" th:field="*{helpCode}" validate="{required:true}"/></td>
+                <th th:text="#{sectionOffice.status}"></th>
+                <td>
+                    <input type="text" ltype="text" th:placeholder="#{sectionOffice.status}" liger="{type:'comboBox',valueFieldID:'status',configCode:'SECTION_OFFICE_STATUS_ENUM'}" validate="{required:true}"/>
+                    <input type="hidden" th:field="*{status}"/>
+                </td>
+            </tr>
+            <tr>
+                <th th:text="病种"></th>
+                <td colspan="3">
+                    <input type="text" id="disease_click" th:placeholder="病种"  th:value="${diseaseNames}" class="liger-popupedit l-text-field" onbuttonclick="disease_click" data-width="400" validate="{required:true}"/>
+                    <input type="hidden" id="diseaseIds" name="diseaseIds" th:value="${diseaseIds}"/>
+                </td>
+            </tr>
+            <tr>
+                <th th:text="#{sectionOffice.remark}"></th>
+                <td colspan="3">
+                    <textarea cols="60" rows="4" th:placeholder="#{sectionOffice.remark}" th:field="*{remark}" />
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+<script type="text/javascript" layout:fragment="script">/*<![CDATA[*/
+var $form;
+$(function() {
+
+});
+
+function disease_click() {
+    return openSelect({
+        title : '病种选择',
+        url : '/disease/select?diseaseIds=[[${diseaseIds}]]',
+        height: 460,
+        callback : function(item, dialog) {
+            var fn = dialog.frame.f_select || disalog.frame.window.f_memberselect;
+            var data = fn();
+            if (!data || data.selectIds == '') {
+                top.$.ligerDialog.error('请选择病种!');
+                return;
+            }
+            $("#diseaseIds").val(data.selectIds);
+            $("#disease_click").val(data.selectNames);
+            dialog.close();
+        }
+    });
+}
+/*]]>*/</script>
+
+</html>

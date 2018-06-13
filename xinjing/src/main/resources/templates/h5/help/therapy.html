@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="h5/layout">
+<head>
+    <title>疗法详情</title>
+    <style>
+
+    </style>
+</head>
+
+<div layout:fragment="body">
+
+    <div class="bar bar-nav">
+        <div class="title" th:text="${therapy.name}"></div>
+        <a th:if="!${isMobile}" href="/h5/help" class="icon pull-left"><img src="/m/img/fanhui.png" /> </a>
+    </div>
+
+    <article class="weui-article content">
+        <section>
+            <p th:utext="${#strings.isEmpty(therapy.description)} ? '暂无内容' :  ${therapy.description}">
+            </p>
+        </section>
+    </article>
+
+</div>
+
+<script type="text/javascript" layout:fragment="script">/*<![CDATA[*/
+$(function() {
+
+});
+
+window.onload = function() {
+    with(document.body) {
+        oncontextmenu=function(){return false}
+        ondragstart=function(){return false}
+        onselectstart=function(){return false}
+        onbeforecopy=function(){return false}
+        onselect=function(){document.selection.empty()}
+        oncopy=function(){document.selection.empty()}
+    }
+}
+/*]]>*/</script>
+
+</html>

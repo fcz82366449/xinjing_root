@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layout">
+
+<div layout:fragment="body">
+    <form id="config-form" enctype="multipart/form-data"  method="post" th:action="@{/frontpage/form}" th:object="${frontpage}" liger="{type : 'ligerForm'}">
+        <input type="hidden" th:field="*{id}"/>
+        <input type="hidden" id="frontpageUrl" name= "frontpageUrl" th:value="${frontpageUrl}"/>
+        <input type="hidden" th:field="*{coverPic}"/>
+        <input type="hidden" th:field="*{browseTimes}"/>
+        <input type="hidden" th:field="*{thumbupTimes}"/>
+        <table class="l-table-form">
+            <tr>
+                <th th:text="#{frontpage.themes}"></th>
+                <td><input type="text" ltype="text" data-width="300" th:placeholder="#{frontpage.themes}" th:field="*{themes}" validate="{required:true}"/></td>
+            </tr>
+            <tr>
+                <th th:text="#{frontpage.abstracts}"></th>
+                <td><input type="text" ltype="text" th:placeholder="#{frontpage.abstracts}" th:field="*{abstracts}" validate="{required:true}"/></td>
+            </tr>
+            <tr>
+                <th th:text="分类"></th>
+                <td><!--<input type="text" ltype="text" th:placeholder="#{frontpage.frontpageId}" th:field="*{frontpageId}" validate="{required:true}"/>-->
+                    <input type="text" data-width="178" class="liger-popupedit l-text-field"  onbuttonclick="f_frontpage_buttonclick" id="frontpageTypeName" th:value="${frontpageTypeName}" validate="{required:true}"/>
+                    <input type="hidden" th:field="*{frontpageTypeId}" /></td>
+            </tr>
+            <tr>
+                <th th:text="#{frontpage.author}"></th>
+                <!--<td><input type="text" ltype="text" th:placeholder="#{frontpage.author}" th:field="*{author}" validate="{required:true}"/></td>-->
+                <td>  <input type="text" data-width="178" class="liger-popupedit l-text-field"  onbuttonclick="f_doctor_buttonclick" id="authorName" th:value="${authorName}" />
+                    <input type="hidden" th:field="*{author}" /></td>
+            </tr>
+            <tr>
+                <th th:text="#{frontpage.releaseTime}"></th>
+                <td><input type="text" ltype="text" th:placeholder="#{frontpage.releaseTime}" th:field="*{releaseTime}" validate="{required:true}"  liger="{type:'datetime'}"/></td>
+            </tr>
+            <tr>
+                <th th:text="#{frontpage.rublisher}"></th>
+                <td><input type="text" ltype="text" th:placeholder="#{frontpage.rublisher}" th:field="*{rublisher}" validate="{required:true}"/></td>
+            </tr>
+            <tr>
+                <th th:text="#{frontpage.coverPic}"></th>
+                <!--<td><input type="text" ltype="text" th:placeholder="#{frontpage.coverPic}" th:field="*{coverPic}" validate="{required:true}"/></td>-->
+                <td colspan="3">
+                    <input type="file" ltype="text" th:placeholder="上传封面文件" id="coverPicFile" name="coverPicFile" th:value="*{coverPic}"/>
+                </td>
+            </tr>
+            <tr th:if="!${#strings.isEmpty(frontpage.coverPic)}">
+                <th th:text="封面预览"></th>
+                <td colspan="3">
+                    <img id="coverPicImg" th:src="${coverPicUrl}" height="100"></img>
+                </td>
+            </tr>
+            <tr>
+                <th th:text="#{frontpage.description}"></th>
+                <!--<td><input type="text" ltype="text" th:placeholder="#{frontpage.description}" th:field="*{description}" validate="{required:true}"/></td>-->
+                <td colspan="3"><textarea th:field="*{description}" validate="{required:true}"></textarea></td>
+            </tr>
+            <tr>
+                <th th:text="#{frontpage.carousel}"></th>
+                <td><select th:placeholder="#{frontpage.carousel}" id="isFree" th:field="*{carousel}" validate="{required:true}">
+                    <option th:each="entry : ${isFreeMap}" th:value="${entry.key}" th:text="${entry.value}"></option>
+                </select></td>
+                <!--<td><input type="text" ltype="text" th:placeholder="#{frontpage.carousel}" th:field="*{carousel}" validate="{required:true}"/></td>-->
+            </tr>
+            <tr>
+                <th th:text="#{frontpage.linkurl}"></th>
+                <td><input type="text" ltype="text" th:placeholder="#{frontpage.linkurl}" th:field="*{linkurl}" validate="{required:true}"/></td>
+            </tr>
+           <!-- <tr>
+                <th th:text="#{frontpage.sort}"></th>
+                <td><input type="text" ltype="text" th:placeholder="#{frontpage.sort}" th:field="*{sort}" validate="{required:true}"/></td>
+            </tr>-->
+            <tr>
+                <th th:text="#{frontpage.remark}"></th>
+                <td><textarea cols="60" rows="4" th:placeholder="#{frontpage.remark}" th:field="*{remark}" />
+                    </td>
+            </tr>
+            <tr>
+                <th th:text="#{frontpage.status}"></th>
+                <!--<td><input type="text" ltype="text" th:placeholder="#{frontpage.status}" th:field="*{status}" validate="{required:true}"/></td>-->
+                <td colspan="3"><input type="text" ltype="text" th:placeholder="#{frontpage.status}" liger="{type:'comboBox',valueFieldID:'status',configCode:'USER_FRONTPAGE_APPROVE_STATUS_ENUM'}" validate="{required:true}"/>
+                    <input type="hidden" th:field="*{status}"/>
+                </td>
+            </tr>
+        </table>
+    </form>
+    <script type="text/javascript" charset="utf-8" src="/js/ueditor/ueditor.config.js"></script>
+    <script type="text/javascript" charset="utf-8" src="/js/ueditor/ueditor.all.min.js"> </script>
+    <script type="text/javascript" charset="utf-8" src="/js/ueditor/lang/zh-cn/zh-cn.js"></script>
+</div>
+
+<script type="text/javascript" layout:fragment="script">/*<![CDATA[*/
+var $form;
+
+$(function() {
+    uc = newEditor('description', {
+        initialFrameWidth : 600
+    });
+
+});
+
+function f_doctor_buttonclick(){
+    return openSelect({
+        title : '医生选择',
+        url : '/frontpage/select',
+        callback : function(item, dialog) {
+            var fn = dialog.frame.f_select || dialog.frame.window.f_select;
+            var data = fn();
+            if (!data) {
+                top.$.ligerDialog.error('请选择行!');
+                return;
+            }
+            $("#authorName").val(data.user_realname);
+            $("#author").val(data.id);
+            dialog.close();
+        }
+    });
+}
+
+function f_frontpage_buttonclick(){
+    return openSelect({
+        title : '内容分类选择',
+        url : '/frontpage/select2',
+        callback : function(item, dialog) {
+            var fn = dialog.frame.f_select || dialog.frame.window.f_select;
+            var data = fn();
+            if (!data) {
+                top.$.ligerDialog.error('请选择行!');
+                return;
+            }
+            $("#frontpageTypeName").val(data.selectNames);
+            $("#frontpageTypeId").val(data.selectIds);
+
+            if(data.selectPid == 0){
+                top.$.ligerDialog.error('不能选择一级分类!');
+                return;
+            }
+            dialog.close();
+        }
+    });
+}
+
+
+/*]]>*/</script>
+
+</html>

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layout">
+
+<div layout:fragment="body">
+    <div class="l-form">
+        <table class="l-table-form">
+            <tr>
+                <th th:text="#{user.realname}"></th>
+                <td style="width: 30%;" th:text="${user.realname}"></td>
+                <th th:text="#{user.username}"></th>
+                <td th:text="${user.username}"></td>
+            </tr>
+            <tr>
+                <th th:text="#{user.enabled}"></th>
+                <td th:text="${user.enabled} ? '是' : '否'">
+                </td>
+                <th th:text="#{user.notLocked}"></th>
+                <td th:text="${user.accountNonLocked} ? '是' : '否'">
+                </td>
+            </tr>
+            <tr>
+                <th th:text="#{user.regAt}"></th>
+                <td th:text="${user.regAt} ? ${#dates.format(user.regAt, 'yyyy-MM-dd HH:mm')} : ''">
+                </td>
+                <th th:text="#{user.lastLoginAt}"></th>
+                <td th:text="${user.lastLoginAt} ? ${#dates.format(user.lastLoginAt, 'yyyy-MM-dd HH:mm')} : ''">
+                </td>
+            </tr>
+        </table>
+        <br/>
+
+        <table class="l-table-form">
+            <tr>
+                <th th:text="#{user.realname}"></th>
+                <td th:text="${userDoctorApprove.realname}"></td>
+            </tr>
+            <tr>
+                <th th:text="#{user.gender}"></th>
+                <td th:text="${userDoctorApprove.gender}"></td>
+            </tr>
+            <tr>
+                <th th:text="#{userDoctor.region}"></th>
+                <td th:text="${userDoctorApprove.region}"></td>
+            </tr>
+            <tr>
+                <th th:text="#{userDoctor.professionalTitleId}"></th>
+                <td th:text="${userDoctorApprove.professionalTitleId}"></td>
+            </tr>
+            <tr>
+                <th th:text="#{userDoctor.workplaceType}"></th>
+                <td th:text="${userDoctorApprove.workplaceType}"></td>
+            </tr>
+            <tr>
+                <th th:text="#{userDoctor.hospital}"></th>
+                <td th:text="${userDoctorApprove.hospital}"></td>
+            </tr>
+            <tr>
+                <th th:text="#{userDoctor.position}"></th>
+                <td th:text="${userDoctorApprove.position}"></td>
+            </tr>
+            <tr>
+                <th th:text="#{userDoctor.headPictureUrl}"></th>
+                <td>
+                    <img width="100%" th:src="${userDoctorApprove.headPictureUrl}"/>
+                </td>
+            </tr>
+            <tr>
+                <th th:text="#{userDoctor.introduction}"></th>
+                <td th:text="${userDoctorApprove.introduction}"></td>
+            </tr>
+            <tr>
+                <th th:text="#{userDoctor.expertise}"></th>
+                <td th:text="${userDoctorApprove.expertise}"></td>
+            </tr>
+            <tr>
+                <th th:text="#{userDoctor.psychologicalConsultantImageUrl}"></th>
+                <td>
+                    <img width="50%" th:each="img : ${T(cn.easy.xinjing.utils.ProjectUtil).str2Arr(userDoctorApprove.psychologicalConsultantImageUrl)}" th:src="${img}" />
+                </td>
+            </tr>
+            <tr>
+                <th th:text="#{userDoctor.employeeImageUrl}"></th>
+                <td>
+                    <img width="50%" th:each="img : ${T(cn.easy.xinjing.utils.ProjectUtil).str2Arr(userDoctorApprove.employeeImageUrl)}" th:src="${img}" />
+                </td>
+            </tr>
+            <tr>
+                <th th:text="#{userDoctor.doctorProfessionImageUrl}"></th>
+                <td>
+                    <img width="50%" th:each="img : ${T(cn.easy.xinjing.utils.ProjectUtil).str2Arr(userDoctorApprove.doctorProfessionImageUrl)}" th:src="${img}" />
+                </td>
+            </tr>
+            <tr>
+                <th th:text="#{userDoctor.professionalQualificationImageUrl}"></th>
+                <td>
+                    <img width="50%" th:each="img : ${T(cn.easy.xinjing.utils.ProjectUtil).str2Arr(userDoctorApprove.professionalQualificationImageUrl)}" th:src="${img}" />
+                </td>
+            </tr>
+        </table>
+    </div>
+
+</div>
+
+<script type="text/javascript" layout:fragment="script">/*<![CDATA[*/
+var $form;
+$(function() {
+
+});
+/*]]>*/</script>
+
+</html>

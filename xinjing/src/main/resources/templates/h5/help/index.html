@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="h5/layout">
+<head>
+    <title>帮助中心</title>
+    <style>
+    </style>
+</head>
+
+<div layout:fragment="body">
+
+    <div class="weui-tab">
+        <div class="weui-navbar">
+            <a class="weui-navbar__item weui-bar__item--on" href="#tab1">
+                病症
+            </a>
+            <a class="weui-navbar__item" href="#tab2">
+                疗法
+            </a>
+        </div>
+        <div class="weui-tab__bd">
+            <div id="tab1" class="weui-tab__bd-item weui-tab__bd-item--active" style="padding: 15px;">
+                <div style="float: left; width: 50%;" th:each="disease : ${diseaseList}">
+                    <a th:href="@{/h5/help/disease(id=${disease.id})}" th:text="${disease.name}" style="display: block;margin: 5px;"></a>
+                </div>
+            </div>
+            <div id="tab2" class="weui-tab__bd-item" style="padding: 15px;">
+                <div style="float: left; width: 50%;" th:each="therapy : ${therapyList}">
+                    <a th:href="@{/h5/help/therapy(id=${therapy.id})}" th:text="${therapy.name}" style="display: block;margin: 5px;"></a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script type="text/javascript" layout:fragment="script">/*<![CDATA[*/
+$(function() {
+
+});
+window.onload = function() {
+    with(document.body) {
+        oncontextmenu=function(){return false}
+        ondragstart=function(){return false}
+        onselectstart=function(){return false}
+        onbeforecopy=function(){return false}
+        onselect=function(){document.selection.empty()}
+        oncopy=function(){document.selection.empty()}
+    }
+}
+/*]]>*/</script>
+
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layout">
+
+<div layout:fragment="body">
+    <div class="l-form">
+        <table class="l-table-form">
+                        <tr>
+                    <th th:text="#{gameheadRecord.loginuserid}"></th>
+                    <td th:text="${gameheadRecord.loginuserid}"></td>
+                </tr>
+                <tr>
+                    <th th:text="#{gameheadRecord.patientid}"></th>
+                    <td th:text="${gameheadRecord.patientid}"></td>
+                </tr>
+                <tr>
+                    <th th:text="#{gameheadRecord.gameid}"></th>
+                    <td th:text="${gameheadRecord.gameid}"></td>
+                </tr>
+                <tr>
+                    <th th:text="#{gameheadRecord.contentid}"></th>
+                    <td th:text="${gameheadRecord.contentid}"></td>
+                </tr>
+                <tr>
+                    <th th:text="#{gameheadRecord.vrroomid}"></th>
+                    <td th:text="${gameheadRecord.vrroomid}"></td>
+                </tr>
+                <tr>
+                    <th th:text="#{gameheadRecord.gamedatatime}"></th>
+                    <td th:text="${gameheadRecord.gamedatatime}"></td>
+                </tr>
+                <tr>
+                    <th th:text="#{gameheadRecord.clickdatatime}"></th>
+                    <td th:text="${gameheadRecord.clickdatatime}"></td>
+                </tr>
+        </table>
+    </div>
+</div>
+
+<script type="text/javascript" layout:fragment="script">/*<![CDATA[*/
+$(function() {
+
+});
+/*]]>*/</script>
+
+</html>

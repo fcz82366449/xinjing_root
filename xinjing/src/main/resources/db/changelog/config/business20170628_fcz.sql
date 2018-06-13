@@ -1,0 +1,2 @@
+INSERT INTO `pb_config` VALUES ('b0000000000000000000000110022132', 'PRESCRIPTION_CASE_STATUS_ENUM', '患者管理（病案号）状态', '5', '4', '7', '1:草稿\r\n2:已发布\r\n3:未发布', null, '状态类型枚举',null, null, null,null);
+INSERT INTO `pb_config` VALUES ('b0000000000000000000000220022132', 'SOURCE_STATUS_ENUM', '数据来源枚举', '5', '4', '7', '1:app\r\n2:vr室\r\n3:其它', null, '数据来源枚举',null, null, null,null);

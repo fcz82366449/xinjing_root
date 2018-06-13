@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes"/>
+	<title>心景科技</title>
+	<link rel="stylesheet" href="/jquery-weui/lib/weui.min.css" th:href="@{/jquery-weui/lib/weui.min.css?v=20170317.2145}" />
+	<link rel="stylesheet" href="/jquery-weui/css/jquery-weui.min.css" th:href="@{/jquery-weui/css/jquery-weui.min.css?v=20170317.2145}" />
+	<link rel="stylesheet" href="/m/app.css" th:href="@{/m/app.css?v=20170318.2145}" />
+	<link rel="stylesheet" href="../static/font-awesome/css/font-awesome.min.css" th:href="@{/css/font-awesome/css/font-awesome.min.css}"/>
+	<style>
+	</style>
+</head>
+
+<body>
+	<div layout:fragment="body">
+
+	</div>
+
+	<script src="/jquery-weui/lib/jquery-2.1.4.min.js" th:src="@{/jquery-weui/lib/jquery-2.1.4.min.js}"></script>
+	<script src="/jquery-weui/js/jquery-weui.js" th:src="@{/jquery-weui/js/jquery-weui.min.js?v=20170317.2145}"></script>
+	<script src="/jquery-validation/jquery.validate.min.js" th:src="@{/jquery-validation/jquery.validate.min.js}"></script>
+	<!--<script src="/m/app.js" th:src="@{/m/app.js?v=20170317.2145}"></script>-->
+	<div layout:fragment="includeScript">
+
+	</div>
+	<script type="text/javascript"  layout:fragment="script">
+	</script>
+	<script>/*<![CDATA[*/
+	$(function() {
+
+
+	});
+
+	function strToJson(str) {
+		return (new Function("return " + str))();
+	}
+	/*]]>*/
+	</script>
+</body>
+</html>

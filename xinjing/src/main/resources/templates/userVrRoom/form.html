@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layout">
+
+<div layout:fragment="body">
+    <form id="config-form" method="post" th:action="@{/userVrRoom/form}" th:object="${userVrRoom}" liger="{type : 'ligerForm'}">
+        <input type="hidden" th:field="*{id}"/>
+        <input type="hidden" th:field="*{userId}"/>
+        <table class="l-table-form">
+            <tr>
+                <th th:text="#{userVrRoom.type}"></th>
+                <td><input type="text" ltype="text" th:placeholder="#{userVrRoom.type}" liger="{type:'comboBox',valueFieldID:'type',configCode:'USER_VR_ROOM_TYPE_ENUM'}" validate="{required:true}"/>
+                    <input type="hidden" th:field="*{type}"/>
+                </td>
+            </tr>
+
+            <div th:if="${userVrRoom.id} == null">
+                <tr>
+                    <th th:text="#{user.username}"></th>
+                    <td><input type="text" ltype="text" th:placeholder="#{user.username}" th:name="reUser.username" validate="{required:true}"/></td>
+                </tr>
+                <tr>
+                    <th th:text="#{user.realname}"></th>
+                    <td><input type="text" ltype="text" th:placeholder="#{user.realname}" th:name="reUser.realname" validate="{required:true}"/></td>
+                </tr>
+            </div>
+            <div th:if="${userVrRoom.id}">
+                <tr>
+                    <th th:text="#{user.username}"></th>
+                    <td th:text="${reUser.username}"></td>
+                </tr>
+                <tr>
+                    <th th:text="#{user.realname}"></th>
+                    <td th:text="${reUser.realname}"></td>
+                </tr>
+                <tr>
+                    <th th:text="'默认' + #{user.password}"></th>
+                    <td>easy888</td>
+                </tr>
+            </div>
+            <tr>
+                <th th:text="#{vrRoomAppointment.vrRoomId}"></th>
+                <td>
+                    <input type="text" data-width="178" class="liger-popupedit l-text-field" onbuttonclick="f_vrRoom_click" id="vrRoomName" th:value="${vrRoomName}" validate="{required:true}"/>
+                    <input type="hidden" th:field="*{vrRoomId}" />
+                </td>
+            </tr>
+            <tr>
+                <th th:text="#{userVrRoom.remark}"></th>
+                <td><textarea cols="60" rows="6" th:placeholder="#{userVrRoom.remark}" th:field="*{remark}" />
+                    </td>
+            </tr>
+        </table>
+    </form>
+    <div style="margin-left: 10px;">
+        默认密码：easy888
+    </div>
+</div>
+
+<script type="text/javascript" layout:fragment="script">/*<![CDATA[*/
+var $form;
+$(function() {
+
+});
+
+function f_vrRoom_click() {
+    return openSelect({
+        title : 'VR室选择',
+        url : '/vrRoom/select',
+        callback : function(item, dialog) {
+            var fn = dialog.frame.f_select || dialog.frame.window.f_select;
+            var data = fn();
+            if (!data) {
+                top.$.ligerDialog.error('请选择VR室!');
+                return;
+            }
+            $("#vrRoomName").val(data.name);
+            $("#vrRoomId").val(data.id);
+            dialog.close();
+        }
+    });
+}
+/*]]>*/</script>
+
+</html>

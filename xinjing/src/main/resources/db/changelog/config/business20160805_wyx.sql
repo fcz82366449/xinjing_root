@@ -1,0 +1,13 @@
+INSERT INTO `pb_config` VALUES ('b0000000000000000000000000000001', 'DOCTOR_STATUS_ENUM', '医生状态枚举', '5', '4', '7', '1:未认证\r\n2:待审核\r\n3:审核不通过\r\n4:正常\r\n9:停诊', null, '医生状态枚举',null, null, null,null);
+INSERT INTO `pb_config` VALUES ('b0000000000000000000000000000002', 'PATIENT_MEDICARE_TYPE_ENUM', '医保类型枚举', '5', '4', '7', '1:新农村合作医疗\r\n2:城镇居民医疗保险\r\n3:职工医疗保险', null, '医保类型枚举',null, null, null,null);
+INSERT INTO `pb_config` VALUES ('b0000000000000000000000000000003', 'DISEASE_STATUS_ENUM', '病种状态枚举', '5', '4', '7', '1:草稿\r\n2:已发布\r\n3:未发布', null, '病种状态枚举',null, null, null,null);
+INSERT INTO `pb_config` VALUES ('b0000000000000000000000000000004', 'THERAPY_STATUS_ENUM', '疗法状态枚举', '5', '4', '7', '1:草稿\r\n2:已发布\r\n3:未发布', null, '疗法状态枚举',null, null, null,null);
+INSERT INTO `pb_config` VALUES ('b0000000000000000000000000000005', 'CONTENT_STATUS_ENUM', '内容状态枚举', '5', '4', '7', '1:草稿\r\n2:已发布\r\n3:未发布', null, '内容状态枚举',null, null, null,null);
+INSERT INTO `pb_config` VALUES ('b0000000000000000000000000000006', 'CONTENT_TYPE_ENUM', '内容类型枚举', '5', '4', '7', '1:视频\r\n2:音频\r\n3:图片集\r\n4:文章\r\n5:电子表格', null, '内容类型枚举',null, null, null,null);
+INSERT INTO `pb_config` VALUES ('b0000000000000000000000000000007', 'PRESCRIPTION_STATUS_ENUM', '电子处方状态枚举', '5', '4', '7', '1:未付款\r\n2:已付款', null, '电子处方状态枚举',null, null, null,null);
+INSERT INTO `pb_config` VALUES ('b0000000000000000000000000000008', 'ORDER_TYPE_ENUM', '订单类型枚举', '5', '4', '7', '1:内容\r\n2:电子处方', null, '订单类型枚举',null, null, null,null);
+INSERT INTO `pb_config` VALUES ('b0000000000000000000000000000009', 'COMMENT_TYPE_ENUM', '评论关联类型枚举', '5', '4', '7', '1:医生\r\n2:内容', null, '评论关联类型枚举',null, null, null,null);
+INSERT INTO `pb_config` VALUES ('b0000000000000000000000000000010', 'COMMENT_STATUS_ENUM', '评论状态枚举', '5', '4', '7', '1:未审核仅本人可见\r\n2:其它会员可见\r\n3:不可见', null, '评论状态枚举',null, null, null,null);
+INSERT INTO `pb_config` VALUES ('b0000000000000000000000000000011', 'DOCTOR_ARTICLE_STATUS_ENUM', '医生文章状态枚举', '5', '4', '7', '1:草稿\r\n2:待审核\r\n3:审核不通过\r\n4:审核通过', null, '医生文章状态枚举',null, null, null,null);
+INSERT INTO `pb_config` VALUES ('b0000000000000000000000000000012', 'VR_ROOM_APPOINTMENT_TYPE_ENUM', 'VR室预约类型枚举', '5', '4', '7', '1:线上\r\n2:线下', null, 'VR室预约类型枚举',null, null, null,null);
+INSERT INTO `pb_config` VALUES ('b0000000000000000000000000000013', 'VR_ROOM_STATUS_ENUM', 'VR室状态枚举', '5', '4', '7', '1:初始\r\n2:正常\r\n3:暂停', null, 'VR室状态枚举',null, null, null,null);

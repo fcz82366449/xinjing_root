@@ -1,0 +1,1 @@
+INSERT INTO `pb_config` VALUES ('b0000000000000000000000000000016', 'PRESCRIPTION_CONTENT_FREQUENCY_ENUM', '处方内容频率枚举', '5', '4', '8', '1:每天\r\n2:每周\r\n3:每半个月\r\n4:每月', null, '处方内容频率枚举',null, null, null,null);

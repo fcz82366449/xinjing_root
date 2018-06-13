@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layout">
+
+<div layout:fragment="body">
+    <div id="toptoolbar"></div>
+    <div id="maingrid"></div>
+</div>
+
+<!-- page specific plugin scripts -->
+<script type="text/javascript" layout:fragment="script">/*<![CDATA[*/
+var maingrid;
+$(function() {
+    maingrid = newGrid("maingrid", {
+        columns : [
+            {
+                display : '[[#{singlesel.name}]]',
+                name : 'name',
+                align : 'left',
+                width : 120
+            },{
+                display : '[[#{singlesel.code}]]',
+                name : 'code',
+                align : 'left',
+                width : 120
+            },{
+                display : '[[#{singlesel.evaluatingId}]]',
+                name : 'evaluating_name',
+                align : 'left',
+                width : 120
+            },{
+                display : '[[#{singlesel.singtype}]]',
+                name : 'config_singtype',
+                align : 'left',
+                width : 120
+            },{
+                display : '[[#{singlesel.options01}]]',
+                name : 'options01',
+                align : 'left',
+                width : 120
+            },{
+                display : '[[#{singlesel.options02}]]',
+                name : 'options02',
+                align : 'left',
+                width : 120
+            },{
+                display : '[[#{singlesel.options03}]]',
+                name : 'options03',
+                align : 'left',
+                width : 120
+            },{
+                display : '[[#{singlesel.options04}]]',
+                name : 'options04',
+                align : 'left',
+                width : 120
+            },{
+                display : '[[#{singlesel.options05}]]',
+                name : 'options05',
+                align : 'left',
+                width : 120
+            },{
+                display : '[[#{singlesel.options06}]]',
+                name : 'options06',
+                align : 'left',
+                width : 120
+            },{
+                display : '[[#{singlesel.tmscore}]]',
+                name : 'tmscore',
+                align : 'left',
+                width : 120
+            },{
+                display : '[[#{singlesel.remark}]]',
+                name : 'remark',
+                align : 'left',
+                width : 120
+            },{
+                display : '[[#{singlesel.status}]]',
+                name : 'config_status',
+                align : 'left',
+                width : 120
+            },
+            {
+                display : '[[#{creator}]]',
+                name : 'creator_realname',
+                width : 120
+            },{
+                   display : '[[#{createdAt}]]',
+                name : 'createdAt',
+                type : 'datetime',
+                width : 120
+            },{
+                display : '[[#{updator}]]',
+                name : 'updator_realname',
+                width : 120
+            },{
+                   display : '[[#{updatedAt}]]',
+                name : 'updatedAt',
+                type : 'datetime',
+                width : 120
+            }],
+        url : '/singlesel/list'
+    });
+
+    $("#toptoolbar").ligerToolBar({
+        items : [ {
+            text : '增加',
+            click : addClick,
+            icon : 'add'
+        }, {
+            text : '修改',
+            click : modifyClick,
+            icon : 'modify'
+        }, {
+            text : '删除',
+            click : deleteClick,
+            icon : 'delete'
+        } ]
+    });
+
+    maingrid.setHeight(document.documentElement.clientHeight - $("#toptoolbar").height() -  $("#searchform").height() - 18);
+});
+
+
+
+function f_search() {
+    loadGridData(maingrid, "searchform");
+}
+
+function f_reload() {
+    maingrid.loadData(true);
+}
+
+function f_select() {
+    return maingrid.getSelectedRow();
+}
+
+
+/*]]>*/</script>
+</html>

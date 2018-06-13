@@ -1,0 +1,1 @@
+INSERT INTO `pb_config` VALUES ('b0000000000000000000000000000024', 'USER_DOCTOR_APPROVE_STATUS_ENUM', '医生认证状态枚举', '5', '4', '7', '1:待审核\r\n2:审核通过\r\n3:审核不通过', null, '医生认证状态枚举',null, null, null,null);

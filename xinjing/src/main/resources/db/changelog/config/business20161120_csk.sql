@@ -1,0 +1,1 @@
+INSERT INTO `pb_config` VALUES ('b0000000000000000000000000000015', 'ORDER_STATUS_ENUM', '订单状态枚举', '5', '4', '8', '1:待支付\r\n2:已支付\r\n3:已取消', null, '订单状态枚举',null, null, null,null);

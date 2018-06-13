@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layout">
+
+<div layout:fragment="body">
+    <form id="config-form" method="post" th:action="@{/userDoctor/form}" th:object="${userDoctor}" liger="{type : 'ligerForm'}">
+        <input type="hidden" id="id" th:field="*{id}"/>
+        <input type="hidden" th:field="*{userId}"/>
+        <table class="l-table-form">
+            <!--<tr>-->
+                <!--<th th:text="#{userDoctor.certificate}"></th>-->
+                <!--<td><input type="text" ltype="text" th:placeholder="#{userDoctor.certificate}" th:field="*{certificate}" validate="{required:true}"/></td>-->
+            <!--</tr>-->
+            <!--<tr>-->
+                <!--<th th:text="#{userDoctor.idCardFront}"></th>-->
+                <!--<td><input type="text" ltype="text" th:placeholder="#{userDoctor.idCardFront}" th:field="*{idCardFront}" validate="{required:true}"/></td>-->
+            <!--</tr>-->
+            <!--<tr>-->
+                <!--<th th:text="#{userDoctor.idCardInverse}"></th>-->
+                <!--<td><input type="text" ltype="text" th:placeholder="#{userDoctor.idCardInverse}" th:field="*{idCardInverse}" validate="{required:true}"/></td>-->
+            <!--</tr>-->
+            <tr>
+                <th th:text="手机号"></th>
+                <td><input type="text" ltype="text" id="phone"  name="phone" th:value="${phone}"  /></td>
+            </tr>
+            <tr>
+                <th th:text="真实姓名"></th>
+                <td><input type="text" ltype="text"  name="realname" th:value="${realname}" /></td>
+            </tr>
+            <tr>
+                <th th:text="#{userDoctor.photo}"></th>
+                <td><input type="text" ltype="text" th:placeholder="#{userDoctor.photo}" th:field="*{photo}" /></td>
+            </tr>
+            <tr>
+                <th th:text="#{userDoctor.hospital}"></th>
+                <!--<td><input type="text" ltype="text" th:placeholder="#{userDoctor.hospital}" th:field="*{hospital}" validate="{required:true}"/></td>-->
+                <td>
+                    <input type="text" data-width="178" class="liger-popupedit l-text-field"  onbuttonclick="f_hospital_click" id="hospitalName" th:value="${hospitalName}" validate="{required:true}"/>
+                    <input type="hidden" th:field="*{hospital}" />
+                </td>
+            </tr>
+            <tr>
+                <th th:text="#{userDoctor.entryDate}"></th>
+                <td><input type="text" ltype="text" th:placeholder="#{userDoctor.entryDate}" th:field="*{entryDate}" th:value="${entryDate}"  liger="{type:'datetime'}" /></td>
+            </tr>
+            <tr>
+                <th th:text="#{userDoctor.introduction}"></th>
+                <td><input type="text" ltype="text" th:placeholder="#{userDoctor.introduction}" th:field="*{introduction}" /></td>
+            </tr>
+            <tr>
+                <th th:text="#{userDoctor.expertise}"></th>
+                <td><input type="text" ltype="text" th:placeholder="#{userDoctor.expertise}" th:field="*{expertise}" /></td>
+            </tr>
+            <tr>
+                <th th:text="#{userDoctor.age}"></th>
+                <td><input type="text" ltype="text" th:placeholder="#{userDoctor.age}" th:field="*{age}" /></td>
+            </tr>
+            <tr>
+                <th th:text="#{userDoctor.level}"></th>
+                <td><input type="text" ltype="text" th:placeholder="#{userDoctor.level}" th:field="*{level}" /></td>
+            </tr>
+            <!--<tr>-->
+                <!--<th th:text="#{userDoctor.status}"></th>-->
+                <!--<td><input type="text" ltype="text" th:placeholder="#{userDoctor.status}" th:field="*{status}" validate="{required:true}"/></td>-->
+            <!--</tr>-->
+            <tr>
+                <th th:text="#{userDoctor.scheduleInfo}"></th>
+                <td><input type="text" ltype="text" th:placeholder="#{userDoctor.scheduleInfo}" th:field="*{scheduleInfo}" /></td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+<script type="text/javascript" layout:fragment="script">/*<![CDATA[*/
+var $form;
+$(function() {
+    if($("#id").val()!=null&&$("#id").val().length>=1){
+        $("#phone").attr("readonly", true);//不可编辑
+    }
+});
+
+function f_hospital_click() {
+    return openSelect({
+        title : '医院请选择',
+        url : '/hospital/select',
+        callback : function(item, dialog) {
+            var fn = dialog.frame.f_select || dialog.frame.window.f_select;
+            var data = fn();
+            if (!data) {
+                top.$.ligerDialog.error('请选择VR室!');
+                return;
+            }
+            $("#hospitalName").val(data.name);
+            $("#hospital").val(data.id);
+            dialog.close();
+        }
+    });
+
+}
+/*]]>*/</script>
+
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layout">
+
+<div layout:fragment="body">
+    <form id="config-form" method="post" th:action="@{/userPatient/form}" th:object="${userPatient}" liger="{type : 'ligerForm'}">
+        <input type="hidden" th:field="*{id}"/>
+        <table class="l-table-form">
+            <tr>
+                <th th:text="#{userPatient.userId}"></th>
+                <td><input type="text" ltype="text" th:placeholder="#{userPatient.userId}" th:field="*{userId}" validate="{required:true}"/></td>
+            </tr>
+            <tr>
+                <th th:text="#{userPatient.medicareType}"></th>
+                <td><input type="text" ltype="text" th:placeholder="#{userPatient.medicareType}" th:field="*{medicareType}" validate="{required:true}"/></td>
+            </tr>
+            <tr>
+                <th th:text="#{userPatient.medicareCardNumber}"></th>
+                <td><input type="text" ltype="text" th:placeholder="#{userPatient.medicareCardNumber}" th:field="*{medicareCardNumber}" validate="{required:true}"/></td>
+            </tr>
+            <tr>
+                <th th:text="#{userPatient.idNumber}"></th>
+                <td><input type="text" ltype="text" th:placeholder="#{userPatient.idNumber}" th:field="*{idNumber}" validate="{required:true}"/></td>
+            </tr>
+            <tr>
+                <th th:text="#{userPatient.age}"></th>
+                <td><input type="text" ltype="text" th:placeholder="#{userPatient.age}" th:field="*{age}" validate="{required:true}"/></td>
+            </tr>
+            <tr>
+                <th th:text="#{userPatient.address}"></th>
+                <td><input type="text" ltype="text" th:placeholder="#{userPatient.address}" th:field="*{address}" validate="{required:true}"/></td>
+            </tr>
+            <tr>
+                <th th:text="#{userPatient.emergencyContact}"></th>
+                <td><input type="text" ltype="text" th:placeholder="#{userPatient.emergencyContact}" th:field="*{emergencyContact}" validate="{required:true}"/></td>
+            </tr>
+            <tr>
+                <th th:text="#{userPatient.emergencyContactPhone}"></th>
+                <td><input type="text" ltype="text" th:placeholder="#{userPatient.emergencyContactPhone}" th:field="*{emergencyContactPhone}" validate="{required:true}"/></td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+<script type="text/javascript" layout:fragment="script">/*<![CDATA[*/
+var $form;
+$(function() {
+
+});
+/*]]>*/</script>
+
+</html>

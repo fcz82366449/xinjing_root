@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layout">
+
+<div layout:fragment="body">
+    <div id="toptoolbar"></div>
+    <div id="searchformDiv">
+        <form id='searchform' class="l-search-form">
+            <table>
+                <tr>
+                    <td>助记码</td>
+                    <td>
+                        <input type="text" class="l-text" id="search_LIKE_helpCode" name="search_LIKE_helpCode" th:placeholder="#{hospital.helpCode}" />
+                    </td>
+                    <td>医院名称</td>
+                    <td>
+                        <input type="text" class="l-text" id="search_LIKE_name" name="search_LIKE_name" th:placeholder="#{hospital.name}" />
+                    </td>
+                    <td>
+                        <input type="reset" class="l-reset" th:value="#{reset}" />
+                        <input type="button" class="l-search" th:value="#{search}" onclick="f_search();" />
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+    <div id="maingrid"></div>
+</div>
+
+<!-- page specific plugin scripts -->
+<script type="text/javascript" layout:fragment="script">/*<![CDATA[*/
+var maingrid;
+$(function() {
+    maingrid = newGrid("maingrid", {
+        columns : [
+
+            {
+                display : '[[#{hospital.name}]]',
+                name : 'name',
+                align : 'left',
+                width : 200
+            },{
+                display : '[[#{hospital.region}]]',
+                name : 'region_fullName',
+                align : 'left',
+                width : 160
+            },{
+                display : '[[#{hospital.address}]]',
+                name : 'address',
+                align : 'left',
+                width : 120
+            },{
+                display : '[[#{hospital.abstracts}]]',
+                name : 'abstracts',
+                align : 'left',
+                width : 120
+            },{
+                display : '[[#{hospital.status}]]',
+                name : 'config_status',
+                align : 'center',
+                width : 80
+            }],
+        url : '/hospital/list'
+    });
+
+    maingrid.setHeight(document.documentElement.clientHeight - $("#toptoolbar").height() -  $("#searchform").height() - 18);
+});
+
+function addClick(item) {
+    openForm({url : '/hospital/form',title : '新增'})
+}
+
+function f_search() {
+    loadGridData(maingrid, "searchform");
+}
+
+function f_reload() {
+    maingrid.loadData(true);
+}
+
+function f_select() {
+    return maingrid.getSelectedRow();
+}
+
+/*]]>*/</script>
+</html>

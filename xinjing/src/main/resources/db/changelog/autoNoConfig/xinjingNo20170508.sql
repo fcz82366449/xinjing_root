@@ -1,0 +1,1 @@
+insert into `pb_auto_no_config` (`id`, `code`, `remark`, `template`, `keep_digit`, `cur_count`, `cur_at`, `circle_type`) values('402881275be6c433015be6c9a7660003','billnopr','处方订单号编码规则','${date}','4','0','2017-05-08 14:46:52','0');

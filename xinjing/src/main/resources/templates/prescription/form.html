@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layout">
+
+<div layout:fragment="body">
+    <form id="config-form" method="post" th:action="@{/prescription/form}" th:object="${prescription}" liger="{type : 'ligerForm'}">
+        <input type="hidden" th:field="*{id}"/>
+        <table class="l-table-form">
+            <tr>
+                <th th:text="#{prescription.status}"></th>
+                <td><input type="text" ltype="text" th:placeholder="#{prescription.status}" th:field="*{status}" validate="{required:true}"/></td>
+            </tr>
+            <tr>
+                <th th:text="#{prescription.total}"></th>
+                <td><input type="text" ltype="text" th:placeholder="#{prescription.total}" th:field="*{total}" validate="{required:true}"/></td>
+            </tr>
+            <tr>
+                <th th:text="#{prescription.suggestion}"></th>
+                <td><input type="text" ltype="text" th:placeholder="#{prescription.suggestion}" th:field="*{suggestion}" validate="{required:true}"/></td>
+            </tr>
+            <tr>
+                <th th:text="#{prescription.doctorId}"></th>
+                <td><input type="text" th:placeholder="#{prescription.doctorId}" class="liger-popupedit l-text-field" onbuttonclick="f_doctor_buttonclick" id="doctorName" th:value="${doctorName}"  validate="{required:true}"/></td>
+                <input type="hidden" id="doctorId" th:field="*{doctorId}" />
+            </tr>
+            <tr>
+                <th th:text="#{prescription.patientId}"></th>
+                <td><input type="text" ltype="text" th:placeholder="#{prescription.patientId}" th:field="*{patientId}" validate="{required:true}"/></td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+<script type="text/javascript" layout:fragment="script" th:inline="text">/*<![CDATA[*/
+var $form;
+$(function() {
+
+});
+
+function f_doctor_buttonclick(){
+    return openSelect({
+        title : '医生选择',
+        url : '/userDoctor/select',
+        callback : function(item, dialog) {
+            var fn = dialog.frame.f_select || dialog.frame.window.f_select;
+            var data = fn();
+            if (!data) {
+                top.$.ligerDialog.error('请选择行!');
+                return;
+            }
+            $("#doctorName").val(data.user_realname);
+            $("#doctorId").val(data.id);
+            dialog.close();
+        }
+    });
+}
+/*]]>*/</script>
+
+</html>

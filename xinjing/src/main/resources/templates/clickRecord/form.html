@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layout">
+
+<div layout:fragment="body">
+    <form id="clickRecord-form" method="post" th:action="@{/clickRecord/form}" th:object="${clickRecord}" liger="{type : 'ligerForm'}">
+        <input type="hidden" th:field="*{id}"/>
+        <table class="l-table-form">
+            <tr>
+                <th th:text="#{clickRecord.contentId}"></th>
+                <td><input type="text" ltype="text" th:placeholder="#{clickRecord.contentId}" th:field="*{contentId}" validate="{required:true}"/></td>
+            </tr>
+            <tr>
+                <th th:text="#{clickRecord.clickDate}"></th>
+                <td><input type="text" ltype="text" th:placeholder="#{clickRecord.clickDate}" th:field="*{clickDate}" validate="{required:true}"/></td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+<script type="text/javascript" layout:fragment="script">/*<![CDATA[*/
+var $form;
+$(function() {
+
+});
+/*]]>*/</script>
+
+</html>

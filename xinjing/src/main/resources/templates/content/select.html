@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+	  layout:decorator="layout">
+
+<div layout:fragment="body">
+	<div id="toptoolbar"></div>
+	<div class="l-layout-header" style="color:slategray;">
+		已选择:
+		&nbsp;<span id="selectNames"></span>
+	</div>
+	<div id="searchformDiv">
+		<form id='searchform' class="l-search-form">
+			<table>
+				<tr>
+					<td>
+						<input type="text" class="l-text" id="search_LIKE_helpCode" name="search_LIKE_helpCode" th:placeholder="#{content.helpCode}" />
+					</td>
+					<td>
+						<input type="text" class="l-text" id="search_LIKE_name" name="search_LIKE_name" th:placeholder="#{content.name}" />
+					</td>
+					<td>
+						<input type="text" ltype="text" th:placeholder="#{content.type}" liger="{type:'comboBox',valueFieldID:'search_EQ_type',configCode:'CONTENT_TYPE_ENUM'}"/>
+						<input id="search_EQ_type" name="search_EQ_type"style="display: none;">
+					</td>
+					<td>
+						<input type="reset" class="l-reset" th:value="#{reset}" />
+						<input type="button" class="l-search" th:value="#{search}" onclick="f_search();" />
+					</td>
+				</tr>
+			</table>
+		</form>
+	</div>
+	<div id="maingrid"></div>
+</div>
+
+<!-- page specific plugin scripts -->
+<script type="text/javascript" layout:fragment="script">/*<![CDATA[*/
+var maingrid;
+var selectIds = new Array();
+if('[[${selectIds}]]' != ""){
+	selectIds = '[[${selectIds}]]'.split(",");
+}
+var selectNames = new Array();
+if('[[${selectNames}]]' != ""){
+	selectNames = '[[${selectNames}]]'.split(",");
+}
+var totalPrice = parseFloat('[[${totalPrice}]]');
+$(function() {
+	maingrid = newGrid("maingrid", {
+		columns : [
+			{
+				display : '[[#{content.helpCode}]]',
+				name : 'helpCode',
+				align : 'left',
+				width : 120
+			},{
+				display : '[[#{content.name}]]',
+				name : 'name',
+				align : 'left',
+				width : 160
+			},{
+				display : '[[#{content.type}]]',
+				name : 'config_type',
+				width : 120
+			},{
+				display : '[[#{content.isFree}]]',
+				name : 'config_isFree',
+				width : 120
+			},{
+				display : '[[#{content.price}]]',
+				name : 'price',
+				align : 'left',
+				width : 120
+			},{
+				display : '[[#{content.status}]]',
+				name : 'config_status',
+				width : 120
+			},{
+				display : '[[#{createdAt}]]',
+				name : 'createdAt',
+				type : 'datetime',
+				width : 120
+			},{
+				display : '[[#{updatedAt}]]',
+				name : 'updatedAt',
+				type : 'datetime',
+				width : 120
+			}],
+		url : '/content/list?search_EQ_status=1&search_NEQ_type=11',
+		isChecked : f_isChecked,
+		onSelectRow: function (rowdata, rowid, rowobj) {
+			//多选情况下，拼接多个
+			if ($.inArray(rowdata["id"], selectIds) < 0) {
+				selectIds.push(rowdata["id"]);
+				totalPrice = totalPrice + parseFloat(rowdata["price"]);
+			}
+			if (selectNames.length < 5) {
+				if ($.inArray(rowdata["name"], selectNames) < 0) {
+					selectNames.push(rowdata["name"]);
+				}
+			}
+			fillShowSpan();
+		},
+		onUnSelectRow: function (rowdata, rowid, rowobj) {
+			if (selectIds.length > 0) {
+				$.each(selectIds, function () {
+					var index = this.indexOf(rowdata["id"]);
+					if (index <= 0) {
+						selectIds.splice(index, 1);
+						return false;
+					}
+				});
+			}
+			if (selectNames.length > 0) {
+				$.each(selectNames, function () {
+					var index = this.indexOf(rowdata["name"]);
+					if (index <= 0) {
+						selectNames.splice(index, 1);
+						return false;
+					}
+				});
+			}
+			totalPrice -= parseFloat(rowdata["price"]);
+			fillShowSpan();
+		}
+	});
+	maingrid.setHeight(document.documentElement.clientHeight
+			- $("#searchform").height()
+			- 40);
+});
+
+function f_search() {
+	loadGridData(maingrid, "searchform");
+}
+
+function f_reload() {
+	maingrid.loadData(true);
+}
+
+function f_select() {
+	var resultData = {};
+	resultData.selectIds = selectIds;
+	resultData.selectNames = selectNames;
+	resultData.totalPrice = totalPrice;
+	return resultData;
+}
+
+function fillShowSpan(){
+	if(selectNames.length > 0){
+		$("#selectNames").html(selectNames.join(",").toString() + "...");
+	}else{
+		$("#selectNames").html("");
+	}
+}
+
+function f_isChecked(rowdata){
+	if($.inArray(rowdata["id"], selectIds) >= 0){
+		return true;
+	}
+	return false;
+}
+/*]]>*/</script>
+</html>

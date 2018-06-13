@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layout">
+
+<div layout:fragment="body">
+    <div class="l-form">
+        <table class="l-table-form">
+            <tr>
+                <th th:text="#{doctorArticle.title}"></th>
+                <td th:text="${doctorArticle.title}"></td>
+            </tr>
+            <tr>
+                <th th:text="#{doctorArticle.content}"></th>
+                <td th:text="${doctorArticle.content}"></td>
+            </tr>
+        </table>
+    </div>
+
+    <form id="config-form" method="post" th:action="@{/doctorArticle/approve}" th:object="${doctorArticle}" liger="{type : 'ligerForm'}">
+        <input type="hidden" th:field="*{id}"/>
+
+        <table class="l-table-form">
+            <tr>
+                <th th:text="#{approveLog.result}"></th>
+                <td>
+                    <select name="result">
+                        <option value="1">通过</option>
+                        <option value="0">不通过</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th th:text="#{approveLog.remark}"></th>
+                <td>
+                    <textarea cols="60" rows="4" th:placeholder="#{approveLog.remark}" name="remark" id="remark" ></textarea>
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+<script type="text/javascript" layout:fragment="script">/*<![CDATA[*/
+var $form;
+$(function() {
+
+});
+/*]]>*/</script>
+
+</html>

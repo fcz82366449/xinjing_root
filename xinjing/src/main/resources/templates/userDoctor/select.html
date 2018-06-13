@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layout">
+
+<div layout:fragment="body">
+    <div id="searchformDiv">
+        <form id='searchform' class="l-search-form">
+            <table>
+                <tr>
+                    <td><input type="text" class="l-text" name="search_LIKE_user.realname" th:placeholder="#{user.realname}" /></td>
+                    <td><input type="text" class="l-text" name="search_LIKE_user.mobile" th:placeholder="#{user.mobile}" /></td>
+                    <td>
+                        <input type="reset" class="l-reset" th:value="#{reset}" />
+                        <input type="button" class="l-search" th:value="#{search}" onclick="f_search();" />
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+    <div id="maingrid"></div>
+</div>
+
+<!-- page specific plugin scripts -->
+<script type="text/javascript" layout:fragment="script" th:inline="text">/*<![CDATA[*/
+var maingrid;
+$(function() {
+    maingrid = $("#maingrid").ligerGrid({
+        columns : [
+            {
+                display : '[[#{user.realname}]]',
+                name : 'user_realname',
+                align : 'left',
+                width : 80
+            }, {
+                display : '[[#{user.username}]]',
+                name : 'user_username',
+                align : 'left',
+                width : 80
+            }, {
+                display : '[[#{user.mobile}]]',
+                name : 'user_mobile',
+                width : 100
+            },{
+                display : '[[#{userDoctor.hospital}]]',
+                name : 'hospital',
+                align : 'left',
+                width : 160
+            },{
+                display : '[[#{userDoctor.entryDate}]]',
+                name : 'entryDate',
+                width : 80
+            }, {
+                display : '[[#{userDoctor.age}]]',
+                name : 'age',
+                width : 60
+            },{
+                display : '[[#{userDoctor.level}]]',
+                name : 'level',
+                width : 100
+            }
+        ],
+        url : '/userDoctor/list',
+        root : "content",
+        record : "totalElements",
+        pagesizeParmName : "totalPages",
+        pageParmName : "currentPage",
+        method : 'get',
+        checkbox : true,
+        rownumbers : true
+    });
+
+
+    maingrid.setHeight(document.documentElement.clientHeight - $("#searchform").height() - 18);
+});
+
+function f_search() {
+    loadGridData(maingrid, "searchform");
+}
+
+function f_reload() {
+    maingrid.loadData(true);
+}
+
+function f_select() {
+    return maingrid.getSelectedRow();
+}
+/*]]>*/</script>
+</html>

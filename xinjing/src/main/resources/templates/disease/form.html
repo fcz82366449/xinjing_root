@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layout">
+
+<div layout:fragment="body">
+    <form id="config-form" method="post" th:action="@{/disease/form}" th:object="${disease}" liger="{type : 'ligerForm'}">
+        <input type="hidden" name="id" th:field="*{id}"/>
+        <input type="hidden" name="pid" th:field="*{pid}"/>
+        <table class="l-table-form">
+            <tr>
+                <th th:text="#{disease.sort}"></th>
+                <td><input type="text" ltype="text" th:placeholder="#{disease.sort}" th:field="*{sort}" validate="{required:true}"/></td>
+            </tr>
+            <tr>
+                <th th:text="#{disease.name}"></th>
+                <td><input type="text" ltype="text" th:placeholder="#{disease.name}" th:field="*{name}" validate="{required:true}"/></td>
+            </tr>
+            <tr>
+                <th th:text="#{disease.helpCode}"></th>
+                <td><input type="text" ltype="text" th:placeholder="#{disease.helpCode}" th:field="*{helpCode}" validate="{required:true}"/></td>
+            </tr>
+            <tr>
+                <th th:text="疗法"></th>
+                <td>
+                    <input type="text" id="therapy_click" th:placeholder="疗法"  th:value="${therapyNames}" class="liger-popupedit l-text-field" onbuttonclick="therapy_click" data-width="400" validate="{required:true}"/>
+                    <input type="hidden" id="therapyIds" name="therapyIds" th:value="${therapyIds}"/>
+                </td>
+            </tr>
+            <tr>
+                <th th:text="#{disease.description}"></th>
+                <td colspan="3"><textarea th:field="*{description}" validate="{required:true}"></textarea></td>
+            </tr>
+            <tr>
+                <th th:text="#{disease.remark}"></th>
+                <td><textarea cols="65" rows="4" th:placeholder="#{disease.remark}" th:field="*{remark}" /></td>
+            </tr>
+            <tr>
+                <th th:text="#{disease.status}"></th>
+                <td>
+                    <input type="text" ltype="text" th:placeholder="#{disease.status}" liger="{type:'comboBox',valueFieldID:'status',configCode:'DISEASE_STATUS_ENUM'}" validate="{required:true}"/>
+                    <input type="hidden" th:field="*{status}"/>
+                </td>
+            </tr>
+        </table>
+    </form>
+
+    <script type="text/javascript" charset="utf-8" src="/js/ueditor/ueditor.config.js"></script>
+    <script type="text/javascript" charset="utf-8" src="/js/ueditor/ueditor.all.min.js"> </script>
+    <script type="text/javascript" charset="utf-8" src="/js/ueditor/lang/zh-cn/zh-cn.js"></script>
+</div>
+
+<script type="text/javascript" layout:fragment="script">/*<![CDATA[*/
+var $form;
+$(function() {
+
+    uc = newEditor('description', {
+        initialFrameWidth : 600
+    });
+});
+function therapy_click() {
+    return openSelect({
+        title : '疗法选择',
+        url : '/therapy/select?therapyIds=[[${therapyIds}]]',
+        height: 460,
+        callback : function(item, dialog) {
+            var fn = dialog.frame.f_select || disalog.frame.window.f_memberselect;
+            var data = fn();
+            if (!data || data.selectIds == '') {
+                top.$.ligerDialog.error('请选择疗法!');
+                return;
+            }
+            $("#therapyIds").val(data.selectIds);
+            $("#therapy_click").val(data.selectNames);
+            dialog.close();
+        }
+    });
+}
+/*]]>*/</script>
+
+</html>

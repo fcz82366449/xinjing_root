@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layout">
+
+<div layout:fragment="body">
+    <form id="config-form" enctype="multipart/form-data" method="post" th:action="@{/content/form}" th:object="${content}" liger="{type : 'ligerForm'}">
+        <input type="hidden" th:field="*{id}"/>
+        <input type="hidden" th:field="*{status}"/>
+        <input type="hidden" th:field="*{coverPic}"/>
+        <input type="hidden" th:field="*{clicks}"/>
+        <input type="hidden" ltype="text" th:placeholder="#{content.videoupdateAt}" th:field="*{videoupdateAt}" hidden="hidden"/>
+        <!--<input type="hidden" th:field="*{duration}"/>-->
+        <input type="hidden" id="contentUrl" name= "contentUrl" th:value="${contentUrl}"/>
+        <!--视频内容-->
+        <input type="hidden" name="contentVideo.id" th:value="${contentVideo.id}"/>
+        <input type="hidden" name="contentVideo.content" th:value="${contentVideo.content}"/>
+        <!--音频内容-->
+        <input type="hidden" name="contentAudio.id" th:value="${contentAudio.id}"/>
+        <input type="hidden" name="contentAudio.content" th:value="${contentAudio.content}"/>
+        <!--图片内容-->
+        <input type="hidden" name="contentPic.id" th:value="${contentPic.id}"/>
+        <input type="hidden" name="contentPic.content" th:value="${contentPic.content}"/>
+        <!--图片内容-->
+        <input type="hidden" name="contentPic.id" th:value="${contentPic.id}"/>
+        <input type="hidden" name="contentPic.content" th:value="${contentPic.content}"/>
+        <!--套餐内容-->
+        <input type="hidden" name="contentComboBean.contentId" th:value="${contentComboBean.contentId}"/>
+
+
+        <table class="l-table-form">
+            <colgroup>
+                <col width="15%">
+                <col width="35%">
+                <col width="15%">
+                <col width="35%">
+            </colgroup>
+            <tr>
+                <th th:text="#{content.helpCode}"></th>
+                <td><input type="text" ltype="text" th:placeholder="#{content.helpCode}" th:field="*{helpCode}" validate="{required:true}"/></td>
+                <th th:text="#{content.name}"></th>
+                <td><input type="text" ltype="text" th:placeholder="#{content.name}" th:field="*{name}" validate="{required:true}"/></td>
+            </tr>
+            <tr>
+                <th th:text="疗法"></th>
+                <td>
+                    <input type="text" id="therapy_click" th:placeholder="疗法" th:value="${therapyNames}" class="liger-popupedit l-text-field" onbuttonclick="therapy_click" data-width="280" validate="{required:true}"/>
+                    <input type="hidden" id="therapyIds" name="therapyIds"/>
+                </td>
+                <th th:text="病种"></th>
+                <td>
+                    <input type="text" id="disease_click" th:placeholder="病种"  th:value="${diseaseNames}" class="liger-popupedit l-text-field" onbuttonclick="disease_click" data-width="250" />
+                    <input type="hidden" id="diseaseIds" name="diseaseIds" th:value="${diseaseIds}" />
+                </td>
+
+            </tr>
+
+            <tr>
+
+                <th th:text="其他病种"></th>
+                <td>
+                    <input type="text" ltype="text" th:placeholder="其它病种" th:field="*{otherdisease}" />
+                </td>
+            </tr>
+            <!--<tr>-->
+                <!--<th th:text="#{messageConfig.receivers}"></th>-->
+                <!--<td>-->
+                    <!--<input type="text" id="receivers_click" th:placeholder="#{messageConfig.receivers}" th:value="${receiverNames}" class="liger-popupedit l-text-field" onbuttonclick="receivers_click" data-width="178" validate="{required:true}"/>-->
+                    <!--<input type="hidden" th:field="*{receivers}"/>-->
+                <!--</td>-->
+            <!--</tr>-->
+            <tr>
+                <th th:text="#{content.isFree}"></th>
+                <td>
+                    <select th:placeholder="#{content.isFree}" id="isFree" th:field="*{isFree}" validate="{required:true}">
+                        <option th:each="entry : ${isFreeMap}" th:value="${entry.key}" th:text="${entry.value}"></option>
+                    </select>
+                </td>
+                <th th:text="#{content.price}"></th>
+                <td><input type="text" ltype="text" th:placeholder="#{content.price}" th:field="*{price}" validate="{required:true}"/></td>
+            </tr>
+            <tr>
+                <th th:text="#{content.type}"></th>
+                <td colspan="3" th:if="${content.id != null}" th:text="${content.type}" liger="{type:'config',configCode:'CONTENT_TYPE_ENUM'}" ></td>
+                <input th:if="${content.id != null}" type="hidden" th:field="*{type}"/>
+                <td colspan="3" th:if="${content.id == null}">
+                    <select th:placeholder="#{content.type}" id="contentTypeSel" th:field="*{type}">
+                        <option th:each="entry : ${contentTypeMap}" th:value="${entry.key}" th:text="${entry.value}"></option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th th:text="#{content.coverPic}"></th>
+                <td colspan="3">
+                    <input type="file" ltype="text" th:placeholder="上传封面文件" id="coverPicFile" name="coverPicFile" th:value="*{coverPic}"/>
+                </td>
+            </tr>
+            <tr th:if="${content.id != null}">
+                <th th:text="封面预览"></th>
+                <td colspan="3">
+                    <img id="coverPicImg" th:src="${coverPicUrl}" height="100"></img>
+                </td>
+            </tr>
+
+            <tr>
+                <th th:text="#{content.description}"></th>
+                <td colspan="3"><textarea th:field="*{description}" validate="{required:true}"></textarea></td>
+            </tr>
+
+            <tr class="contentType_1 contentType_2 contentType_3 contentType_6 hiddenDiv" style="display: none;">
+                <th th:text="内容文件"></th>
+                <td>
+                    <h4>您所选择的文件列表：</h4>
+                    <div id="ossfile">你的浏览器不支持flash,Silverlight或者HTML5！</div>
+
+                    <br/>
+                    <div id="container">
+                        <a id="selectfiles" href="javascript:void(0);" class='btn'>选择文件</a>
+                        <a id="postImgFiles" href="javascript:void(0);" class='btn postFiles' th:if="${content.type == 3 }">开始上传</a>
+                        <a id="postVodFiles" href="javascript:void(0);" class='btn postFiles' th:if="${content.type == 1 || content.type == 2 || content.type == 6}">开始上传</a>
+                    </div>
+                    <pre id="console"></pre>
+                </td>
+            </tr>
+            <tr class="contentType_1 contentType_2 contentType_6 contentType_7 hiddenDiv" style="display: none;">
+                <th th:text="时长"></th>
+                <td>
+                    <input type="text" ltype="text"  th:placeholder="#{content.duration}" th:field="*{duration}" validate="{required:true}"/></td>
+                </td>
+            </tr>
+            <tr class="contentType_1 contentType_2 contentType_6 contentType_7 hiddenDiv" style="display: none;">
+                <th th:text="视频数字密钥"></th>
+                <td>
+                    <input type="text" ltype="text"  th:placeholder="只能填写数字" th:name="videopassword" th:value="${contentVideo.videopassword}" validate="{required:true}"/></td>
+                </td>
+            </tr>
+
+            <tr class="contentType_1 hiddenDiv preview" style="display: none;">
+                <th th:text="视频播放"></th>
+                <td colspan="3">
+                    <video th:src="${vodUrl}" height="260" width="480" controls="controls"></video>
+                </td>
+            </tr>
+            <tr class="contentType_2 hiddenDiv preview" style="display: none;">
+                <th th:text="音频播放"></th>
+                <td colspan="3">
+                    <audio id="contentVideo" th:src="${vodUrl}" height="260" controls="controls"></audio>
+                </td>
+            </tr>
+            <tr class="contentType_3 hiddenDiv preview" style="display: none;">
+                <th th:text="图片预览"></th>
+                <td colspan="3">
+                    <img th:each="pic : ${picList}" th:src="${pic}" height="100"></img>
+                </td>
+            </tr>
+            <tr class="contentType_4 hiddenDiv" style="display: none;">
+                <th th:text="文章"></th>
+                <td colspan="3">
+                    <input type="hidden" name="contentArticle.id" th:value="${contentArticle.id}"/>
+                    <textarea name="contentArticle.content" id="contentArticle_content" th:text="${contentArticle.content}"></textarea>
+                </td>
+            </tr>
+            <!--<tr id="contentType_5" class="hiddenDiv" style="display: none;">-->
+                <!--<th th:text="电子表格"></th>-->
+                <!--<td colspan="3">-->
+                    <!--<input type="file" ltype="text" th:placeholder="上传电子表格" id="articleFile" name="contentVideo.videoFile" th:value="${contentArticle.content}"/>-->
+                <!--</td>-->
+            <!--</tr>-->
+            <tr class="contentType_6 hiddenDiv" style="display: none;">
+                <th th:text="#{contentGame.content}"></th>
+                <td colspan="3">
+                    <input type="hidden" name="contentGame.id" th:value="${contentGame.id}"/>
+                    <input ltype="text" th:placeholder="#{contentGame.content}" name="contentGame.content" th:value="${contentGame.content}" readonly="readonly" />
+                </td>
+            </tr>
+            <tr class="contentType_7 hiddenDiv" style="display: none;">
+                <th th:text="#{contentOutsideGame.content}"></th>
+                <td colspan="3">
+                    <input type="hidden" name="contentOutsideGame.id" th:value="${contentOutsideGame.id}"/>
+                    <input ltype="text" th:placeholder="#{contentOutsideGame.content}" name="contentOutsideGame.content" id="contentOutsideGame_content" th:value="${contentOutsideGame.content}" />
+                </td>
+            </tr>
+            <tr class="contentType_11 hiddenDiv" style="display: none;">
+                <th th:text="套餐内容"></th>
+                <td>
+                    <input type="text" th:placeholder="套餐内容" class="liger-popupedit l-text-field"  data-width="280" id="reContentNames" th:value="${contentComboBean.reContentNames}" onbuttonclick="f_content_buttonclick" />
+                    <input type="hidden" id="reContentIds" name="contentComboBean.reContentIds" th:value="${contentComboBean.reContentIds}"/>
+                </td>
+                <th th:text="套餐总额"></th>
+                <td>
+                    <input type="text" ltype="text" th:placeholder="套餐总额" id="totalPrice" name="contentComboBean.totalPrice" th:value="${contentComboBean.totalPrice}" readonly="true"/>
+                </td>
+            </tr>
+            <tr>
+                <th th:text="#{therapy.remark}"></th>
+                <td colspan="3">
+                    <textarea cols="120" rows="6" th:placeholder="#{content.remark}" th:field="*{remark}" />
+                </td>
+            </tr>
+        </table>
+    </form>
+    <script type="text/javascript" charset="utf-8" src="/js/ueditor/ueditor.config.js"></script>
+    <script type="text/javascript" charset="utf-8" src="/js/ueditor/ueditor.all.min.js"> </script>
+    <script type="text/javascript" charset="utf-8" src="/js/ueditor/lang/zh-cn/zh-cn.js"></script>
+    <script type="text/javascript" src="/js/plupload/js/plupload.full.min.js"></script>
+    <script type="text/javascript" src="/js/upload/upload.js"></script>
+</div>
+
+<script type="text/javascript" layout:fragment="script" th:inline="text">/*<![CDATA[*/
+var $form;
+var uc;
+var us;
+$(function () {
+    $form = $("#config-form");
+
+    $(".contentType_[[${content.type}]]").show();
+    if ("[[${content.id}]]" == "") {
+        $("tr[class='contentType_[[${content.type}]] hiddenDiv preview']").hide();
+    }
+
+    if("[[${content.isFree}]]" == 1) {
+        $("#price").val(0);
+        $("#price").attr("readonly", "true");
+    }
+
+    uc = UE.getEditor('contentArticle_content', {
+        textarea: 'contentArticle.content',
+        initialFrameWidth: 600
+    });
+
+    $("#contentTypeSel").change(function () {
+        $("#contentUrl").val("");
+        $(".hiddenDiv").hide();
+        $(".contentType_" + $(this).val()).show();
+        $("tr[class='contentType_" + $(this).val() + " hiddenDiv preview']").hide();
+        if($(this).val()=='3'){
+            $(".postFiles").attr("id","postImgFiles");
+            set_upload_param(uploader, '', false, "IMG");
+        }
+        else if($(this).val()=='11'){
+            $("#reContentNames").attr("validate","{required:true}");
+        }
+        else{
+            $("#reContentNames").removeAttr("validate");
+            $(".postFiles").attr("id","postVodFiles");
+            set_upload_param(uploader, '', false, "VOD");
+        }
+    });
+
+    $("#isFree").change(function () {
+        if ($(this).val() == 1) {
+            $("#price").val(0);
+            $("#price").attr("readonly", "true");
+        } else {
+            $("#price").removeAttr("readonly")
+        }
+    });
+
+    uc = newEditor('description', {
+        initialFrameWidth : 600
+    });
+});
+
+function therapy_click() {
+    return openSelect({
+        title : '疗法选择',
+        url : '/therapy/select?therapyIds=[[${therapyIds}]]',
+        height: 460,
+        callback : function(item, dialog) {
+            var fn = dialog.frame.f_select || disalog.frame.window.f_memberselect;
+            var data = fn();
+            if (!data || data.selectIds == '') {
+                top.$.ligerDialog.error('请选择疗法!');
+                return;
+            }
+            $("#therapyIds").val(data.selectIds);
+            $("#therapy_click").val(data.selectNames);
+            dialog.close();
+        }
+    });
+}
+
+function disease_click() {
+    return openSelect({
+        title : '病种选择',
+        url : '/disease/select?diseaseIds=[[${diseaseIds}]]',
+        height: 460,
+        callback : function(item, dialog) {
+            var fn = dialog.frame.f_select || disalog.frame.window.f_memberselect;
+            var data = fn();
+            if (!data || data.selectIds == '') {
+                $("#diseaseIds").val('');
+                $("#disease_click").val('');
+                dialog.close();
+                return;
+            }
+            $("#diseaseIds").val(data.selectIds);
+            $("#disease_click").val(data.selectNames);
+            dialog.close();
+        }
+    });
+}
+
+function f_save() {
+    if($("#coverPicFile").val() == "" && '[[${content.coverPic}]]' == ""){
+        top.$.ligerDialog.warn('请上传封面');
+        return ;
+    }
+    if ($form.valid()) {
+        return $form;
+    }
+}
+//图片上传的回调函数,方便处理一些事物
+function uploadCallback(fileName){
+    var contentUrl = $("#contentUrl").val();
+    var type = typeof($("#contentTypeSel").val()) == "undefined" ? [[${content.type}]] : $("#contentTypeSel").val();
+    if(type == 3){
+        if (contentUrl != "") {
+            contentUrl += "," + fileName;
+        }else{
+            contentUrl +=  fileName;
+        }
+    }else{
+        contentUrl = fileName;
+    }
+    $("#contentUrl").val(contentUrl);
+}
+
+function f_content_buttonclick(){
+    return openSelect({
+        title : '内容选择',
+        url : '/content/select?selectIds=' + $("#reContentIds").val(),
+        callback : function(item, dialog) {
+            var fn = dialog.frame.f_select || dialog.frame.window.f_select;
+            var data = fn();
+            if (!data) {
+                top.$.ligerDialog.error('请选择内容!');
+                return;
+            }
+            $("#reContentNames").val(data.selectNames);
+            $("#reContentIds").val(data.selectIds);
+            $("#totalPrice").val(data.totalPrice);
+            dialog.close();
+        }
+    });
+}
+/*]]>*/</script>
+
+</html>

@@ -1,0 +1,2 @@
+INSERT INTO `pb_config` VALUES ('b0000110001100000110000000000001', 'DOCTOR_GENDERSTATUS_ENUM', '医生性别', '5', '4', '7', '1:男\r\n2:女\r\n3:保密', null, '医生性别枚举',null, null, null,null);
+INSERT INTO `pb_config` VALUES ('b0000220002200000220000000000001', 'DOCTOR_WORKTYPE_ENUM', '场所类型', '5', '4', '7', '1:医院\r\n2:门诊', null, '场所类型枚举',null, null, null,null);

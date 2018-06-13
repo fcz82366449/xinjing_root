@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layout">
+
+<div layout:fragment="body">
+    <form id="contentDp-form" method="post" th:action="@{/contentDp/form}" th:object="${contentDp}" liger="{type : 'ligerForm'}">
+        <input type="hidden" id="id" th:field="*{id}"/>
+        <table class="l-table-form">
+            <tr>
+                <th th:text="#{contentDp.code}"></th>
+                <td><input type="text" ltype="text" th:placeholder="#{contentDp.code}" th:field="*{code}" validate="{required:true}"/></td>
+            </tr>
+            <tr>
+                <th th:text="#{contentDp.name}"></th>
+                <td><input type="text" ltype="text" th:placeholder="#{contentDp.name}" th:field="*{name}" validate="{required:true}"/></td>
+            </tr>
+            <tr>
+                <th th:text="#{contentDp.status}"></th>
+                <td><input type="text" ltype="text" th:placeholder="#{contentDp.status}" th:field="*{status}" validate="{required:true}"/></td>
+            </tr>
+            <tr>
+                <th th:text="#{contentDp.remark}"></th>
+                <td><textarea cols="60" rows="4" th:placeholder="#{contentDp.remark}" th:field="*{remark}" />
+                    </td>
+            </tr>
+
+            <tr>
+                <th th:text="内容"></th>
+                <td>
+                    <input type="text" id="contentNames" th:placeholder="内容" th:value="${contentNames}" class="liger-popupedit l-text-field" onbuttonclick="content_click" data-width="280" validate="{required:true}"/>
+                    <input type="hidden" id="contentId" name="contentId" th:value="${contentId}" />
+                </td>
+            </tr>
+        </table>
+        <!--<div id="toptoolbar"></div>-->
+        <div id="maingrid_h" style="height: 50%">
+            <h3>已分配场景列表</h3>
+            <table class="l-table-grid" id="contentlist">
+                <tr>
+                    <th>场景名称</th>
+                    <th style="width: 120px;">创建时间</th>
+                    <th style="width: 120px;">修改时间</th>
+                </tr>
+                <tr th:each="contentHospitals : ${contentHospitals}">
+                    <td style="text-align: center;" th:text="${contentHospitals.contentName}"></td>
+                    <td style="text-align: center;" th:text="${#dates.format(contentHospitals.createdAt, 'yyyy-MM-dd HH:mm')}"></td>
+                    <td style="text-align: center;" th:text="${#dates.format(contentHospitals.updatedAt, 'yyyy-MM-dd HH:mm')}"></td>
+                </tr>
+            </table>
+
+        </div>
+
+
+    </form>
+
+    <script type="text/javascript" charset="utf-8" src="/js/ueditor/ueditor.config.js"></script>
+    <script type="text/javascript" charset="utf-8" src="/js/ueditor/ueditor.all.min.js"> </script>
+    <script type="text/javascript" charset="utf-8" src="/js/ueditor/lang/zh-cn/zh-cn.js"></script>
+</div>
+
+<script type="text/javascript" layout:fragment="script">/*<![CDATA[*/
+var $form;
+$(function() {
+
+    uc = newEditor('description', {
+        initialFrameWidth : 600
+    });
+
+    $("#toptoolbar").ligerToolBar({
+        items : [ {
+            text : '增加',
+            click : addClick,
+            icon : 'add'
+        }, {
+            text : '修改',
+            click : modifyClick,
+            icon : 'modify'
+        } ]
+    });
+});
+
+function content_click() {
+    return openSelect({
+        title : '内容选择',
+        url : '/content/doctorPanSelect?selectIds=[[${contentId}]]',
+        height: 460,
+        callback : function(item, dialog) {
+            var fn = dialog.frame.f_select || disalog.frame.window.f_memberselect;
+            var data = fn();
+            if (!data || data.selectIds == '') {
+                top.$.ligerDialog.error('请选择疗法!');
+                return;
+            }
+            $("#contentId").val(data.selectIds);
+            $("#contentNames").val(data.selectNames);
+
+            var arr = data.selectNames+'';
+            var s = arr.split(",");// 在每个逗号(,)处进行分解。
+            var contentlisthtml = '<table class="l-table-grid" id="contentlist"><tr><th>场景名称</th><th style="width: 120px;">创建时间</th><th style="width: 120px;">修改时间</th></tr>';
+            for (var i = 0; i < s.length; i++) {
+                contentlisthtml+='' +
+                        '' +
+                        '<tr> <td style="text-align: center;"  >"'+s[i]+'"' +
+                        '</td><td style="text-align: center;" th:text="">' +
+                        '</td><td style="text-align: center;" th:text=""></td></tr>'
+            }
+            contentlisthtml+='</table>'
+            $("#contentlist").html(contentlisthtml);
+            dialog.close();
+        }
+    });
+}
+
+
+function addClick(item) {
+    openForm({url : '/contentDp/form',title : '新增'})
+}
+
+function modifyClick(item) {
+    isSingleSelected(maingrid_h, function(row) {
+        openForm({
+            url : '/contentDp/form?id=' + row['id'],
+            title : '编辑'
+        });
+    });
+}
+
+/*]]>*/</script>
+
+</html>

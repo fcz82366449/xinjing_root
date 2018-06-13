@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layout">
+
+<div layout:fragment="body">
+    <form id="config-form" method="post" th:action="@{/appVersion/form}" th:object="${appVersion}" liger="{type : 'ligerForm'}">
+        <input type="hidden" th:field="*{id}"/>
+        <table class="l-table-form">
+            <tr>
+                <th th:text="#{appVersion.appCode}"></th>
+                <td>
+                    <input type="text" ltype="text" th:placeholder="#{appVersion.appCode}" liger="{type:'comboBox',valueFieldID:'appCode',configCode:'APP_CLIENT_ENUM'}" validate="{required:true}"/>
+                    <input type="hidden" th:field="*{appCode}"/>
+                </td>
+            </tr>
+            <tr>
+                <th th:text="#{appVersion.downloadUrl}"></th>
+                <td><input type="text" ltype="text" th:placeholder="#{appVersion.downloadUrl}" th:field="*{downloadUrl}" validate="{required:true}"/></td>
+            </tr>
+            <tr>
+                <th th:text="#{appVersion.versionCode}"></th>
+                <td><input type="text" ltype="text" th:placeholder="#{appVersion.versionCode}" th:field="*{versionCode}" validate="{required:true}"/></td>
+            </tr>
+            <tr>
+                <th th:text="#{appVersion.versionDesc}"></th>
+                <td><input type="text" ltype="text" th:placeholder="#{appVersion.versionDesc}" th:field="*{versionDesc}" validate="{required:true}"/></td>
+            </tr>
+            <tr>
+                <th th:text="#{appVersion.versionName}"></th>
+                <td><input type="text" ltype="text" th:placeholder="#{appVersion.versionName}" th:field="*{versionName}" validate="{required:true}"/></td>
+            </tr>
+            <tr>
+                <th th:text="#{appVersion.versionSize}"></th>
+                <td><input type="text" ltype="text" th:placeholder="#{appVersion.versionSize}" th:field="*{versionSize}" validate="{required:true}"/></td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+<script type="text/javascript" layout:fragment="script">/*<![CDATA[*/
+var $form;
+$(function() {
+
+});
+/*]]>*/</script>
+
+</html>

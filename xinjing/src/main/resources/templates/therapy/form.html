@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layout">
+
+<div layout:fragment="body">
+    <form id="config-form" method="post" th:action="@{/therapy/form}" th:object="${therapy}" liger="{type : 'ligerForm'}">
+        <input type="hidden" name="id" th:field="*{id}"/>
+        <input type="hidden" name="pid" th:field="*{pid}"/>
+        <table class="l-table-form">
+            <tr>
+                <th th:text="#{therapy.sort}"></th>
+                <td><input type="text" ltype="text" th:placeholder="#{therapy.sort}" th:field="*{sort}" validate="{required:true}"/></td>
+            </tr>
+            <tr>
+                <th th:text="#{therapy.name}"></th>
+                <td><input type="text" ltype="text" th:placeholder="#{therapy.name}" th:field="*{name}" validate="{required:true}"/></td>
+            </tr>
+            <tr>
+                <th th:text="#{therapy.helpCode}"></th>
+                <td><input type="text" ltype="text" th:placeholder="#{therapy.helpCode}" th:field="*{helpCode}" validate="{required:true}"/></td>
+            </tr>
+            <tr>
+                <th th:text="#{therapy.description}"></th>
+                <td colspan="3"><textarea th:field="*{description}" validate="{required:true}"></textarea></td>
+            </tr>
+            <tr>
+                <th th:text="#{therapy.remark}"></th>
+                <td><textarea cols="60" rows="4" th:placeholder="#{therapy.remark}" th:field="*{remark}" /></td>
+            </tr>
+            <tr>
+                <th th:text="#{therapy.status}"></th>
+                <td><input type="text" ltype="text" th:placeholder="#{therapy.status}" liger="{type:'comboBox',valueFieldID:'status',configCode:'THERAPY_STATUS_ENUM'}" validate="{required:true}"/>
+                    <input type="hidden" th:field="*{status}"/>
+                </td>
+            </tr>
+        </table>
+    </form>
+
+    <script type="text/javascript" charset="utf-8" src="/js/ueditor/ueditor.config.js"></script>
+    <script type="text/javascript" charset="utf-8" src="/js/ueditor/ueditor.all.min.js"> </script>
+    <script type="text/javascript" charset="utf-8" src="/js/ueditor/lang/zh-cn/zh-cn.js"></script>
+</div>
+
+<script type="text/javascript" layout:fragment="script">/*<![CDATA[*/
+var $form;
+$(function() {
+
+    uc = newEditor('description', {
+        initialFrameWidth : 600
+    });
+
+});
+/*]]>*/</script>
+
+</html>

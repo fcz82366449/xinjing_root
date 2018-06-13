@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="h5/layout">
+<head>
+    <title>注册协议</title>
+    <style>
+
+    </style>
+</head>
+
+<div layout:fragment="body" style="background: white;">
+
+
+
+    <article class="weui-article ">
+        <section>
+            <p th:utext="${#strings.isEmpty(article.content)} ? '暂无内容' :  ${article.content}">
+            </p>
+        </section>
+    </article>
+
+</div>
+
+<script type="text/javascript" layout:fragment="script">/*<![CDATA[*/
+$(function() {
+
+});
+/*]]>*/</script>
+
+</html>

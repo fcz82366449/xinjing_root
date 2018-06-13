@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layout">
+
+<div layout:fragment="body">
+    <div id="toptoolbar"></div>
+    <div id="searchformDiv">
+        <form id='searchform' class="l-search-form">
+            <table>
+                <tr>
+                    <td>
+                        <input type="text" class="l-text" id="search_LIKE_orderNo" name="search_LIKE_orderNo" th:placeholder="#{order.orderNo}" />
+                    </td>
+                    <td>
+                        <input type="text" class="l-text" id="search_LIKE_outTradeNo" name="search_LIKE_outTradeNo" th:placeholder="#{order.outTradeNo}" />
+                    </td>
+                    <td>
+                        <input type="text" class="l-text" id="search__EQ_status" name="search__EQ_status" th:placeholder="#{order.status}" liger="{type:'comboBox',valueFieldID:'search_EQ_status',configCode:'ORDER_STATUS_ENUM'}"/>
+                    </td>
+                    <td>
+                        <input type="reset" class="l-reset" th:value="#{reset}" />
+                        <input type="button" class="l-search" th:value="#{search}" onclick="f_search();" />
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+    <div id="maingrid"></div>
+</div>
+
+<!-- page specific plugin scripts -->
+<script type="text/javascript" layout:fragment="script">/*<![CDATA[*/
+var maingrid;
+$(function() {
+    maingrid = newGrid("maingrid", {
+        columns : [
+            {
+                display : '[[#{order.objectId}]]',
+                name : 'objectId',
+                align : 'left',
+                width : 160
+            },{
+                display : '[[#{order.objectType}]]',
+                name : 'objectType',
+                align : 'left',
+                width : 160
+            },{
+                display : '[[#{order.outTradeNo}]]',
+                name : 'outTradeNo',
+                align : 'left',
+                width : 200
+            },{
+                display : '[[#{order.paidAt}]]',
+                name : 'paidAt',
+                align : 'left',
+                width : 120
+            },{
+                display : '[[#{order.status}]]',
+                name : 'status',
+                align : 'left',
+                width : 100
+            },{
+                display : '[[#{order.amount}]]',
+                name : 'payAmount',
+                align : 'right',
+                width : 120
+            },],
+        url : '/order/list'
+    });
+
+    $("#toptoolbar").ligerToolBar({
+        items : [ {
+            text : '增加',
+            click : addClick,
+            icon : 'add'
+        }, {
+            text : '修改',
+            click : modifyClick,
+            icon : 'modify'
+        }, {
+            text : '删除',
+            click : deleteClick,
+            icon : 'delete'
+        } ]
+    });
+
+    maingrid.setHeight(document.documentElement.clientHeight - $("#toptoolbar").height() -  $("#searchform").height() - 18);
+});
+
+function addClick(item) {
+    openForm({url : '/order/form',title : '新增'})
+}
+
+function modifyClick(item) {
+    isSingleSelected(maingrid, function(row) {
+        openForm({
+            url : '/order/form?id=' + row['id'],
+            title : '编辑'
+        });
+    });
+}
+
+function deleteClick(item) {
+    isSingleSelected(maingrid, function(row) {
+        top.$.ligerDialog.confirm('确定要删除', function(yes) {
+            if (yes) {
+                ajaxDo('/order/delete?id=' + row['id']);
+            }
+        });
+    });
+}
+
+function f_search() {
+    loadGridData(maingrid, "searchform");
+}
+
+function f_reload() {
+    maingrid.loadData(true);
+}
+/*]]>*/</script>
+</html>

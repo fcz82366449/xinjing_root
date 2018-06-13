@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layout">
+
+<div layout:fragment="body">
+    <div class="l-form">
+        <table class="l-table-form">
+                        <tr>
+                    <th th:text="#{doctorPatientcase.doctorId}"></th>
+                    <td th:text="${doctorPatientcase.doctorId}"></td>
+                </tr>
+                <tr>
+                    <th th:text="#{doctorPatientcase.prescriptioncaseId}"></th>
+                    <td th:text="${doctorPatientcase.prescriptioncaseId}"></td>
+                </tr>
+                <tr>
+                    <th th:text="#{doctorPatientcase.remark}"></th>
+                    <td th:text="${doctorPatientcase.remark}"></td>
+                </tr>
+        </table>
+    </div>
+</div>
+
+<script type="text/javascript" layout:fragment="script">/*<![CDATA[*/
+$(function() {
+
+});
+/*]]>*/</script>
+
+</html>

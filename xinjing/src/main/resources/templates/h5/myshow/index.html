@@ -1,0 +1,782 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>我的场景</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <link rel="stylesheet" href="/m/weuiplus/style/weui.css"/>
+    <link rel="stylesheet" href="/m/weuiplus/style/weui2.css"/>
+    <link rel="stylesheet" href="/m/weuiplus/style/weui3.css"/>
+    <script src="/m/weuiplus/zepto.min.js"></script>
+    <script src="/m/weuiplus/updown.js"></script>
+    <script src="/m/weuiplus/lazyimg.js"></script>
+    <style>
+        .button {
+            display: block;
+            width: 240px; line-height: 30px;
+            margin: 20px auto;
+            background-color: #cd0000;
+            color: #fff;
+            text-align: center;
+        }
+        .button:hover {
+            text-decoration: none;
+        }
+        .aside,
+        .aside-overlay {
+            position: fixed;
+            top: 0; right: 0; bottom: 0; left: 0;
+        }
+        .aside {
+            -webkit-transition: visibility .25s;
+            transition: visibility .25s;
+            z-index: 3;
+            visibility: hidden;
+            overflow: hidden;
+        }
+        .aside.active {
+            -webkit-transition: none;
+            transition: none;
+            visibility: visible;
+        }
+        .aside-overlay {
+            background-color: black;
+            opacity: 0;
+            -webkit-transition: opacity .25s;
+            transition: opacity .25s;
+        }
+        .active > .aside-overlay {
+            opacity: .6;
+        }
+        .aside .module-footer {
+            position: absolute;
+            left: 0; right: 0; bottom: 0;
+        }
+        .aside .module-footer .btn-primary:only-child {
+            margin-bottom: 12px;
+        }
+        .aside .module-header {
+            position: absolute;
+            left: 0; right: 0; top: 0;
+        }
+        .aside .module-history {
+            margin: 0;
+            position: absolute;
+            left: 0; top: 0; bottom: 0; right: 0;
+        }
+        .aside .module-main {
+            position: absolute;
+            left: 0; right: 0;
+            top: 44px; bottom: 92px;
+            overflow: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+        .aside .scrollable {
+            overflow: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+        .aside-content {
+            position: absolute;
+            bottom: 0; right: 0;
+            background-color: white;
+            -webkit-transition: transform .15s;
+            transition: transform .15s;
+            left: 0px; top: 44px;bottom:30%;
+            -webkit-transform: translateX(100%);
+            transform: translateX(100%);
+        }
+        .active > .aside-content {
+            -webkit-transform: translate(0%, 0%);
+            transform: translate(0%, 0%);
+        }
+        .module-header {
+            height: 28px;
+            border-top: 16px solid transparent;
+            padding: 0 1rem;
+        }
+        .module-header::after {
+            content: '';
+            display:table;
+            clear:both;
+        }
+        .module-header-l {
+            float: left;
+        }
+        .module-header-r {
+            float: right;
+            position: relative;
+            min-width: 4rem;
+        }
+        .module-title {
+            display: inline;
+            font-weight: normal;
+        }
+        .module-title::before {
+            content: '';
+            height: 1em; width: 10px;
+            display: inline-block;
+            box-sizing: border-box;
+            border-left: 2px solid #709aff;
+            color: transparent;
+            vertical-align: -.22ex;
+        }
+        .btn-tag {
+            display: inline-block;
+            line-height: 27px;
+            margin: 10px 10px 10px 0;
+            border: 1px solid;
+            border-radius: 99px;
+            padding: 0 10px;
+            font-size: 13px;
+            text-align: center;
+            line-height: 20px;
+            color: gray;
+        }
+        .btn-group {
+            display: table;
+            width: 100%;
+            table-layout: fixed;
+            margin-left: auto; margin-right: auto;
+        }
+        .btn-group-cell {
+            display: table-cell;
+            font-size: 100%;
+            font-weight: 400;
+        }
+        .btn-reset,
+        .btn-submit {
+            display: block;
+            text-align: center;
+            line-height: 44px;
+            color: white;
+            font-size: 16px;
+        }
+        .btn-reset {
+            background-color: gray;
+        }
+        .btn-submit {
+            background-color: #18B4ED;
+        }
+        aside a:hover {
+            text-decoration: none;
+        }
+
+        .noscroll,
+        .noscroll body {
+            overflow: hidden;
+        }
+        .noscroll body {
+            position: relative;
+        }
+    </style>
+
+</head>
+<body>
+<input  id="url" name= "url" th:value="${url}" hidden="hidden"/>
+<input  id="checkbox1" name= "checkbox1" th:value="${checkbox1}" hidden="hidden"/>
+<input  id="checkbox2" name= "checkbox2" th:value="${checkbox2}" hidden="hidden"/>
+<!--<div class="weui-header bg-blue" >
+    <div class="weui-header-left"> &lt;!&ndash;<a class="icon icon-109 f-white"></a> &ndash;&gt; </div>
+    <h1 class="weui-header-title" ><a id="ms4">催眠治疗</a></h1>
+</div>-->
+
+<div class="weui_tab" style="height:5%;"   id="tab4">
+    <div class="" style=" border-bottom: 0px solid #bcbab6;    display: flex;position: absolute;z-index: 500;top: 0;width: 100%;background-color: #fafafa;">
+        <div id="tbto1"  class="weui_navbar_item" style="   border-bottom: 1px solid #bcbab6;">
+            <a  href="javascript:" id="buttonWith"  >病症^</a>
+            <a  href="javascript:" id="buttonWith2"  hidden="hidden" >病症v</a>
+        </div>
+        <div class="weui_navbar_item" style="   border-bottom: 1px solid #bcbab6;">
+            <a  href="javascript:" id="buttonWithlf"  >疗法^</a>
+            <a  href="javascript:" id="buttonWithlf2"  hidden="hidden" >疗法v</a>
+
+        </div>
+    </div>
+
+</div>
+
+<div id="contents" class="weui_panel weui_panel_access"  style="top: 16px;">
+
+
+    <div class="weui_panel_bd" >
+
+    </div>
+</div>
+
+<aside id="aside" class="aside" >
+    <i class="aside-overlay hideAside" ></i>
+    <div class="aside-content" >
+        <form th:action="@{/h5/myshow/filterContent}" method="post" id="from_submit">
+            <div class="module module-filter-list" id="delabel">
+                <!--<div class="module-header">
+                    <h3 class="module-title">病症筛选</h3>
+                </div>
+                <div class="module-main scrollable">
+                    <div class="weui_cells weui_cells_checkbox" id="delabel">
+
+                    </div>
+                </div>
+                <div class="module-footer">
+                    <nav class="btn-group">
+                        <div class="btn-group-cell"><a href="javascript:" class="btn-reset hideAside">重置</a></div>
+                        <div class="btn-group-cell"><a href="javascript:"  id= "ok" class="hideAside">完成</a></div>
+                    </nav>
+                </div>-->
+            </div>
+        </form>
+    </div>
+</aside>
+
+<aside id="aside2" class="aside" >
+    <i class="aside-overlay hideAside" ></i>
+    <div class="aside-content"  >
+        <form th:action="@{/h5/myshow/filterContent}" method="post" id="from_submit">
+            <div class="module module-filter-list" id="delabel2">
+
+                <!-- <div class="module-header">
+                     <h3 class="module-title">疗法筛选</h3>
+                 </div>
+                 <div class="module-main scrollable">
+                     <div class="weui_cells weui_cells_checkbox" >
+
+                     </div>
+                 </div>
+                 <div class="module-footer">
+                     <nav class="btn-group">
+                         <div class="btn-group-cell"><a href="javascript:" class="btn-reset hideAside">重置</a></div>
+                         <div class="btn-group-cell"><a href="javascript:" onclick="ok()"  id= "ok" class="hideAside">完成</a></div>
+                     </nav>
+                 </div>-->
+
+            </div>
+        </form>
+    </div>
+</aside>
+<script src="/m/weuiplus/zepto.min.js"></script>
+<script>
+
+    function resetbz() {
+        var checkbox1=document.getElementsByName('checkbox1'); //病症
+        for(var i=0; i<checkbox1.length; i++){
+            checkbox1[i].checked = false;
+        }
+    }
+
+    function resetlf() {
+        var checkbox2=document.getElementsByName('checkbox2'); //疗法
+        for(var i=0; i<checkbox2.length; i++){
+            checkbox2[i].checked = false;
+        }
+    }
+
+    function ok() {
+        var checkbox1=document.getElementsByName('checkbox1'); //病症
+        var checkbox2=document.getElementsByName('checkbox2'); //疗法
+        var checkbox1s="''";
+        var checkbox2s="''";
+        for(var i=0; i<checkbox1.length; i++){
+            if(checkbox1[i].checked) checkbox1s+= (",'"+checkbox1[i].value+"'"); //
+        }
+
+        for(var i=0; i<checkbox2.length; i++){
+            if(checkbox2[i].checked) checkbox2s+= (",'"+checkbox2[i].value+"'"); //
+        }
+
+        window.location.href="/h5/myshow/filterContent?checkbox1="+'('+checkbox1s+')'+'&checkbox2='+'('+checkbox2s+')';
+    }
+
+    var page = 0;
+    // 每页展示10个
+    var size = 10;
+    /*$("#ok").click(function() {
+     var checkbox1=document.getElementsByName('checkbox1'); //病症
+     var checkbox2=document.getElementsByName('checkbox2'); //疗法
+     alert(checkbox2);
+     var checkbox1s="''";
+     var checkbox2s="''";
+     for(var i=0; i<checkbox1.length; i++){
+     if(checkbox1[i].checked) checkbox1s+= (",'"+checkbox1[i].value+"'"); //
+     }
+
+     for(var i=0; i<checkbox2.length; i++){
+     if(checkbox2[i].checked) checkbox2s+= (",'"+checkbox2[i].value+"'"); //
+     }
+
+     window.location.href="/h5/myshow/filterContent?checkbox1="+'('+checkbox1s+')'+'&checkbox2='+'('+checkbox2s+')';
+
+     });*/
+
+    var elButton = $('#button'), elButtonWith = $('#buttonWith'),elButtonWith2 = $('#buttonWith2'),buttonWithlf =  $('#buttonWithlf'),buttonWithlf2 =  $('#buttonWithlf2');
+    var elAside = $('#aside');
+    var elAside2 = $('#aside2');
+    elButton.on('click', function () {
+        elAside.addClass('active');
+        $('html').addClass('noscroll');
+    });
+    elButtonWith.on('click', function() {
+        $('#buttonWith').hide();
+        $('#buttonWith2').show();
+
+        $('#buttonWithlf').hide();
+        $('#buttonWithlf2').hide();
+
+        elAside.addClass('active');
+        $.smartScroll(elAside, '.scrollable');
+//        elButton.html(elButton.html().replace('没有', '已经'));
+        $('html').addClass('noscroll');
+    });
+
+    elButtonWith2.on('click', function() {
+        $('#buttonWith').show();
+        $('#buttonWith2').hide();
+
+        $('#buttonWithlf').show();
+        $('#buttonWithlf2').hide();
+        $('html').removeClass('noscroll');
+        elAside.removeClass('active');
+    });
+
+    buttonWithlf.on('click', function() {
+        $('#buttonWithlf').hide();
+        $('#buttonWithlf2').show();
+
+        $('#buttonWith').hide();
+        $('#buttonWith2').hide();
+        elAside2.addClass('active');
+        $.smartScroll(elAside2, '.scrollable');
+//        elButton.html(elButton.html().replace('没有', '已经'));
+        $('html').addClass('noscroll');
+    });
+    buttonWithlf2.on('click', function() {
+        $('#buttonWithlf2').hide();
+        $('#buttonWithlf').show();
+
+        $('#buttonWith').show();
+        $('#buttonWith2').hide();
+        $('html').removeClass('noscroll');
+        elAside2.removeClass('active');
+    });
+
+    $('.hideAside').on('click', function () {
+//        var checkbox1s =$('#checkbox1').val();
+//        if(checkbox1s!=null&&checkbox1s.length>=5){
+//            checkbox1s =  checkbox1s.replace("'","").replace("(","").replace(")","");
+//            var box1s =  checkbox1s.split(",");
+//            for (var i = 0; i < box1s.length; i++) {
+//                var box = box1s[i];
+//                alert($('#\'xj_home_d00000000000000000004000\''));
+//            }
+//        }
+
+        $('#buttonWith').show();
+        $('#buttonWith2').hide();
+        $('#buttonWithlf2').hide();
+        $('#buttonWithlf').show();
+        $('html').removeClass('noscroll');
+        elAside.removeClass('active');
+        elAside2.removeClass('active');
+    });
+
+
+    $.smartScroll = function(container, selectorScrollable) {
+        // 如果没有滚动容器选择器，或者已经绑定了滚动时间，忽略
+        if (!selectorScrollable || container.data('isBindScroll')) {
+            return;
+        }
+
+        // 是否是搓浏览器
+        // 自己在这里添加判断和筛选
+        var isSBBrowser;
+
+        var data = {
+            posY: 0,
+            maxscroll: 0
+        };
+
+        // 事件处理
+        container.on({
+            touchstart: function (event) {
+                var events = event.touches[0] || event;
+
+                // 先求得是不是滚动元素或者滚动元素的子元素
+                var elTarget = $(event.target);
+
+                if (!elTarget.length) {
+                    return;
+                }
+
+                var elScroll;
+
+                // 获取标记的滚动元素，自身或子元素皆可
+                if (elTarget.is(selectorScrollable)) {
+                    elScroll = elTarget;
+                } else if ((elScroll = elTarget.parents(selectorScrollable)).length == 0) {
+                    elScroll = null;
+                }
+
+                if (!elScroll) {
+                    return;
+                }
+
+                // 当前滚动元素标记
+                data.elScroll = elScroll;
+
+                // 垂直位置标记
+                data.posY = events.pageY;
+                data.scrollY = elScroll.scrollTop();
+                // 是否可以滚动
+                data.maxscroll = elScroll[0].scrollHeight - elScroll[0].clientHeight;
+            },
+            touchmove: function () {
+                // 如果不足于滚动，则禁止触发整个窗体元素的滚动
+                if (data.maxscroll <= 0 || isSBBrowser) {
+                    // 禁止滚动
+                    event.preventDefault();
+                }
+                // 滚动元素
+                var elScroll = data.elScroll;
+                // 当前的滚动高度
+                var scrollTop = elScroll.scrollTop();
+
+                // 现在移动的垂直位置，用来判断是往上移动还是往下
+                var events = event.touches[0] || event;
+                // 移动距离
+                var distanceY = events.pageY - data.posY;
+
+                if (isSBBrowser) {
+                    elScroll.scrollTop(data.scrollY - distanceY);
+                    elScroll.trigger('scroll');
+                    return;
+                }
+
+                // 上下边缘检测
+                if (distanceY > 0 && scrollTop == 0) {
+                    // 往上滑，并且到头
+                    // 禁止滚动的默认行为
+                    event.preventDefault();
+                    return;
+                }
+
+                // 下边缘检测
+                if (distanceY < 0 && (scrollTop + 1 >= data.maxscroll)) {
+                    // 往下滑，并且到头
+                    // 禁止滚动的默认行为
+                    event.preventDefault();
+                    return;
+                }
+            },
+            touchend: function () {
+                data.maxscroll = 0;
+            }
+        });
+
+        // 防止多次重复绑定
+        container.data('isBindScroll', true);
+    };
+
+
+    $(function () {
+        var url = $("#url").val();
+//页数
+
+        $('.weui_panel').dropload({
+            scrollArea: window,
+            autoLoad: true,//自动加载
+            domDown: {//上拉
+                domClass: 'dropload-down',
+                domRefresh: '<div class="dropload-refresh f15 "><i class="icon icon-20"></i>上拉加载更多</div>',
+                domLoad: '<div class="dropload-load f15"><span class="weui-loading"></span>正在加载中...</div>',
+                domNoData: '<div class="dropload-noData">没有更多数据了</div>'
+            },
+            domUp: {//下拉
+                domClass: 'dropload-up',
+                domRefresh: '<div class="dropload-refresh"><i class="icon icon-114"></i>上拉加载更多</div>',
+                domUpdate: '<div class="dropload-load f15"><i class="icon icon-20"></i>释放更新...</div>',
+                domLoad: '<div class="dropload-load f15"><span class="weui-loading"></span>正在加载中...</div>'
+            },
+            loadUpFn: function (me) {//刷新
+                var checkbox1 = $("#checkbox1").val();
+                var checkbox2 = $("#checkbox2").val();
+                if(checkbox1!=null){
+                    checkbox1 = '&checkbox1='+checkbox1;
+                }else{
+                    checkbox1='';
+                }
+
+                if(checkbox2!=null){
+                    checkbox2 = '&checkbox2='+checkbox2;
+                }else{
+                    checkbox2='';
+                }
+                $.ajax({
+                    type: 'post',
+                    url: 'more.json',
+                    url: url+'/api/v1/h5s/content?page=' + 1 + '&size='+ 10+checkbox1+checkbox2,
+                    dataType: 'json',
+                    success: function (data) {
+                        var result = '';
+                        page = 1;
+                        for (var i = 0; i < data.length; i++) {
+                            result += ' <a   class="weui_media_box weui_media_appmsg" onclick="js_method('+page+i+');" >'
+                                    + '<div class="weui_media_hd weui-updown">'
+                                    + '<img class="weui_media_appmsg_thumb lazyload" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAUAAAAFACAYAAADNkKWqAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAALEgAACxIB0t1+/AAAABZ0RVh0Q3JlYXRpb24gVGltZQAwNi8wNS8xNrqrthwAAAAcdEVYdFNvZnR3YXJlAEFkb2JlIEZpcmV3b3JrcyBDUzbovLKMAAAEMElEQVR4nO3UQQEAEADAQPRvqIESxPDYXYK9Nvc+dwAErd8BAL8YIJBlgECWAQJZBghkGSCQZYBAlgECWQYIZBkgkGWAQJYBAlkGCGQZIJBlgECWAQJZBghkGSCQZYBAlgECWQYIZBkgkGWAQJYBAlkGCGQZIJBlgECWAQJZBghkGSCQZYBAlgECWQYIZBkgkGWAQJYBAlkGCGQZIJBlgECWAQJZBghkGSCQZYBAlgECWQYIZBkgkGWAQJYBAlkGCGQZIJBlgECWAQJZBghkGSCQZYBAlgECWQYIZBkgkGWAQJYBAlkGCGQZIJBlgECWAQJZBghkGSCQZYBAlgECWQYIZBkgkGWAQJYBAlkGCGQZIJBlgECWAQJZBghkGSCQZYBAlgECWQYIZBkgkGWAQJYBAlkGCGQZIJBlgECWAQJZBghkGSCQZYBAlgECWQYIZBkgkGWAQJYBAlkGCGQZIJBlgECWAQJZBghkGSCQZYBAlgECWQYIZBkgkGWAQJYBAlkGCGQZIJBlgECWAQJZBghkGSCQZYBAlgECWQYIZBkgkGWAQJYBAlkGCGQZIJBlgECWAQJZBghkGSCQZYBAlgECWQYIZBkgkGWAQJYBAlkGCGQZIJBlgECWAQJZBghkGSCQZYBAlgECWQYIZBkgkGWAQJYBAlkGCGQZIJBlgECWAQJZBghkGSCQZYBAlgECWQYIZBkgkGWAQJYBAlkGCGQZIJBlgECWAQJZBghkGSCQZYBAlgECWQYIZBkgkGWAQJYBAlkGCGQZIJBlgECWAQJZBghkGSCQZYBAlgECWQYIZBkgkGWAQJYBAlkGCGQZIJBlgECWAQJZBghkGSCQZYBAlgECWQYIZBkgkGWAQJYBAlkGCGQZIJBlgECWAQJZBghkGSCQZYBAlgECWQYIZBkgkGWAQJYBAlkGCGQZIJBlgECWAQJZBghkGSCQZYBAlgECWQYIZBkgkGWAQJYBAlkGCGQZIJBlgECWAQJZBghkGSCQZYBAlgECWQYIZBkgkGWAQJYBAlkGCGQZIJBlgECWAQJZBghkGSCQZYBAlgECWQYIZBkgkGWAQJYBAlkGCGQZIJBlgECWAQJZBghkGSCQZYBAlgECWQYIZBkgkGWAQJYBAlkGCGQZIJBlgECWAQJZBghkGSCQZYBAlgECWQYIZBkgkGWAQJYBAlkGCGQZIJBlgECWAQJZBghkGSCQZYBAlgECWQYIZBkgkGWAQJYBAlkGCGQZIJBlgECWAQJZBghkGSCQZYBAlgECWQYIZBkgkGWAQJYBAlkGCGQZIJBlgECWAQJZBghkGSCQZYBAlgECWQYIZBkgkGWAQJYBAlkGCGQZIJBlgECWAQJZBghkGSCQZYBAlgECWQYIZBkgkGWAQJYBAlkGCGQZIJBlgECWAQJZBghkGSCQZYBA1gPYJgYfB4WzDQAAAABJRU5ErkJggg==" alt="" data-img="' + data[i].coverPic + '">'
+                                    + '</div>'
+                                    + '<div class="weui_media_bd">'
+//                                            +'<h4 class="weui_media_title">'+data[i].id+' '+data[i].title+'</h4>'
+                                    + '<input id="id'+page+i+'" name="id" hidden="hidden" value="'+data[i].id+'"/>'
+                                    + '<h4 class="weui_media_title">'+data[i].name+'</h4>'
+//                                            +'<p class="weui_media_desc">'+data[i].date+'</p>'
+                                    + '<p class="weui_media_desc">'+data[i].introduce+'</p>'
+                                    + '<p style="color: #BBBBBB;font-size:14px;">时长：'+data[i].duration+'分钟</p>'
+                                    /*+ '<p style="color: #FF4B4B;font-size:16px;"">¥ '+data[i].price+'</p>'*/
+                                    + '</div>'
+                                    + '</a>';
+                        }
+                        // 为了测试，延迟1秒加载
+                        setTimeout(function () {
+                            $('.weui_panel_bd').html(result);
+                            var lazyloadImg = new LazyloadImg({
+                                el: '.weui-updown [data-img]', //匹配元素
+                                top: 50, //元素在顶部伸出长度触发加载机制
+                                right: 50, //元素在右边伸出长度触发加载机制
+                                bottom: 50, //元素在底部伸出长度触发加载机制
+                                left: 50, //元素在左边伸出长度触发加载机制
+                                qriginal: false, // true，自动将图片剪切成默认图片的宽高；false显示图片真实宽高
+                                load: function (el) {
+                                    el.style.cssText += '-webkit-animation: fadeIn 01s ease 0.2s 1 both;animation: fadeIn 1s ease 0.2s 1 both;';
+                                },
+                                error: function (el) {
+
+                                }
+                            });
+                            // 每次数据加载完，必须重置
+                            me.resetload();
+                            // 重置索引值，重新拼接more.json数据
+                            page = 1;
+                            // 解锁
+                            me.unlock();
+                            me.noData(false);
+                        }, 1000);
+                    },
+                    error: function (xhr, type) {
+                        alert('Ajax error 刷新!');
+                        // 即使加载出错，也得重置
+                        me.resetload();
+                    }
+                });
+            },
+            loadDownFn: function (me) {//加载更多
+                page++;
+                window.history.pushState(null, document.title, window.location.href);
+                var checkbox1 = $("#checkbox1").val();
+                var checkbox2 = $("#checkbox2").val();
+                if(checkbox1!=null){
+                    checkbox1 = '&checkbox1='+checkbox1;
+                }else{
+                    checkbox1='';
+                }
+
+                if(checkbox2!=null){
+                    checkbox2 = '&checkbox2='+checkbox2;
+                }else{
+                    checkbox2='';
+                }
+
+                var result = '';
+                $.ajax({
+                    type: 'POST',
+                    url: url+'/api/v1/h5s/content?page=' + page + '&size='+ size+checkbox1+checkbox2,
+                    dataType: 'json',
+                    success: function (data) {
+                        var arrLen = data.length;
+                        if (arrLen > 0) {
+
+                            for (var i = 0; i < arrLen; i++) {
+                                result += ' <a   class="weui_media_box weui_media_appmsg" onclick="js_method('+page+i+');" >'
+                                        + '<div class="weui_media_hd weui-updown">'
+                                        + '<img class="weui_media_appmsg_thumb lazyload" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAUAAAAFACAYAAADNkKWqAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAALEgAACxIB0t1+/AAAABZ0RVh0Q3JlYXRpb24gVGltZQAwNi8wNS8xNrqrthwAAAAcdEVYdFNvZnR3YXJlAEFkb2JlIEZpcmV3b3JrcyBDUzbovLKMAAAEMElEQVR4nO3UQQEAEADAQPRvqIESxPDYXYK9Nvc+dwAErd8BAL8YIJBlgECWAQJZBghkGSCQZYBAlgECWQYIZBkgkGWAQJYBAlkGCGQZIJBlgECWAQJZBghkGSCQZYBAlgECWQYIZBkgkGWAQJYBAlkGCGQZIJBlgECWAQJZBghkGSCQZYBAlgECWQYIZBkgkGWAQJYBAlkGCGQZIJBlgECWAQJZBghkGSCQZYBAlgECWQYIZBkgkGWAQJYBAlkGCGQZIJBlgECWAQJZBghkGSCQZYBAlgECWQYIZBkgkGWAQJYBAlkGCGQZIJBlgECWAQJZBghkGSCQZYBAlgECWQYIZBkgkGWAQJYBAlkGCGQZIJBlgECWAQJZBghkGSCQZYBAlgECWQYIZBkgkGWAQJYBAlkGCGQZIJBlgECWAQJZBghkGSCQZYBAlgECWQYIZBkgkGWAQJYBAlkGCGQZIJBlgECWAQJZBghkGSCQZYBAlgECWQYIZBkgkGWAQJYBAlkGCGQZIJBlgECWAQJZBghkGSCQZYBAlgECWQYIZBkgkGWAQJYBAlkGCGQZIJBlgECWAQJZBghkGSCQZYBAlgECWQYIZBkgkGWAQJYBAlkGCGQZIJBlgECWAQJZBghkGSCQZYBAlgECWQYIZBkgkGWAQJYBAlkGCGQZIJBlgECWAQJZBghkGSCQZYBAlgECWQYIZBkgkGWAQJYBAlkGCGQZIJBlgECWAQJZBghkGSCQZYBAlgECWQYIZBkgkGWAQJYBAlkGCGQZIJBlgECWAQJZBghkGSCQZYBAlgECWQYIZBkgkGWAQJYBAlkGCGQZIJBlgECWAQJZBghkGSCQZYBAlgECWQYIZBkgkGWAQJYBAlkGCGQZIJBlgECWAQJZBghkGSCQZYBAlgECWQYIZBkgkGWAQJYBAlkGCGQZIJBlgECWAQJZBghkGSCQZYBAlgECWQYIZBkgkGWAQJYBAlkGCGQZIJBlgECWAQJZBghkGSCQZYBAlgECWQYIZBkgkGWAQJYBAlkGCGQZIJBlgECWAQJZBghkGSCQZYBAlgECWQYIZBkgkGWAQJYBAlkGCGQZIJBlgECWAQJZBghkGSCQZYBAlgECWQYIZBkgkGWAQJYBAlkGCGQZIJBlgECWAQJZBghkGSCQZYBAlgECWQYIZBkgkGWAQJYBAlkGCGQZIJBlgECWAQJZBghkGSCQZYBAlgECWQYIZBkgkGWAQJYBAlkGCGQZIJBlgECWAQJZBghkGSCQZYBAlgECWQYIZBkgkGWAQJYBAlkGCGQZIJBlgECWAQJZBghkGSCQZYBAlgECWQYIZBkgkGWAQJYBAlkGCGQZIJBlgECWAQJZBghkGSCQZYBAlgECWQYIZBkgkGWAQJYBAlkGCGQZIJBlgECWAQJZBghkGSCQZYBA1gPYJgYfB4WzDQAAAABJRU5ErkJggg==" alt="" data-img="' + data[i].coverPic + '">'
+                                        + '</div>'
+                                        + '<div class="weui_media_bd">'
+//                                            +'<h4 class="weui_media_title">'+data[i].id+' '+data[i].title+'</h4>'
+                                        + '<input id="id'+page+i+'" name="id" hidden="hidden" value="'+data[i].id+'"/>'
+                                        + '<h4 class="weui_media_title">'+data[i].name+'</h4>'
+//                                            +'<p class="weui_media_desc">'+data[i].date+'</p>'
+                                        + '<p class="weui_media_desc">'+data[i].introduce+'</p>'
+                                        + '<p style="color: #BBBBBB;font-size:14px;">时长：'+data[i].duration+'分钟</p>'
+                                        /* + '<p style="color: #FF4B4B;font-size:16px;"">¥ '+data[i].price+'</p>'*/
+                                        + '</div>'
+                                        + '</a>';
+                            }
+                            // 如果没有数据
+                        } else {
+                            // 锁定
+                            me.lock();
+                            // 无数据
+                            me.noData();
+                        }
+
+                        // 为了测试，延迟1秒加载
+                        setTimeout(function () {
+                            $('.weui_panel_bd').append(result);
+                            var lazyloadImg = new LazyloadImg({
+                                el: '.weui-updown [data-img]', //匹配元素
+                                top: 50, //元素在顶部伸出长度触发加载机制
+                                right: 50, //元素在右边伸出长度触发加载机制
+                                bottom: 50, //元素在底部伸出长度触发加载机制
+                                left: 50, //元素在左边伸出长度触发加载机制
+                                qriginal: false, // true，自动将图片剪切成默认图片的宽高；false显示图片真实宽高
+                                load: function (el) {
+                                    el.style.cssText += '-webkit-animation: fadeIn 01s ease 0.2s 1 both;animation: fadeIn 1s ease 0.2s 1 both;';
+                                },
+                                error: function (el) {
+
+                                }
+                            });
+                            //
+                            // 每次数据加载完，必须重置
+                            me.resetload();
+                        }, 1000);
+                    },
+                    error: function (xhr, type) {
+                        alert('Ajax error 加载更多!');
+                        // 即使加载出错，也得重置
+                        me.resetload();
+                    }
+                });
+            }
+        });
+
+
+    });
+
+    function js_method(value) {
+        var contentid= $('#id'+value).val();
+//        history.pushState({'page_id': 1, 'user_id': 5}, "我的场景", "/h5/myshow/content?contentid="+contentid);
+        window.location.href="/h5/myshow/contents?contentid="+contentid;
+    };
+
+
+    $(function(){
+        var url = $("#url").val();
+        var checkbox1 = $("#checkbox1").val();
+        if(checkbox1!=null&&checkbox1.length>=1){
+            checkbox1 = '?checkbox1='+checkbox1;
+        }else{
+            checkbox1='';
+        }
+        $.ajax({
+            type: 'POST',
+            url: url+'/api/v1/h5s/getdisease'+checkbox1,
+            dataType: 'json',
+            /* async: false, //同步请求，默认情况下是异步（true）
+             beforeSend: function(){
+             $('#delabel').append('正在处理中。。');
+             },*/
+            success: function (data) {
+                var returnhtml = "";
+                if(data==null){
+                    returnhtml="暂无数据。。";
+                }
+                var arrLen = data.length;
+                if (arrLen > 0) {
+                    returnhtml = '<div class="module-header">'
+                            +'<h3 class="module-title">病症筛选</h3>'
+                            +'</div>'
+                            +'<div class="module-main scrollable">'
+                            +'<div class="weui_cells weui_cells_checkbox" >';
+                    for (var i = 0; i < arrLen; i++) {
+                        returnhtml +='<label class="weui_cell weui_check_label" for="'+"'"+data[i].id+'\'">'
+                                +'<div class="weui_cell_hd">'
+                                +'<input type="checkbox" class="weui_check" name="checkbox1" id="'+"'"+data[i].id+'\'" value="'+data[i].id+'"  '+data[i].helpCode+'>'
+                                +'<i class="weui_icon_checked"></i>'
+                                +'</div>'
+                                +'<div class="weui_cell_bd weui_cell_primary">'
+                                +'<p>'+data[i].name+'</p>'
+                                +'</div>'
+                                +'</label>'
+                    }
+                    returnhtml+='</div>'
+                            +'</div>'
+                            +' <div class="module-footer">'
+                            +'<nav class="btn-group">'
+                            +' <div class="btn-group-cell"><a href="javascript:" onclick="resetbz()" class="btn-reset hideAside">重置</a></div>'
+                            +'<div class="btn-group-cell"><a href="javascript:" onclick="ok()"  id= "ok" class="btn-submit hideAside">完成</a></div>'
+                            +'</nav>' +'</div>';
+
+                    $('#delabel').append(returnhtml);
+                }
+            },
+            error: function (xhr, type) {
+                alert('Ajax error 获取病症!');
+                // 即使加载出错，也得重置
+            }
+
+        });
+
+    });
+    /*获取疗法*/
+    $(function(){
+        var url = $("#url").val();
+        var checkbox2 = $("#checkbox2").val();
+        if(checkbox2!=null&&checkbox2.length>=1){
+            checkbox2 = '?checkbox2='+checkbox2;
+        }else{
+            checkbox2='';
+        }
+        $.ajax({
+            type: 'POST',
+            url: url+'/api/v1/h5s/gettherapy'+checkbox2,
+            dataType: 'json',
+            /* async: false, //同步请求，默认情况下是异步（true）
+             beforeSend: function(){
+             $('#delabel').append('正在处理中。。');
+             },*/
+            success: function (data) {
+                var returnhtml = "";
+                if(data==null){
+                    returnhtml="暂无数据。。";
+                }
+                var arrLen = data.length;
+                if (arrLen > 0) {
+                    returnhtml = '<div class="module-header">'
+                            +'<h3 class="module-title">疗法筛选</h3>'
+                            +'</div>'
+                            +'<div class="module-main scrollable">'
+                            +'<div class="weui_cells weui_cells_checkbox" >';
+                    for (var i = 0; i < arrLen; i++) {
+                        returnhtml +='<label class="weui_cell weui_check_label" for="s2'+i+'">'
+                                +'<div class="weui_cell_hd">'
+                                +'<input type="checkbox" class="weui_check" name="checkbox2" id="s2'+i+'" value="'+data[i].id+'"  '+data[i].helpCode+'>'
+                                +'<i class="weui_icon_checked"></i>'
+                                +'</div>'
+                                +'<div class="weui_cell_bd weui_cell_primary">'
+                                +'<p>'+data[i].name+'</p>'
+                                +'</div>'
+                                +'</label>'
+                    }
+                    returnhtml+='</div>'
+                            +'</div>'
+                            +' <div class="module-footer">'
+                            +'<nav class="btn-group">'
+                            +' <div class="btn-group-cell"><a href="javascript:" onclick="resetlf()" class="btn-reset hideAside">重置</a></div>'
+                            +'<div class="btn-group-cell"><a href="javascript:" onclick="ok()"  id= "ok" class="btn-submit hideAside">完成</a></div>'
+                            +'</nav>' +'</div>';
+                    $('#delabel2').append(returnhtml);
+                }
+            },
+            error: function (xhr, type) {
+                alert('Ajax error 获取疗法!');
+                // 即使加载出错，也得重置
+            }
+
+        });
+
+    });
+
+</script>
+
+
+</div>
+</body>
+</html>

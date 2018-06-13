@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layout">
+
+<div layout:fragment="body">
+    <form id="config-form" method="post" th:action="@{/frontpageType/form}" th:object="${frontpageType}" liger="{type : 'ligerForm'}">
+        <input type="hidden" th:field="*{id}"/>
+        <input type="hidden" name="pid" th:field="*{pid}"/>
+        <table class="l-table-form">
+            <tr>
+                <th th:text="#{frontpageType.helpCode}"></th>
+                <td><input type="text" ltype="text" th:placeholder="#{frontpageType.helpCode}" th:field="*{helpCode}" validate="{required:true}"/></td>
+            </tr>
+            <tr>
+                <th th:text="#{frontpageType.name}"></th>
+                <td><input type="text" ltype="text" th:placeholder="#{frontpageType.name}" th:field="*{name}" validate="{required:true}"/></td>
+            </tr>
+
+            <tr>
+                <th th:text="#{frontpageType.sort}"></th>
+                <td><input type="text" ltype="text" th:placeholder="#{frontpageType.sort}" th:field="*{sort}" validate="{required:true}"/></td>
+            </tr>
+            <tr>
+                <th th:text="#{frontpageType.remark}"></th>
+                <td><textarea cols="60" rows="4" th:placeholder="#{frontpageType.remark}" th:field="*{remark}" />
+                    </td>
+            </tr>
+            <tr>
+                <th th:text="#{frontpageType.status}"></th>
+               <!-- <td><input type="text" ltype="text" th:placeholder="#{frontpageType.status}" th:field="*{status}" validate="{required:true}"/></td>-->
+                <td colspan="3"><input type="text" ltype="text" th:placeholder="#{frontpageType.status}" liger="{type:'comboBox',valueFieldID:'status',configCode:'FRONTPAGETYPE_STATUS_ENUM'}" validate="{required:true}"/>
+                    <input type="hidden" th:field="*{status}"/>
+                </td>
+            </tr>
+        </table>
+    </form>
+
+    <script type="text/javascript" charset="utf-8" src="/js/ueditor/ueditor.config.js"></script>
+    <script type="text/javascript" charset="utf-8" src="/js/ueditor/ueditor.all.min.js"> </script>
+    <script type="text/javascript" charset="utf-8" src="/js/ueditor/lang/zh-cn/zh-cn.js"></script>
+</div>
+
+<script type="text/javascript" layout:fragment="script">/*<![CDATA[*/
+var $form;
+$(function() {
+
+});
+/*]]>*/</script>
+
+</html>

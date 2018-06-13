@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="h5/layout">
+<head>
+    <title>医院详情</title>
+    <style>
+
+    </style>
+</head>
+
+<div layout:fragment="body">
+
+    <div class="bar bar-nav">
+        <div class="title" th:text="${hospital.name}"></div>
+        <a th:if="!${isMobile}" href="/h5/hospital" class="icon pull-left"><img src="/m/img/fanhui.png" /> </a>
+    </div>
+
+    <article class="weui-article content">
+        <section>
+            <p th:utext="${#strings.isEmpty(hospital.description)} ? '暂无内容' :  ${hospital.description}">
+            </p>
+        </section>
+    </article>
+
+</div>
+
+<script type="text/javascript" layout:fragment="script">/*<![CDATA[*/
+$(function() {
+
+});
+/*]]>*/</script>
+
+</html>

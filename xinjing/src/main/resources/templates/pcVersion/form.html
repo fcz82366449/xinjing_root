@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layout">
+
+<div layout:fragment="body">
+    <form id="pcVersion-form" method="post" th:action="@{/pcVersion/form}" th:object="${pcVersion}" liger="{type : 'ligerForm'}">
+        <input type="hidden" th:field="*{id}"/>
+        <table class="l-table-form">
+            <tr>
+                <th th:text="#{pcVersion.appCode}"></th>
+                <td><input type="text" ltype="text" th:placeholder="#{pcVersion.appCode}" th:field="*{appCode}" validate="{required:true}"/></td>
+            </tr>
+            <tr>
+                <th th:text="#{pcVersion.downloadUrl}"></th>
+                <td><input type="text" ltype="text" th:placeholder="#{pcVersion.downloadUrl}" th:field="*{downloadUrl}" validate="{required:true}"/></td>
+            </tr>
+            <tr>
+                <th th:text="#{pcVersion.versionCode}"></th>
+                <td><input type="text" ltype="text" th:placeholder="#{pcVersion.versionCode}" th:field="*{versionCode}" validate="{required:true}"/></td>
+            </tr>
+            <tr>
+                <th th:text="#{pcVersion.versionDesc}"></th>
+                <td><input type="text" ltype="text" th:placeholder="#{pcVersion.versionDesc}" th:field="*{versionDesc}" validate="{required:true}"/></td>
+            </tr>
+            <tr>
+                <th th:text="#{pcVersion.versionName}"></th>
+                <td><input type="text" ltype="text" th:placeholder="#{pcVersion.versionName}" th:field="*{versionName}" validate="{required:true}"/></td>
+            </tr>
+            <tr>
+                <th th:text="#{pcVersion.versionSize}"></th>
+                <td><input type="text" ltype="text" th:placeholder="#{pcVersion.versionSize}" th:field="*{versionSize}" validate="{required:true}"/></td>
+            </tr>
+            <tr>
+                <th th:text="#{pcVersion.versionSimtdate}"></th>
+                <td><input type="text" ltype="text" th:placeholder="#{pcVersion.versionSimtdate}" th:field="*{versionSimtdate}" validate="{required:true}"/></td>
+            </tr>
+            <tr>
+                <th th:text="#{pcVersion.versionVendor}"></th>
+                <td><input type="text" ltype="text" th:placeholder="#{pcVersion.versionVendor}" th:field="*{versionVendor}" validate="{required:true}"/></td>
+            </tr>
+            <tr>
+                <th th:text="#{pcVersion.versionPhone}"></th>
+                <td><input type="text" ltype="text" th:placeholder="#{pcVersion.versionPhone}" th:field="*{versionPhone}" validate="{required:true}"/></td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+<script type="text/javascript" layout:fragment="script">/*<![CDATA[*/
+var $form;
+$(function() {
+
+});
+/*]]>*/</script>
+
+</html>

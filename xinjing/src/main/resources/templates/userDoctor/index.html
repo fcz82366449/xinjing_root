@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layout">
+
+<div layout:fragment="body">
+    <div id="toptoolbar"></div>
+    <div id="searchformDiv">
+        <form id='searchform' class="l-search-form">
+            <table>
+                <tr>
+                    <td>
+                        <input type="text" class="l-text" id="search_LIKE_user.username" name="search_LIKE_user.username" th:placeholder="#{user.username}" />
+                    </td>
+                    <td>
+                        <input type="text" class="l-text" id="search_LIKE_user.realname" name="search_LIKE_user.realname" th:placeholder="#{user.realname}" />
+                    </td>
+                    <td>
+                        <input type="text" class="l-text" id="search_LIKE_user.mobile" name="search_LIKE_user.mobile" th:placeholder="#{user.mobile}" />
+                    </td>
+                    <td>
+                        <input type="reset" class="l-reset" th:value="#{reset}" />
+                        <input type="button" class="l-search" th:value="#{search}" onclick="f_search();" />
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+    <div id="maingrid"></div>
+</div>
+
+<!-- page specific plugin scripts -->
+<script type="text/javascript" layout:fragment="script">/*<![CDATA[*/
+var maingrid;
+$(function() {
+    maingrid = newGrid("maingrid", {
+        columns : [
+            {
+                display : '[[#{user.realname}]]',
+                name : 'user_realname',
+                align : 'left',
+                width : 80
+            }, {
+                display : '[[#{user.username}]]',
+                name : 'user_username',
+                align : 'left',
+                width : 80
+            }, {
+                display : '[[#{user.mobile}]]',
+                name : 'user_mobile',
+                width : 100
+            },{
+                display : '[[#{userDoctor.hospital}]]',
+                name : 'hospital_name',
+                align : 'left',
+                width : 160
+            },{
+                display : '[[#{userDoctor.entryDate}]]',
+                name : 'entryDate',
+                width : 80
+            }, {
+                display : '[[#{userDoctor.age}]]',
+                name : 'age',
+                width : 60
+            },{
+                display : '[[#{userDoctor.level}]]',
+                name : 'level',
+                width : 100
+            },{
+                display : '[[#{userDoctor.status}]]',
+                name : 'config_status',
+                width : 80
+            },{
+                display : '[[#{createdAt}]]',
+                name : 'createdAt',
+                type:'datetime',
+                width : 120
+            }, {
+                display : '[[#{updatedAt}]]',
+                name : 'updatedAt',
+                type : 'datetime',
+                width : 120
+            }, {
+                display: '操作',
+                width: 80,
+                render: function (row) {
+                    var opr = '';
+                    if(row.status == 4) {
+                        opr += '<a href="javascript:void(0);" onclick="stopClick(\'' + row.id + '\')"> 停诊</a>';
+                    }
+                    else if(row.status == 9) {
+                        opr += '<a href="javascript:void(0);" onclick="resumeClick(\'' + row.id + '\')"> 恢复</a>';
+                    }
+                    return opr;
+                }
+            }],
+        url : '/userDoctor/list'
+    });
+
+    $("#toptoolbar").ligerToolBar({
+        items : [ {
+                 text : '增加',
+                 click : addClick,
+                 icon : 'add'
+             }, {
+                 text : '修改',
+                 click : modifyClick,
+                 icon : 'modify'
+             }, {
+                 text : '删除',
+                 click : deleteClick,
+                 icon : 'delete'
+             } ,
+            {
+                text: '查看',
+                click : viewClick,
+                icon : 'view'
+            },
+            {
+                text: '认证',
+                click : authClick,
+                icon : 'view'
+            }]
+    });
+
+    maingrid.setHeight(document.documentElement.clientHeight - $("#toptoolbar").height() -  $("#searchform").height() - 18);
+});
+
+function addClick(item) {
+    openForm({url : '/userDoctor/form',title : '新增'})
+}
+
+function authClick(item) {
+    isSingleSelected(maingrid, function(row) {
+        if(row['config_status']=="未认证"){
+            openForm({url : '/userDoctorApprove/selectform?id=' + row['id'],title : '认证'});
+        }else {
+            alert("状态必须为【未认证】");
+        }
+
+
+    });
+//    openForm({url : '/userDoctorApprove/form',title : '认证'});
+
+}
+
+function modifyClick(item) {
+    isSingleSelected(maingrid, function(row) {
+
+
+        openForm({
+            url : '/userDoctor/form?id=' + row['id'],
+            title : '编辑'
+        });
+    });
+}
+
+function deleteClick(item) {
+    isSingleSelected(maingrid, function(row) {
+        top.$.ligerDialog.confirm('确定要删除', function(yes) {
+            if (yes) {
+                ajaxDo('/userDoctor/delete?id=' + row['id']);
+            }
+        });
+    });
+}
+
+function f_search() {
+    loadGridData(maingrid, "searchform");
+}
+
+function f_reload() {
+    maingrid.loadData(true);
+}
+
+function viewClick(item) {
+    isSingleSelected(maingrid, function(row) {
+        openDialog({
+            url: '/userDoctor/view?id=' + row['id'],
+            title: '查看'
+        })
+    });
+}
+
+function stopClick(id) {
+    $.ligerDialog.prompt('停诊操作', true, function (yes, value) {
+        if (yes) {
+            if (value == '') {
+                $.ligerDialog.alert("停诊操作失败,请输入恢复原因");
+            }
+            else {
+                ajaxDo("/userDoctor/stop?id=" + id + "&remark=" + value);
+            }
+        }
+    });
+}
+
+function resumeClick(id) {
+    $.ligerDialog.prompt('恢复操作', true, function (yes, value) {
+        if (yes) {
+            if(value == '') {
+                $.ligerDialog.alert("恢复操作失败,请输入恢复原因");
+            }
+            else {
+                ajaxDo("/userDoctor/resume?id=" + id + "&remark=" + value);
+            }
+        }
+    });
+}
+
+/*]]>*/</script>
+</html>

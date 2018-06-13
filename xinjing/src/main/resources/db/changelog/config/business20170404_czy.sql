@@ -1,0 +1,1 @@
+INSERT INTO `pb_config` VALUES ('b0000000000000000000000000000020', 'PROFESSIONAL_TITLES_ENUM', '职称枚举', '5', '4', '7', '1:主任医师\r\n2:副主任医师\r\n3:主治医师\r\n4:住院医师\r\n5:心理咨询师二级\r\n6:心理咨询师三级', null, '职称枚举',null, null, null,null);

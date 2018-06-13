@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layout">
+
+<div layout:fragment="body">
+    <div id="toptoolbar"></div>
+    <div id="maingrid"></div>
+</div>
+
+<!-- page specific plugin scripts -->
+<script type="text/javascript" layout:fragment="script">/*<![CDATA[*/
+var maingrid;
+$(function() {
+    maingrid = newGrid("maingrid", {
+        columns : [
+            {
+                display : 'vr室',
+                name : 'vrroomid_name',
+                align : 'left',
+                width : 120
+            },
+            {
+                display : '[[#{prescriptionCase.userId}]]',
+                name : 'userId',
+                align : 'left',
+                width : 120
+            },{
+                display : '[[#{prescriptionCase.code}]]',
+                name : 'code',
+                align : 'left',
+                width : 120
+            },{
+                display : '[[#{prescriptionCase.name}]]',
+                name : 'name',
+                align : 'left',
+                width : 120
+            },{
+                display : '[[#{prescriptionCase.gender}]]',
+                name : 'gender',
+                align : 'left',
+                width : 120
+            },{
+                display : '[[#{prescriptionCase.recordno}]]',
+                name : 'recordno',
+                align : 'left',
+                width : 120
+            },{
+                display : '[[#{prescriptionCase.icd10}]]',
+                name : 'icd10',
+                align : 'left',
+                width : 120
+            },{
+                display : '[[#{prescriptionCase.bornDate}]]',
+                name : 'bornDate',
+                align : 'left',
+                width : 120
+            },{
+                display : '[[#{prescriptionCase.hospitalDate}]]',
+                name : 'hospitalDate',
+                align : 'left',
+                width : 120
+            },{
+                display : '[[#{prescriptionCase.schooling}]]',
+                name : 'schooling',
+                align : 'left',
+                width : 120
+            },{
+                display : '[[#{prescriptionCase.marriage}]]',
+                name : 'marriage',
+                align : 'left',
+                width : 120
+            },{
+                display : '[[#{prescriptionCase.medicareType}]]',
+                name : 'medicareType',
+                align : 'left',
+                width : 120
+            },{
+                display : '[[#{prescriptionCase.medicareCardNumber}]]',
+                name : 'medicareCardNumber',
+                align : 'left',
+                width : 120
+            },{
+                display : '[[#{prescriptionCase.idNumber}]]',
+                name : 'idNumber',
+                align : 'left',
+                width : 120
+            },{
+                display : '[[#{prescriptionCase.age}]]',
+                name : 'age',
+                align : 'left',
+                width : 120
+            },{
+                display : '[[#{prescriptionCase.address}]]',
+                name : 'address',
+                align : 'left',
+                width : 120
+            },{
+                display : '[[#{prescriptionCase.emergencyContact}]]',
+                name : 'emergencyContact',
+                align : 'left',
+                width : 120
+            },{
+                display : '[[#{prescriptionCase.emergencyContactPhone}]]',
+                name : 'emergencyContactPhone',
+                align : 'left',
+                width : 120
+            },{
+                display : '[[#{prescriptionCase.pushId}]]',
+                name : 'pushId',
+                align : 'left',
+                width : 120
+            },{
+                   display : '[[#{createdAt}]]',
+                name : 'createdAt',
+                type : 'datetime',
+                width : 120
+            },{
+                   display : '[[#{updatedAt}]]',
+                name : 'updatedAt',
+                type : 'datetime',
+                width : 120
+            }],
+        url : '/prescriptionCase/list'
+    });
+
+    $("#toptoolbar").ligerToolBar({
+        items : [ {
+            text : '增加',
+            click : addClick,
+            icon : 'add'
+        }, {
+            text : '修改',
+            click : modifyClick,
+            icon : 'modify'
+        }, {
+            text : '删除',
+            click : deleteClick,
+            icon : 'delete'
+        }, {
+            text : '查看',
+            click : viewClick,
+            icon : 'view'
+        } ]
+    });
+
+    maingrid.setHeight(document.documentElement.clientHeight - $("#toptoolbar").height() -  $("#searchform").height() - 18);
+});
+
+function addClick(item) {
+    openForm({url : '/prescriptionCase/form',title : '新增'})
+}
+
+function modifyClick(item) {
+    isSingleSelected(maingrid, function(row) {
+        openForm({
+            url : '/prescriptionCase/form?id=' + row['id'],
+            title : '编辑'
+        });
+    });
+}
+
+function deleteClick(item) {
+    isSingleSelected(maingrid, function(row) {
+        top.$.ligerDialog.confirm('确定要删除', function(yes) {
+            if (yes) {
+                ajaxDo('/prescriptionCase/delete?id=' + row['id']);
+            }
+        });
+    });
+}
+
+function viewClick(item) {
+    isSingleSelected(maingrid, function(row) {
+        openDialog({
+            title: '查看',
+            url : '/prescriptionCase/view?id=' + row['id']});
+    });
+}
+
+function f_search() {
+    loadGridData(maingrid, "searchform");
+}
+
+function f_reload() {
+    maingrid.loadData(true);
+}
+/*]]>*/</script>
+</html>

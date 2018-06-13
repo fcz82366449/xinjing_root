@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layout">
+
+<div layout:fragment="body">
+    <div class="l-form">
+    <table class="l-table-form">
+        <tr>
+            <th th:text="#{user.realname}"></th>
+            <td th:text="${user.realname}"></td>
+            <th th:text="#{user.username}"></th>
+            <td th:text="${user.username}"></td>
+        </tr>
+        <tr>
+            <th th:text="#{user.gender}"></th>
+            <td th:text="${user.gender}"></td>
+            <th th:text="#{user.position}"></th>
+            <td th:text="${user.position}"></td>
+        </tr>
+        <tr>
+            <th th:text="#{user.email}"></th>
+            <td th:text="${user.email}"></td>
+            <th th:text="#{user.mobile}"></th>
+            <td th:text="${user.mobile}"></td>
+        </tr>
+        <tr>
+            <th th:text="#{userPatient.medicareType}"></th>
+            <td th:text="${userPatient.medicareType}"></td>
+            <th th:text="#{userPatient.medicareCardNumber}"></th>
+            <td th:text="${userPatient.medicareCardNumber}"></td>
+        </tr>
+        <tr>
+            <th th:text="#{userPatient.idNumber}"></th>
+            <td th:text="${userPatient.idNumber}"></td>
+            <th th:text="#{userPatient.age}"></th>
+            <td th:text="${userPatient.age}"></td>
+        </tr>
+        <tr>
+            <th th:text="#{userPatient.address}"></th>
+            <td colspan="3" th:text="${userPatient.address}"></td>
+        </tr>
+        <tr>
+            <th th:text="#{userPatient.emergencyContact}"></th>
+            <td th:text="${userPatient.emergencyContact}"></td>
+            <th th:text="#{userPatient.emergencyContactPhone}"></th>
+            <td th:field="*{emergencyContactPhone}"></td>
+        </tr>
+        <tr>
+            <th th:text="#{user.enabled}"></th>
+            <td th:text="${user.enabled} ? '是' : '否'">
+            </td>
+            <th th:text="#{user.notLocked}"></th>
+            <td th:text="${user.accountNonLocked} ? '是' : '否'">
+            </td>
+        </tr>
+        <tr>
+            <th th:text="#{user.regAt}"></th>
+            <td th:text="${user.regAt} ? ${#dates.format(user.regAt, 'yyyy-MM-dd HH:mm')} : ''">
+            </td>
+            <th th:text="#{user.lastLoginAt}"></th>
+            <td th:text="${user.lastLoginAt} ? ${#dates.format(user.lastLoginAt, 'yyyy-MM-dd HH:mm')} : ''">
+            </td>
+        </tr>
+    </table>
+    </div>
+</div>
+
+<script type="text/javascript" layout:fragment="script">/*<![CDATA[*/
+$(function() {
+
+});
+/*]]>*/</script>
+
+</html>

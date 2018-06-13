@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layout">
+
+<div layout:fragment="body">
+    <form id="config-form" enctype="multipart/form-data"  method="post" th:action="@{/hospital/form}" th:object="${hospital}" liger="{type : 'ligerForm'}">
+        <input type="hidden" th:field="*{id}"/>
+        <input type="hidden" id="hospitalUrl" name= "hospitalUrl" th:value="${hospitalUrl}"/>
+        <input type="hidden" th:field="*{coverPic}"/>
+        <table class="l-table-form">
+            <tr>
+                <th th:text="#{hospital.helpCode}"></th>
+                <td colspan="3"><input type="text" ltype="text" th:placeholder="#{hospital.helpCode}" th:field="*{helpCode}" validate="{required:true}"/></td>
+            </tr>
+            <tr>
+                <th th:text="#{hospital.name}"></th>
+                <td colspan="3"><input type="text" ltype="text" th:placeholder="#{hospital.name}" th:field="*{name}" validate="{required:true}"/></td>
+            </tr>
+            <tr>
+                <th th:text="#{hospital.region}"></th>
+                <!--<td><input type="text" ltype="text" th:placeholder="#{hospital.region}" th:field="*{region}" validate="{required:true}"/></td>-->
+                <td colspan="3">
+                     <input type="hidden" th:field="*{region}"/>
+                     <table>
+                         <tr>
+                             <td style="padding: 0 0 0 0;border: 0;"><input type="text" id="provinceBox" name="provinceVal" th:placeholder="#{area.province}" validate="{required:true}"/></td>
+                             <td style="padding: 0 0 0 3px;border: 0;"><input type="text" id="cityBox" name="cityVal" th:placeholder="#{area.city}" validate="{required:true}"/></td>
+                             <td style="padding: 0 0 0 3px;border: 0;"><input type="text" id="areaBox" name="areaVal" th:placeholder="#{area.area}" validate="{required:true}"/></td>
+                         </tr>
+                     </table>
+                 </td>
+             </tr>
+
+             <tr>
+                 <th th:text="#{hospital.address}"></th>
+                 <td colspan="3"><input type="text" ltype="text" th:placeholder="#{hospital.address}" th:field="*{address}" validate="{required:true}"/></td>
+             </tr>
+             <tr>
+                 <th th:text="#{hospital.sort}"></th>
+                 <td colspan="3"><input type="text" ltype="text" th:placeholder="#{hospital.sort}" th:field="*{sort}" validate="{required:true}"/></td>
+             </tr>
+             <tr>
+                 <th th:text="#{hospital.abstracts}"></th>
+                 <td colspan="3">
+                     <textarea cols="60" rows="4" th:placeholder="#{hospital.remark}" th:field="*{abstracts}" validate="{required:true}"/></td>
+             </tr>
+            <tr>
+                <th th:text="封面"></th>
+                <td colspan="3">
+                    <input type="file" ltype="text" th:placeholder="上传封面文件" id="coverPicFile" name="coverPicFile" th:value="*{coverPic}"/>
+                </td>
+            </tr>
+            <tr th:if="!${#strings.isEmpty(hospital.coverPic)}">
+                <th th:text="封面预览"></th>
+                <td colspan="3">
+                    <img id="coverPicImg" th:src="${coverPicUrl}" height="100"></img>
+                </td>
+            </tr>
+            <tr>
+                <th th:text="是否轮播"></th>
+                <td>
+                    <select th:placeholder="#{hospital.carousel}" id="isFree" th:field="*{carousel}" validate="{required:true}">
+                        <option th:each="entry : ${isFreeMap}" th:value="${entry.key}" th:text="${entry.value}"></option>
+                    </select>
+                </td>
+                <th th:text="是否样板展示"></th>
+                <td>
+                    <select th:placeholder="#{hospital.isdisplay}" id="isFree" th:field="*{isdisplay}" validate="{required:true}">
+                        <option th:each="entry : ${isDisplayMap}" th:value="${entry.key}" th:text="${entry.value}"></option>
+                    </select>
+                </td>
+            </tr>
+             <tr>
+                 <th th:text="#{hospital.description}"></th>
+                 <!--<td><input type="text" ltype="text" th:placeholder="#{hospital.description}" th:field="*{description}" validate="{required:true}"/></td>-->
+                 <td colspan="3"><textarea th:field="*{description}" validate="{required:true}"></textarea></td>
+             </tr>
+             <tr>
+                 <th th:text="#{hospital.status}"></th>
+                 <!--<td><input type="text" ltype="text" th:placeholder="#{hospital.status}" th:field="*{status}" validate="{required:true}"/></td>-->
+                 <td colspan="3"><input type="text" ltype="text" th:placeholder="#{hospital.status}" liger="{type:'comboBox',valueFieldID:'status',configCode:'USER_HOSPITAL_APPROVE_STATUS_ENUM'}" validate="{required:true}"/>
+                     <input type="hidden" th:field="*{status}"/>
+                 </td>
+             </tr>
+
+            <tr>
+                <th th:text="#{hospital.remark}"></th>
+                <td colspan="3"><textarea cols="60" rows="4" th:placeholder="#{hospital.remark}" th:field="*{remark}" />
+                </td>
+            </tr>
+         </table>
+     </form>
+    <script type="text/javascript" charset="utf-8" src="/js/ueditor/ueditor.config.js"></script>
+    <script type="text/javascript" charset="utf-8" src="/js/ueditor/ueditor.all.min.js"> </script>
+    <script type="text/javascript" charset="utf-8" src="/js/ueditor/lang/zh-cn/zh-cn.js"></script>
+ </div>
+
+
+
+
+ <script type="text/javascript" layout:fragment="script">/*<![CDATA[*/
+ var $form;
+ var provinceBox;
+ var cityBox;
+ var areaBox;
+ var provinceCode = '[[${provinceCode}]]';
+ var cityCode = '[[${cityCode}]]';
+ var areaCode = '[[${areaCode}]]';
+ $(function() {
+     uc = newEditor('description', {
+         initialFrameWidth : 600
+     });
+     initProvinceBox();
+     initCityBox();
+     initAreaBox();
+
+     provinceBox.setValue(provinceCode);
+     cityBox.setValue(cityCode);
+     areaBox.setValue(areaCode);
+ });
+
+
+ function initProvinceBox(){
+     provinceBox = $("#provinceBox").ligerComboBox({
+         width : 120,
+         selectBoxWidth : 120,
+         selectBoxHeight : 250,
+         valueField : 'id',
+         textField : 'text',
+         url : '/area/list?parentCode=' + '&codeType=province',
+         ajaxType : 'get',
+         onSelected: function (value){
+             provinceCode = value;
+             initCityBox();
+         },
+         initValue : provinceCode
+     });
+ }
+
+ function initCityBox(){
+     cityBox = $("#cityBox").ligerComboBox({
+         width : 120,
+         selectBoxWidth : 180,
+         selectBoxHeight : 250,
+         valueField : 'id',
+         textField : 'text',
+         initValue : cityCode,
+         url : '/area/list?parentCode=' + provinceCode + '&codeType=city',
+         ajaxType : 'get',
+         onSelected: function (value){
+             cityCode = value;
+             initAreaBox();
+         }
+     });
+ }
+
+ function initAreaBox(){
+     areaBox = $("#areaBox").ligerComboBox({
+         width : 120,
+         selectBoxWidth : 180,
+         selectBoxHeight : 250,
+         valueField : 'id',
+         textField : 'text',
+         initValue : areaCode,
+         url : '/area/list?parentCode=' + cityCode + '&codeType=area',
+         ajaxType : 'get',
+         onSelected: function (value){
+             $("#region").val(value);
+         }
+     });
+ }
+ function f_save() {
+     if($("#coverPicFile").val() == "" && '[[${hospital.coverPic}]]' == ""){
+         top.$.ligerDialog.warn('请上传封面');
+         return ;
+     }
+     if ($form.valid()) {
+         return $form;
+     }
+
+ }
+
+ //图片上传的回调函数,方便处理一些事物
+ function uploadCallback(fileName){
+     var contentUrl = $("#hospitalUrl").val();
+
+         if (contentUrl != "") {
+             contentUrl += "," + fileName;
+         }else{
+             contentUrl +=  fileName;
+         }
+alert(contentUrl);
+     $("#hospitalUrl").val(contentUrl);
+ }
+
+
+ /*]]>*/</script>
+
+ </html>

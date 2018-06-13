@@ -1,0 +1,1 @@
+update `pb_config` set value='1:日\r\n2:周\r\n3:月', code='PRESCRIPTION_CONTENT_PERIOD_UNIT_ENUM', name='处方内容周期单位枚举', remark='处方内容周期单位枚举' where ID = 'b0000000000000000000000000000016';

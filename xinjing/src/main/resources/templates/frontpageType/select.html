@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layout">
+
+<div layout:fragment="body">
+    <div id="maingrid"></div>
+</div>
+
+<!-- page specific plugin scripts -->
+<script type="text/javascript" layout:fragment="script">/*<![CDATA[*/
+var maingrid;
+var selectIds = new Array();
+var selectNames = new Array();
+var selectPid = new Array();
+$(function() {
+    maingrid = newTreeGrid("maingrid", {
+        columns : [
+            {
+                display : '[[#{frontpageType.helpCode}]]',
+                name : 'helpCode',
+                align : 'left',
+                width : 120
+            },{
+                display : '[[#{frontpageType.name}]]',
+                name : 'name',
+                align : 'left',
+                width : 120
+            },{
+                display : '[[#{frontpageType.sort}]]',
+                name : 'sort',
+                align : 'left',
+                width : 120
+            },{
+                display : '[[#{frontpageType.remark}]]',
+                name : 'remark',
+                align : 'left',
+                width : 120
+             }
+            ],
+        checkbox:true,
+        url : '/frontpageType/list',
+        selectRowButtonOnly: false,
+        autoCheckChildren:false,
+        isChecked: function (rowdata) {
+            if($.inArray(rowdata["id"], selectIds) >= 0){
+                return true;
+            }
+            return false;
+        }
+    });
+
+});
+
+
+function f_select() {
+    var resultData = {};
+    var data = maingrid.getSelectedRows();
+    selectIds = new Array();
+    selectNames = new Array();
+    selectPid = new Array();
+    $.each(data,function(i,row){
+        selectIds.push(row.id);
+        selectNames.push((row.name));
+        selectPid.push(row.pid);
+    });
+    resultData.selectIds = selectIds;
+    resultData.selectNames = selectNames;
+    resultData.selectPid = selectPid;
+    return resultData;
+}
+
+function fillShowSpan(){
+    if(selectNames.length > 0){
+        $("#selectNames").html(selectNames.join(",").toString() + "...");
+    }else{
+        $("#selectNames").html("");
+    }
+}
+
+/*]]>*/</script>
+</html>

@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layout">
+
+<div layout:fragment="body">
+    <div id="toptoolbar"></div>
+    <div id="searchformDiv">
+        <form id='searchform' class="l-search-form">
+            <table>
+                <tr>
+                    <td>查询条件</td>
+                    <td>
+                        <input type="reset" class="l-reset" th:value="#{reset}" />
+                        <input type="button" class="l-search" th:value="#{search}" onclick="f_search();" />
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+    <div id="maingrid_h" style="height: 50%"></div>
+    <div id="searchformDiv2">
+        <form id='searchform2' class="l-search-form">
+            <table>
+                <tr>
+                    <td>场景列表</td>
+                </tr>
+            </table>
+        </form>
+    </div>
+    <div id="maingrid_b" style="height: 50%"></div>
+</div>
+
+<!-- page specific plugin scripts -->
+<script type="text/javascript" layout:fragment="script">/*<![CDATA[*/
+var maingrid_h;
+var maingrid_b;
+$(function() {
+    maingrid_h = newGrid("maingrid_h", {
+        columns : [
+            {
+                display : '[[#{contentDp.code}]]',
+                name : 'code',
+                align : 'left',
+                width : 120
+            },{
+                display : '[[#{contentDp.name}]]',
+                name : 'name',
+                align : 'left',
+                width : 120
+            },{
+                display : '[[#{contentDp.status}]]',
+                name : 'status',
+                align : 'left',
+                width : 120
+            },{
+                display : '[[#{contentDp.remark}]]',
+                name : 'remark',
+                align : 'left',
+                width : 120
+            },{
+                   display : '[[#{createdAt}]]',
+                name : 'createdAt',
+                type : 'datetime',
+                width : 120
+            },{
+                   display : '[[#{updatedAt}]]',
+                name : 'updatedAt',
+                type : 'datetime',
+                width : 120
+            }],
+        url : '/contentDp/list',
+        onCheckRow: function(checked, rowdata, rowindex) {
+            for (var rowid in this.records)
+                this.unselect(rowid);
+            this.select(rowindex);
+        },
+        onSelectRow : function(rowdata, rowid, rowobj) {
+             lomaingrid_b(rowdata["id"]);
+        }
+
+    });
+    maingrid_h.setHeight((document.documentElement.clientHeight - $("#toptoolbar").height() -  $("#searchform").height() - 18)/2);
+//    maingrid_b.setHeight((document.documentElement.clientHeight - $("#toptoolbar").height() -  $("#searchform").height() - 18)/2);
+    $("#toptoolbar").ligerToolBar({
+        items : [ {
+            text : '增加',
+            click : addClick,
+            icon : 'add'
+        }, {
+            text : '修改',
+            click : modifyClick,
+            icon : 'modify'
+        }, {
+            text : '删除',
+            click : deleteClick,
+            icon : 'delete'
+        }, {
+            text : '查看',
+            click : viewClick,
+            icon : 'view'
+        } ]
+    });
+
+//    maingrid_h.setHeight(document.documentElement.clientHeight - $("#toptoolbar").height() -  $("#searchform").height() - 300);
+});
+
+function lomaingrid_b(id) {
+    maingrid_b = newGrid("maingrid_b", {
+        columns : [
+            {
+                display : '场景名称',
+                name : 'content_name',
+                align : 'left',
+                width : 120
+            },{
+                display : '[[#{createdAt}]]',
+                name : 'createdAt',
+                type : 'datetime',
+                width : 120
+            },{
+                display : '[[#{updatedAt}]]',
+                name : 'updatedAt',
+                type : 'datetime',
+                width : 120
+            }
+        ],
+        url : '/contentDp/list_b?id='+id
+    });
+}
+
+$(function() {
+
+
+
+
+//    maingrid_b.setHeight(document.documentElement.clientHeight - $("#toptoolbar").height() -  $("#searchform").height() - 300);
+});
+function addClick(item) {
+
+    openForm({url : '/contentDp/form',title : '新增'})
+
+}
+
+
+function modifyClick(item) {
+    isSingleSelected(maingrid_h, function(row) {
+        openForm({
+            url : '/contentDp/form?id=' + row['id'],
+            title : '编辑'
+        });
+    });
+}
+
+function deleteClick(item) {
+    isSingleSelected(maingrid_h, function(row) {
+        top.$.ligerDialog.confirm('确定要删除', function(yes) {
+            if (yes) {
+                ajaxDo('/contentDp/delete?id=' + row['id']);
+
+            }
+        });
+    });
+
+
+}
+
+function ajaxDo(url, callback) {
+    top.$.ligerDialog.waitting('数据处理中,请稍候...');
+    $.ajax({
+        url : url,
+        type : "GET",
+        success : function(reply) {
+            top.$.ligerDialog.closeWaitting();
+            if(callback) {
+                callback(reply);
+                maingrid_b.loadData()
+            }
+            else {
+                if (reply.success) {
+                    if (reply.message) {
+                        top.$.ligerDialog.success(reply.message);
+                    }
+                    if (typeof(f_reload)=="function") {
+                        f_reload();
+                        maingrid_b.loadData()
+                    }
+                } else {
+                    if (reply.message) {
+                        top.$.ligerDialog.error(reply.message);
+                    }
+                }
+                maingrid_b.loadData()
+            }
+        }
+    });
+}
+
+function viewClick(item) {
+    isSingleSelected(maingrid_h, function(row) {
+        openDialog({
+            title: '查看',
+            url : '/contentDp/view?id=' + row['id']});
+    });
+}
+
+function f_search() {
+    loadGridData(maingrid_h, "searchform");
+}
+
+function f_reload() {
+    maingrid_h.loadData(true);
+}
+
+
+
+/*]]>*/</script>
+</html>

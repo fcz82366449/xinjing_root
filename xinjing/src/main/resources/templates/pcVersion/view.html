@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layout">
+
+<div layout:fragment="body">
+    <div class="l-form">
+        <table class="l-table-form">
+                        <tr>
+                    <th th:text="#{pcVersion.appCode}"></th>
+                    <td th:text="${pcVersion.appCode}"></td>
+                </tr>
+                <tr>
+                    <th th:text="#{pcVersion.downloadUrl}"></th>
+                    <td th:text="${pcVersion.downloadUrl}"></td>
+                </tr>
+                <tr>
+                    <th th:text="#{pcVersion.versionCode}"></th>
+                    <td th:text="${pcVersion.versionCode}"></td>
+                </tr>
+                <tr>
+                    <th th:text="#{pcVersion.versionDesc}"></th>
+                    <td th:text="${pcVersion.versionDesc}"></td>
+                </tr>
+                <tr>
+                    <th th:text="#{pcVersion.versionName}"></th>
+                    <td th:text="${pcVersion.versionName}"></td>
+                </tr>
+                <tr>
+                    <th th:text="#{pcVersion.versionSize}"></th>
+                    <td th:text="${pcVersion.versionSize}"></td>
+                </tr>
+                <tr>
+                    <th th:text="#{pcVersion.versionSimtdate}"></th>
+                    <td th:text="${pcVersion.versionSimtdate}"></td>
+                </tr>
+                <tr>
+                    <th th:text="#{pcVersion.versionVendor}"></th>
+                    <td th:text="${pcVersion.versionVendor}"></td>
+                </tr>
+                <tr>
+                    <th th:text="#{pcVersion.versionPhone}"></th>
+                    <td th:text="${pcVersion.versionPhone}"></td>
+                </tr>
+        </table>
+    </div>
+</div>
+
+<script type="text/javascript" layout:fragment="script">/*<![CDATA[*/
+$(function() {
+
+});
+/*]]>*/</script>
+
+</html>

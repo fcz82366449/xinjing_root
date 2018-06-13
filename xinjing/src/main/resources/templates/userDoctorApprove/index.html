@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layout">
+
+<div layout:fragment="body">
+    <div id="toptoolbar"></div>
+    <div id="searchformDiv">
+        <form id='searchform' class="l-search-form">
+            <table>
+                <tr>
+                    <td>
+                        <input type="text" class="l-text" id="search_LIKE_user.realname" name="search_LIKE_user.realname" th:placeholder="#{user.realname}" />
+                    </td>
+                    <td>
+                        <input type="reset" class="l-reset" th:value="#{reset}" />
+                        <input type="button" class="l-search" th:value="#{search}" onclick="f_search();" />
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+    <div id="maingrid"></div>
+</div>
+
+<!-- page specific plugin scripts -->
+<script type="text/javascript" layout:fragment="script">/*<![CDATA[*/
+var maingrid;
+$(function() {
+    maingrid = newGrid("maingrid", {
+        columns : [{
+                display : '[[#{userDoctorApprove.realname}]]',
+                name : 'realname',
+                align : 'left',
+                width : 120
+            },{
+                display : '[[#{userDoctorApprove.gender}]]',
+                name : 'gender',
+                align : 'left',
+                width : 120
+            },{
+                display : '[[#{userDoctorApprove.region}]]',
+                name : 'region',
+                align : 'left',
+                width : 120
+            },{
+                display : '[[#{userDoctorApprove.professionalTitleId}]]',
+                name : 'professionalTitleId',
+                align : 'left',
+                width : 120
+            },{
+                display : '[[#{userDoctorApprove.workplaceType}]]',
+                name : 'workplaceType',
+                align : 'left',
+                width : 120
+            },{
+                display : '[[#{userDoctorApprove.hospital}]]',
+                name : 'hospital',
+                align : 'left',
+                width : 120
+            },{
+                display : '[[#{userDoctorApprove.position}]]',
+                name : 'position',
+                align : 'left',
+                width : 120
+            },{
+                display : '[[#{userDoctorApprove.department}]]',
+                name : 'department',
+                align : 'left',
+                width : 120
+            },{
+                display : '[[#{userDoctorApprove.status}]]',
+                name : 'config_status',
+                width : 80
+            },{
+                display : '[[#{userDoctorApprove.approver}]]',
+                name : 'approver',
+                align : 'left',
+                width : 120
+            },{
+                display : '[[#{userDoctorApprove.approveAt}]]',
+                name : 'approveAt',
+                type : 'datetime',
+                width : 120
+            },{
+                   display : '[[#{createdAt}]]',
+                name : 'createdAt',
+                type : 'datetime',
+                width : 120
+            },{
+                   display : '[[#{updatedAt}]]',
+                name : 'updatedAt',
+                type : 'datetime',
+                width : 120
+            }],
+        url : '/userDoctorApprove/list'
+    });
+
+    $("#toptoolbar").ligerToolBar({
+        items : [ {
+            text : '审核',
+            click : approveClick,
+            icon : 'right'
+            },
+            {
+                text: '查看',
+                click : viewClick,
+                icon : 'view'
+            } ]
+    });
+
+    maingrid.setHeight(document.documentElement.clientHeight - $("#toptoolbar").height() -  $("#searchform").height() - 18);
+});
+
+
+function approveClick(item) {
+    isSingleSelected(maingrid, function(row) {
+        if(row["status"] != [[${T(cn.easy.xinjing.utils.Constants).USER_DOCTOR_APPROVE_STATUS_TO_CHECK}]]) {
+            top.$.ligerDialog.error("只能操作待审核状态的信息");
+            return false;
+        }
+        openForm({
+            url: '/userDoctorApprove/approve?id=' + row['id'],
+            title: '审核'
+        });
+    });
+}
+
+function viewClick(item) {
+    isSingleSelected(maingrid, function(row) {
+        openDialog({
+            url: '/userDoctorApprove/view?id=' + row['id'],
+            title: '查看'
+        })
+    });
+}
+
+function f_search() {
+    loadGridData(maingrid, "searchform");
+}
+
+function f_reload() {
+    maingrid.loadData(true);
+}
+/*]]>*/</script>
+</html>

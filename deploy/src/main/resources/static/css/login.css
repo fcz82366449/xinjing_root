@@ -1,0 +1,303 @@
+/* Stylesheet */
+
+
+/* Imports */
+@import url(animate.css);
+@import url(font-awesome/css/font-awesome.min.css);
+
+/*重置input和textarea的默认样式*/
+input,button,select,textarea{outline:none}
+textarea{resize:none}
+input:-webkit-autofill {
+	-webkit-box-shadow: 0 0 0px 1000px white inset;
+}
+input::-ms-clear { display: none;}input::-ms-reveal { display: none;}
+/* Basics */
+html, body {
+	width: 100%;
+	height: 100%;
+	color: #444;
+	-webkit-font-smoothing: antialiased;
+	background: #edf4f9;
+}
+
+a {
+	color: #aaa;
+	-webkit-transition: all .4s ease;
+	-moz-transition: all .4s ease;
+	transition: all .4s ease;
+}
+
+a:hover {
+	color: #555;
+}
+
+#page{
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+}
+
+.footer {
+	position: fixed;
+	bottom: 0;
+	height: 36px;
+	line-height: 36px;
+	width: 100%;
+	color: #aebdc9;
+	font-family: 'Helvetica Neue',Helvetica,'PingFang SC','Hiragino Sans GB','Microsoft YaHei',Arial,sans-serif;
+	font-size:12px;
+	text-align:center;
+	-webkit-font-smoothing: subpixel-antialiased;
+}
+
+#container {
+	position: fixed;
+	width: 350px;
+	height: 406px;
+	top: 50%;
+	left: 50%;
+	margin-top: -201.6px;
+	margin-left: -175px;
+	background: #fff;
+	border-radius: 3px;
+	border: 1px solid #ccc;
+	box-shadow: 0 0 25px 5px rgba(0, 0, 0, .1);
+	-webkit-animation-name: bounceIn;
+	-webkit-animation-fill-mode: both;
+	-webkit-animation-duration: 1s;
+	-webkit-animation-iteration-count: 1;
+	-webkit-animation-timing-function: linear;
+	-moz-animation-name: bounceIn;
+	-moz-animation-fill-mode: both;
+	-moz-animation-duration: 1s;
+	-moz-animation-iteration-count: 1;
+	-moz-animation-timing-function: linear;
+	animation-name: bounceIn;
+	animation-fill-mode: both;
+	animation-duration: 1s;
+	animation-iteration-count: 1;
+	animation-timing-function: linear;
+}
+
+.title{
+	margin-top: 40px;
+	font-size: 1.05em;
+	text-align: center;
+	color: #3e4960;
+	font-family: "微软雅黑", "宋体", Arial, sans-serif;
+}
+.welcome{
+	margin-top: 20px;
+	text-align: center;
+	color: #86929c;
+	font-size: 0.75em;
+}
+
+form {
+	margin: 20px auto 0;
+}
+
+.form_field {
+	clear: both;
+	height: 60px;
+	line-height: 60px;
+	color: #86929c;
+	margin: 0 auto 21px;
+	border: 1px solid #e1e6e7;
+	border-radius: 5px;
+}
+.form_field img, .form_field label{
+	float: left;
+	margin-left: 7px;
+}
+.form_field img {
+	margin-top:7px;
+	-webkit-transform:scale(.7);
+	-moz-transform:scale(.7);
+	-o-transform:scale(.7);
+	transform: scale(.7);
+}
+.form_field label {
+	width: 36px;
+}
+.form_field, .form_checkbox_field, .form_button_field{
+	width: 278.25px;
+	font-size: 0.75em;
+}
+.form_field, .form_button_field {
+	height: 42px;
+	line-height: 42px;
+}
+.form_field .last_img{
+	float: right;
+	margin-right: 10px;
+	cursor: pointer;
+}
+.form_field input{
+	float: left;
+	border: none;
+	height: 34px;
+	line-height: 34px;
+	font-size: 1em;
+	margin: 2px 0 0 7px;
+}
+.form_username_field input{
+	width: 140px;
+}
+.form_username_field .last_img{
+	margin-top: 11px;
+}
+.form_password_field label {
+	margin-left: 11px;
+}
+.form_password_field input{
+	width: 140px;
+}
+.form_password_field .last_img{
+	margin-top: 13px;
+}
+.form_checkbox_field{
+	clear: both;
+	margin: 0 auto;
+}
+.form_checkbox_field input{
+	float: left;
+	margin: 0 5px 0 0;
+}
+.check {
+	display: block;
+	float: left;
+	color: #444;
+	text-shadow: 0 1px 0 #fff;
+}
+.checkbox_div {
+	float: left;
+}
+.forgot_div{
+	float: right;
+}
+.form_button_field {
+	clear: both;
+	height: 42px;
+	line-height: 42px;
+	margin: 0 auto;
+	padding-top: 21px;
+}
+.form_button_field a{
+	display: block;
+	width: 100%;
+	height: 100%;
+	text-align: center;
+	font-size: 18px;
+	background: #3294cb;
+	color: #ffffff;
+	border-radius: 5px;
+	cursor: pointer;
+}
+.form_button_field a:hover{
+	background: #305ed1;
+}
+.form_captcha_field input{
+	width: 110px;
+}
+/*====message====*/
+
+.isa_info, .isa_success, .isa_warning, .isa_error {
+	position: fixed;
+	top: 0;
+	padding:6px 0 3px 4px;
+	width: 100%;
+	z-index: 99;
+}
+.isa_info {
+    color: #00529B;
+    background-color: #BDE5F8;
+}
+.isa_success {
+    color: #4F8A10;
+    background-color: #DFF2BF;
+}
+.isa_warning {
+    color: #9F6000;
+    background-color: #FEEFB3;
+}
+.isa_error {
+    color: #D8000C;
+    background-color: #FFBABA;
+}
+.isa_info i, .isa_success i, .isa_warning i, .isa_error i{
+    margin:6px 4px 5px 8px;
+    font-size:1em;
+    vertical-align:middle;
+}
+.isa_info span, .isa_success span, .isa_warning span, .isa_error span{
+	vertical-align:middle;
+}
+
+@media only screen and (min-height: 820px) {
+	#container {
+		width: 500px;
+		height: 580px;
+		margin-top: -288px;
+		margin-left: -250px;
+	}
+	.title{
+		margin-top: 60px;
+		font-size: 1.5em;
+	}
+	.welcome{
+		font-size: 1em;
+	}
+	form {
+		margin: 30px auto 0;
+	}
+	.form_field{
+		margin: 0 auto 30px;
+	}
+	.form_field label{
+		width: 50px;
+	}
+	.form_field, .form_checkbox_field, .form_button_field {
+		width: 420px;
+		font-size: 1em;
+	}
+	.form_field, .form_button_field {
+		height: 60px;
+		line-height: 60px;
+	}
+	.form_field img, .form_field label{
+		margin-left: 10px;
+	}
+	.form_field img {
+		margin-top: 1em;
+	}
+	.form_field input {
+		margin: 11px 0 0 10px;
+	}
+	.form_username_field input {
+		width: 240px;
+	}
+	.form_username_field .last_img{
+		margin-top: 20px;
+	}
+	.form_password_field img {
+		margin-top: 18px;
+	}
+	.form_password_field label {
+		margin-left: 14px;
+	}
+	.form_password_field input{
+		width: 260px;
+	}
+	.form_password_field .last_img{
+		margin-top: 22px;
+	}
+	.form_button_field{
+		padding-top: 30px;
+	}
+
+	.form_captcha_field input{
+		width: 210px;
+	}
+}

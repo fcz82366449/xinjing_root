@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="h5/layout">
+<head>
+    <title th:if="${type=='frontpage01'}">行业新闻</title>
+    <title th:if="${type=='frontpage02'}">心景学院</title>
+    <title th:if="${type=='frontpage03'}">心景头条</title>
+    <style>
+    </style>
+</head>
+
+<div layout:fragment="body">
+
+    <div th:if="!${#lists.isEmpty(carouselfrontpageList)}" class="swiper-container" style="height: 0px;" data-space-between='10' data-pagination='.swiper-pagination' data-autoplay="1000">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide" th:if="${frontpage.carousel==1}" th:each="frontpage : ${carouselfrontpageList}">
+                <a th:href="${frontpage.linkurl}+'?/'">
+                    <img th:src="${frontpage.coverPic}" th:alt="${frontpage.themes}" style="height: 100%;width: 100%;" /></a>
+            </div>
+        </div>
+        <!-- If we need pagination -->
+        <div class="swiper-pagination"></div>
+    </div>
+
+    <div class="weui-panel weui-panel_access" style="margin: 0;">
+        <div class="weui-panel__hd" style="text-align: center; "> <a style=" color:#000000;" th:text="${typename}" /> </div>
+        <div class="">
+            <div class="weui-navbar">
+                <div  class="weui-navbar__item" th:id="${frontpageType.id}"
+                     th:each="frontpageType ,prodStat: ${frontpageTypeList}"  >
+                      <a th:href="@{/h5/frontpage/(type=${type},id=${frontpageType.id})}" th:text="${frontpageType.name}" ></a>
+                </div>
+            </div>
+
+            <a th:href="${frontpage.linkurl}+'?/'" class="weui-media-box weui-media-box_appmsg" th:each="frontpage : ${frontpageList}">
+                <div class="weui-media-box__hd">
+                    <img class="weui-media-box__thumb" style="height: 100%;" th:src="${frontpage.coverPic}" th:alt="${frontpage.themes}">
+                </div>
+                <div class="weui-media-box__bd">
+                    <h4 class="weui-media-box__title" th:text="${frontpage.themes}"></h4>
+                    <p class="weui-media-box__desc" th:text="${frontpage.abstracts}"></p>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
+
+<div layout:fragment="includeScript">
+    <script type='text/javascript' src='/jquery-weui/js/swiper.min.js' th:src="@{/jquery-weui/js/swiper.min.js}" charset='utf-8'></script>
+</div>
+
+
+
+<script type="text/javascript" layout:fragment="script">/*<![CDATA[*/
+var $swiperContainer = $(".swiper-container");
+$(function() {
+    $swiperContainer.height("10rem");
+
+    $swiperContainer.swiper({
+        loop: true,
+        autoplay: 3000
+    });
+
+    $swiperContainer.show();
+
+
+
+});
+
+function barOnck(id){
+    alert(id);
+//    $.get("/projectName/user/edit",{objectid:id},function(data) {
+//        $("#frm_container1").html(data);
+//    });
+}
+
+/*]]>*/</script>
+
+</html>

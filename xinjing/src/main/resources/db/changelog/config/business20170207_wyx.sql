@@ -1,0 +1,1 @@
+INSERT INTO `pb_config` VALUES ('b0000000000000000000000000000017', 'SECTION_OFFICE_STATUS_ENUM', '科室状态枚举', '5', '4', '8', '1:草稿\r\n2:已发布\r\n3:未发布', null, '科室状态枚举',null, null, null,null);

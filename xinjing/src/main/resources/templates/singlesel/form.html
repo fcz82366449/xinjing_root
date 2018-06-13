@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layout">
+
+<div layout:fragment="body">
+    <form id="config-form" method="post" th:action="@{/singlesel/form}" th:object="${singlesel}" liger="{type : 'ligerForm'}">
+        <input type="hidden" th:field="*{id}"/>
+        <table class="l-table-form">
+            <tr>
+                <th th:text="题目内容介绍"></th>
+                <!--<td><input type="text" ltype="text" th:placeholder="#{evaluating.description}" th:field="*{description}" validate="{required:true}"/></td>-->
+                <td colspan="3"><textarea th:field="*{description}" validate="{required:true}"></textarea></td>
+            </tr>
+
+            <!--<tr>
+                <th th:text="#{singlesel.name}"></th>
+                <td><input type="text" ltype="text" th:placeholder="#{singlesel.name}" th:field="*{name}" validate="{required:true}"/></td>
+            </tr>-->
+            <tr>
+                <th th:text="#{singlesel.code}"></th>
+                <td><input type="text" ltype="text" th:placeholder="#{singlesel.code}" th:field="*{code}" validate="{required:true}"/></td>
+            </tr>
+            <tr>
+                <th th:text="#{singlesel.evaluatingId}"></th>
+                <!--<td><input type="text" ltype="text" th:placeholder="#{singlesel.evaluatingId}" th:field="*{evaluatingId}" validate="{required:true}"/></td>-->
+                <td>
+                    <input type="text" data-width="178" class="liger-popupedit l-text-field"  onbuttonclick="f_evaluating_buttonclick" id="evaluatingName" th:value="${evaluatingName}" validate="{required:true}"/>
+                    <input type="hidden" th:field="*{evaluatingId}" /></td>
+            </tr>
+            <tr>
+                <th th:text="#{singlesel.singtype}"></th>
+                <!--<td><input type="text" ltype="text" th:placeholder="#{singlesel.singtype}" th:field="*{singtype}" validate="{required:true}"/></td>-->
+               <!-- <td colspan="3"><input id="singtype"  type="text" ltype="text" th:placeholder="#{singlesel.singtype}" liger="{type:'comboBox',valueFieldID:'status',configCode:'EVALUATINGTYPE_STATUS_ENUM'}" validate="{required:true}"/>
+                    <input type="hidden" th:field="*{singtype}"/>
+                </td>-->
+                <td>
+                    <select th:placeholder="#{singlesel.singtype}" id="isFree" th:field="*{singtype}" validate="{required:true}" onchange="btnChange(this[selectedIndex].value);">
+                        <option th:each="entry : ${isFreeMap}" th:value="${entry.key}" th:text="${entry.value}"></option>
+                    </select>
+                </td>
+            </tr>
+
+            <tr id="options01">
+                <th th:text="#{singlesel.options01}"></th>
+                <td><input id="options1" type="text" ltype="text" th:placeholder="#{singlesel.options01}" th:field="*{options01}" /></td>
+            </tr>
+            <tr id="options02">
+                <th th:text="#{singlesel.options02}"></th>
+                <td><input id="options2" type="text" ltype="text" th:placeholder="#{singlesel.options02}" th:field="*{options02}" /></td>
+            </tr>
+            <tr id="options03">
+                <th th:text="#{singlesel.options03}"></th>
+                <td><input id="options3" type="text" ltype="text" th:placeholder="#{singlesel.options03}" th:field="*{options03}" /></td>
+            </tr>
+            <tr id="options04">
+                <th th:text="#{singlesel.options04}"></th>
+                <td><input id="options4" type="text" ltype="text" th:placeholder="#{singlesel.options04}" th:field="*{options04}"/></td>
+            </tr>
+            <tr id="options05">
+                <th th:text="#{singlesel.options05}"></th>
+                <td><input id="options5" type="text" ltype="text" th:placeholder="#{singlesel.options05}" th:field="*{options05}" /></td>
+            </tr>
+            <tr id="options06">
+                <th th:text="#{singlesel.options06}"></th>
+                <td><input id="options6" type="text" ltype="text" th:placeholder="#{singlesel.options06}" th:field="*{options06}" /></td>
+            </tr>
+            <tr>
+                <th th:text="#{singlesel.tmscore}"></th>
+                <td><input type="text" ltype="text" th:placeholder="#{singlesel.tmscore}" th:field="*{tmscore}" /></td>
+            </tr>
+            <tr>
+                <th th:text="#{singlesel.remark}"></th>
+                <td><textarea cols="60" rows="4" th:placeholder="#{singlesel.remark}" th:field="*{remark}" />
+                    </td>
+            </tr>
+            <tr>
+                <th th:text="#{singlesel.status}"></th>
+               <!-- <td><input type="text" ltype="text" th:placeholder="#{singlesel.status}" th:field="*{status}" validate="{required:true}"/></td>-->
+                <td colspan="3"><input type="text" ltype="text" th:placeholder="#{singlesel.status}" liger="{type:'comboBox',valueFieldID:'status',configCode:'EVALUATING_STATUS_ENUM'}" validate="{required:true}"/>
+                    <input type="hidden" th:field="*{status}"/>
+                </td>
+            </tr>
+        </table>
+    </form>
+    <script type="text/javascript" charset="utf-8" src="/js/ueditor/ueditor.config.js"></script>
+    <script type="text/javascript" charset="utf-8" src="/js/ueditor/ueditor.all.min.js"> </script>
+    <script type="text/javascript" charset="utf-8" src="/js/ueditor/lang/zh-cn/zh-cn.js"></script>
+</div>
+
+<script type="text/javascript" layout:fragment="script">/*<![CDATA[*/
+var $form;
+$(function() {
+    uc = newEditor('description', {
+        initialFrameWidth : 600
+    });
+});
+
+//下拉框选择改变事件
+ function btnChange(values) {
+     if(values == 1){
+         $("#options01").show();
+         $("#options02").show();
+         $("#options03").show();
+         $("#options04").show();
+         $("#options05").show();
+         $("#options06").show();
+     }else{
+         $("#options01").hide();
+         $("#options02").hide();
+         $("#options03").hide();
+         $("#options04").hide();
+         $("#options05").hide();
+         $("#options06").hide();
+     }
+ }
+
+function f_evaluating_buttonclick(){
+    return openSelect({
+        title : '评测选择',
+        url : '/evaluating/select',
+        callback : function(item, dialog) {
+            var fn = dialog.frame.f_select || dialog.frame.window.f_select;
+            var data = fn();
+            if (!data) {
+                top.$.ligerDialog.error('请选择行!');
+                return;
+            }
+            $("#evaluatingName").val(data.name);
+            $("#evaluatingId").val(data.id);
+            dialog.close();
+        }
+    });
+}
+
+
+/*]]>*/</script>
+
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layout">
+
+<div layout:fragment="body">
+    <div class="l-form">
+        <table class="l-table-form">
+                        <tr>
+                    <th th:text="#{doctorPlan.name}"></th>
+                    <td th:text="${doctorPlan.name}"></td>
+                </tr>
+                <tr>
+                    <th th:text="#{doctorPlan.code}"></th>
+                    <td th:text="${doctorPlan.code}"></td>
+                </tr>
+                <tr>
+                    <th th:text="#{doctorPlan.doctorId}"></th>
+                    <td th:text="${doctorPlan.doctorId}"></td>
+                </tr>
+                <tr>
+                    <th th:text="#{doctorPlan.helpCode}"></th>
+                    <td th:text="${doctorPlan.helpCode}"></td>
+                </tr>
+                <tr>
+                    <th th:text="#{doctorPlan.sort}"></th>
+                    <td th:text="${doctorPlan.sort}"></td>
+                </tr>
+                <tr>
+                    <th th:text="#{doctorPlan.remark}"></th>
+                    <td th:text="${doctorPlan.remark}"></td>
+                </tr>
+                <tr>
+                    <th th:text="#{doctorPlan.status}"></th>
+                    <td th:text="${doctorPlan.status}"></td>
+                </tr>
+                <tr>
+                    <th th:text="#{doctorPlan.description}"></th>
+                    <td th:text="${doctorPlan.description}"></td>
+                </tr>
+        </table>
+    </div>
+</div>
+
+<script type="text/javascript" layout:fragment="script">/*<![CDATA[*/
+$(function() {
+
+});
+/*]]>*/</script>
+
+</html>

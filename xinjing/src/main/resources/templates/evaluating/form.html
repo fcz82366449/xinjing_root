@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layout">
+
+<div layout:fragment="body">
+    <form id="config-form" enctype="multipart/form-data" method="post" th:action="@{/evaluating/form}" th:object="${evaluating}" liger="{type : 'ligerForm'}">
+        <input type="hidden" th:field="*{id}"/>
+        <input type="hidden" id="evaluatingUrl" name= "hospitalUrl" th:value="${evaluatingUrl}"/>
+        <input type="hidden" th:field="*{coverPic}"/>
+        <table class="l-table-form">
+            <tr>
+                <th th:text="#{evaluating.name}"></th>
+                <td><input type="text" ltype="text" th:placeholder="#{evaluating.name}" th:field="*{name}" validate="{required:true}"/></td>
+            </tr>
+            <tr>
+                <th th:text="#{evaluating.code}"></th>
+                <td><input type="text" ltype="text" th:placeholder="#{evaluating.code}" th:field="*{code}" validate="{required:true}"/></td>
+            </tr>
+
+            <tr>
+                <th th:text="#{evaluating.coverPic}"></th>
+               <!-- <td><input type="text" ltype="text" th:placeholder="#{evaluating.coverPic}" th:field="*{coverPic}" validate="{required:true}"/></td>-->
+                <td colspan="3">
+                    <input type="file" ltype="text" th:placeholder="上传封面文件" id="coverPicFile" name="coverPicFile" th:value="*{coverPic}"/>
+                </td>
+            </tr>
+            <tr th:if="!${#strings.isEmpty(evaluating.coverPic)}">
+                <th th:text="封面预览"></th>
+                <td colspan="3">
+                    <img id="coverPicImg" th:src="${coverPicUrl}" height="100"></img>
+                </td>
+            </tr>
+            <tr>
+                <th th:text="#{evaluating.description}"></th>
+                <!--<td><input type="text" ltype="text" th:placeholder="#{evaluating.description}" th:field="*{description}" validate="{required:true}"/></td>-->
+                <td colspan="3"><textarea th:field="*{description}" validate="{required:true}"></textarea></td>
+            </tr>
+            <tr>
+                <th th:text="#{evaluating.remark}"></th>
+                <td><textarea cols="60" rows="4" th:placeholder="#{evaluating.remark}" th:field="*{remark}" />
+                    </td>
+            </tr>
+            <tr>
+                <th th:text="#{evaluating.status}"></th>
+                <!--<td><input type="text" ltype="text" th:placeholder="#{evaluating.status}" th:field="*{status}" validate="{required:true}"/></td>-->
+                <td colspan="3"><input type="text" ltype="text" th:placeholder="#{evaluating.status}" liger="{type:'comboBox',valueFieldID:'status',configCode:'EVALUATING_STATUS_ENUM'}" validate="{required:true}"/>
+                    <input type="hidden" th:field="*{status}"/>
+                </td>
+            </tr>
+        </table>
+    </form>
+    <script type="text/javascript" charset="utf-8" src="/js/ueditor/ueditor.config.js"></script>
+    <script type="text/javascript" charset="utf-8" src="/js/ueditor/ueditor.all.min.js"> </script>
+    <script type="text/javascript" charset="utf-8" src="/js/ueditor/lang/zh-cn/zh-cn.js"></script>
+</div>
+
+<script type="text/javascript" layout:fragment="script">/*<![CDATA[*/
+var $form;
+$(function() {
+    uc = newEditor('description', {
+        initialFrameWidth : 600
+    });
+});
+
+
+/*]]>*/</script>
+
+</html>

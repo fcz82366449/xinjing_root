@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layout">
+
+<div layout:fragment="body">
+    <div class="l-form">
+        <table class="l-table-form">
+                        <tr>
+                    <th th:text="#{gameitemRecord03.gameheadRecordId}"></th>
+                    <td th:text="${gameitemRecord03.gameheadRecordId}"></td>
+                </tr>
+                <tr>
+                    <th th:text="#{gameitemRecord03.gamephase}"></th>
+                    <td th:text="${gameitemRecord03.gamephase}"></td>
+                </tr>
+                <tr>
+                    <th th:text="#{gameitemRecord03.operationnumber}"></th>
+                    <td th:text="${gameitemRecord03.operationnumber}"></td>
+                </tr>
+                <tr>
+                    <th th:text="#{gameitemRecord03.totalnumber}"></th>
+                    <td th:text="${gameitemRecord03.totalnumber}"></td>
+                </tr>
+                <tr>
+                    <th th:text="#{gameitemRecord03.correctnumber}"></th>
+                    <td th:text="${gameitemRecord03.correctnumber}"></td>
+                </tr>
+                <tr>
+                    <th th:text="#{gameitemRecord03.correctrate}"></th>
+                    <td th:text="${gameitemRecord03.correctrate}"></td>
+                </tr>
+                <tr>
+                    <th th:text="#{gameitemRecord03.timeconsuming}"></th>
+                    <td th:text="${gameitemRecord03.timeconsuming}"></td>
+                </tr>
+                <tr>
+                    <th th:text="#{gameitemRecord03.completeif}"></th>
+                    <td th:text="${gameitemRecord03.completeif}"></td>
+                </tr>
+        </table>
+    </div>
+</div>
+
+<script type="text/javascript" layout:fragment="script">/*<![CDATA[*/
+$(function() {
+
+});
+/*]]>*/</script>
+
+</html>

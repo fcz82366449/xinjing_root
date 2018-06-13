@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layout">
+
+<div layout:fragment="body">
+    <div id="toptoolbar"></div>
+    <div id="searchformDiv">
+        <form id='searchform' class="l-search-form">
+            <table>
+                <tr>
+                    <td>查询条件</td>
+                    <td>
+                        <input type="reset" class="l-reset" th:value="#{reset}" />
+                        <input type="button" class="l-search" th:value="#{search}" onclick="f_search();" />
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+    <div id="maingrid"></div>
+</div>
+
+<!-- page specific plugin scripts -->
+<script type="text/javascript" layout:fragment="script">/*<![CDATA[*/
+var maingrid;
+$(function() {
+    maingrid = newGrid("maingrid", {
+        columns : [
+            {
+                display : '[[#{doctorPlanContent.doctorPlanId}]]',
+                name : 'doctorPlanId',
+                align : 'left',
+                width : 120
+            },{
+                display : '[[#{doctorPlanContent.contentId}]]',
+                name : 'contentId',
+                align : 'left',
+                width : 120
+            },{
+                display : '[[#{doctorPlanContent.status}]]',
+                name : 'status',
+                align : 'left',
+                width : 120
+            },{
+                   display : '[[#{createdAt}]]',
+                name : 'createdAt',
+                type : 'datetime',
+                width : 120
+            },{
+                   display : '[[#{updatedAt}]]',
+                name : 'updatedAt',
+                type : 'datetime',
+                width : 120
+            }],
+        url : '/doctorPlanContent/list'
+    });
+
+    $("#toptoolbar").ligerToolBar({
+        items : [ {
+            text : '增加',
+            click : addClick,
+            icon : 'add'
+        }, {
+            text : '修改',
+            click : modifyClick,
+            icon : 'modify'
+        }, {
+            text : '删除',
+            click : deleteClick,
+            icon : 'delete'
+        }, {
+            text : '查看',
+            click : viewClick,
+            icon : 'view'
+        } ]
+    });
+
+    maingrid.setHeight(document.documentElement.clientHeight - $("#toptoolbar").height() -  $("#searchform").height() - 18);
+});
+
+function addClick(item) {
+    openForm({url : '/doctorPlanContent/form',title : '新增'})
+}
+
+function modifyClick(item) {
+    isSingleSelected(maingrid, function(row) {
+        openForm({
+            url : '/doctorPlanContent/form?id=' + row['id'],
+            title : '编辑'
+        });
+    });
+}
+
+function deleteClick(item) {
+    isSingleSelected(maingrid, function(row) {
+        top.$.ligerDialog.confirm('确定要删除', function(yes) {
+            if (yes) {
+                ajaxDo('/doctorPlanContent/delete?id=' + row['id']);
+            }
+        });
+    });
+}
+
+function viewClick(item) {
+    isSingleSelected(maingrid, function(row) {
+        openDialog({
+            title: '查看',
+            url : '/doctorPlanContent/view?id=' + row['id']});
+    });
+}
+
+function f_search() {
+    loadGridData(maingrid, "searchform");
+}
+
+function f_reload() {
+    maingrid.loadData(true);
+}
+/*]]>*/</script>
+</html>

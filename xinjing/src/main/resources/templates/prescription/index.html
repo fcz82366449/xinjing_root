@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layout">
+
+<div layout:fragment="body">
+    <div id="toptoolbar"></div>
+    <div id="searchformDiv">
+        <form id='searchform' class="l-search-form">
+            <table>
+                <tr>
+                    <td>
+                        <input type="text" class="l-text" id="search_LIKE_doctor.realname" name="search_LIKE_doctor.realname" th:placeholder="#{prescription.doctorId}" />
+                    </td>
+                    <td>
+                        <input type="text" class="l-text" id="search_LIKE_patient.realname" name="search_LIKE_patient.realname" th:placeholder="#{prescription.patientId}" />
+                    </td>
+                    <td>
+                        <input type="text" class="l-text" id="search_EQ_payStatus" name="search_EQ_payStatus" th:placeholder="#{prescription.payStatus}" liger="{type:'comboBox',valueFieldID:'search_EQ_status',configCode:'PRESCRIPTION_PAY_STATUS_ENUM'}"/>
+                    </td>
+                    <td>
+                        <input type="text" class="l-text" id="search_EQ_status" name="search_EQ_status" th:placeholder="#{prescription.status}" liger="{type:'comboBox',valueFieldID:'search_EQ_status',configCode:'PRESCRIPTION_STATUS_ENUM'}"/>
+                    </td>
+                    <td>
+                        <input type="reset" class="l-reset" th:value="#{reset}" />
+                        <input type="button" class="l-search" th:value="#{search}" onclick="f_search();" />
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+    <div id="maingrid"></div>
+</div>
+
+<!-- page specific plugin scripts -->
+<script type="text/javascript" layout:fragment="script">/*<![CDATA[*/
+var maingrid;
+$(function() {
+    maingrid = newGrid("maingrid", {
+
+        columns : [
+            {
+                display : '订单号',
+                name : 'billno',
+                align : 'center',
+                width : 80
+            },
+            {
+                display : '医院',
+                name : 'hospital_name',
+                align : 'center',
+                width : 80
+            },
+            {
+                display : '医生',
+                name : 'doctor_realname',
+                align : 'center',
+                width : 80
+            },{
+                display : '患者',
+                name : 'patient_realname',
+                align : 'center',
+                width : 80
+            }
+            ,{
+                display : '患者(病案号)',
+                name : 'patientcase_name',
+                align : 'center',
+                width : 80
+            },{
+                display : '[[#{prescription.payStatus}]]',
+                name : 'config_payStatus',
+                align : 'center',
+                width : 80
+            },{
+                display : '[[#{prescription.status}]]',
+                name : 'config_status',
+                align : 'center',
+                width : 80
+            },{
+                display : '[[#{prescription.total}]]',
+                name : 'total',
+                align : 'right',
+                width : 80
+            },{
+                display : '[[#{prescription.suggestion}]]',
+                name : 'suggestion',
+                align : 'left',
+                width : 300
+            },{
+                display : '[[#{createdAt}]]',
+                name : 'createdAt',
+                type : 'datetime',
+                width : 120
+            },{
+                display : '[[#{updatedAt}]]',
+                name : 'updatedAt',
+                type : 'datetime',
+                width : 120
+            }],
+        url : '/prescription/list'
+    });
+
+    $("#toptoolbar").ligerToolBar({
+        items : [
+            /*
+            {
+                text : '增加',
+                click : addClick,
+                icon : 'add'
+            }, {
+                text : '修改',
+                click : modifyClick,
+                icon : 'modify'
+            },*/
+            {
+                text : '查看',
+                click : viewClick,
+                icon : 'view'
+            },
+            {
+                text : '删除',
+                click : deleteClick,
+                icon : 'delete'
+            }
+        ]
+    });
+
+    maingrid.setHeight(document.documentElement.clientHeight - $("#toptoolbar").height() -  $("#searchform").height() - 18);
+});
+
+function addClick(item) {
+    openForm({url : '/prescription/form',title : '新增'})
+}
+
+function modifyClick(item) {
+    isSingleSelected(maingrid, function(row) {
+        openForm({
+            url : '/prescription/form?id=' + row['id'],
+            title : '编辑'
+        });
+    });
+}
+
+function deleteClick(item) {
+    isSingleSelected(maingrid, function(row) {
+        top.$.ligerDialog.confirm('确定要删除', function(yes) {
+            if (yes) {
+                ajaxDo('/prescription/delete?id=' + row['id']);
+            }
+        });
+    });
+}
+
+function viewClick() {
+    isSingleSelected(maingrid, function(row) {
+        openForm({
+            url : '/prescription/view?id=' + row['id'],
+            title : '查看'
+        });
+    });
+}
+
+function f_search() {
+    loadGridData(maingrid, "searchform");
+}
+
+function f_reload() {
+    maingrid.loadData(true);
+}
+/*]]>*/</script>
+</html>

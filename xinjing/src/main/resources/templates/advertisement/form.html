@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layout">
+
+<div layout:fragment="body">
+    <form id="advertisement-form" enctype="multipart/form-data"  method="post" th:action="@{/advertisement/form}" th:object="${advertisement}" liger="{type : 'ligerForm'}">
+        <input type="hidden" th:field="*{id}"/>
+        <input type="hidden" th:field="*{pic}"/>
+        <input type="hidden" th:field="*{status}"/>
+        <table class="l-table-form">
+            <tr>
+                <th th:text="#{advertisement.type}"></th>
+                <td>
+                    <input th:placeholder="#{advertisement.type}" liger="{type:'comboBox',valueFieldID:'type',configCode:'ADVERTISEMENT_TYPE_ENUM'}" validate="{required:true}"/>
+                    <input type="hidden" th:field="*{type}"/></td>
+            </tr>
+            <tr>
+                <th th:text="#{advertisement.title}"></th>
+                <td><input type="text" ltype="text" ligerui="width:300" th:placeholder="#{advertisement.title}" th:field="*{title}" validate="{required:true}"/></td>
+            </tr>
+            <tr>
+                <th th:text="#{advertisement.pic}"></th>
+                <td colspan="3">
+                    <input type="file" ltype="text" th:placeholder="上传图片文件" name="picFile" id="picFile" th:value="*{pic}"/>
+                </td>
+            </tr>
+            <tr th:if="!${#strings.isEmpty(advertisement.pic)}">
+                <th th:text="#{advertisement.pic} + '预览'"></th>
+                <td colspan="3">
+                    <img th:src="*{pic}" height="100"></img>
+                </td>
+            </tr>
+            <tr>
+                <th th:text="#{advertisement.summary}"></th>
+                <td colspan="3"><textarea cols="60" rows="6" th:field="*{summary}"></textarea></td>
+            </tr>
+            <tr>
+                <th th:text="#{advertisement.content}"></th>
+                <td><input type="text" ltype="text" ligerui="width:300" th:placeholder="#{advertisement.content}" th:field="*{content}" /></td>
+            </tr>
+            <!--<tr>-->
+                <!--<th th:text="#{advertisement.status}"></th>-->
+                <!--<td><input type="text" ltype="text" th:placeholder="#{advertisement.status}" th:field="*{status}" validate="{required:true}"/></td>-->
+            <!--</tr>-->
+        </table>
+    </form>
+</div>
+
+<script type="text/javascript" layout:fragment="script">/*<![CDATA[*/
+var $form;
+$(function() {
+    $form = $("#advertisement-form");
+
+});
+
+function f_save() {
+    return $form;
+}
+/*]]>*/</script>
+
+</html>

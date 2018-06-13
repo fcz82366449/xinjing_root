@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="h5/layout">
+<head>
+    <title>样板医院</title>
+    <style>
+    </style>
+</head>
+
+<div layout:fragment="body">
+
+    <div th:if="!${#lists.isEmpty(carouselHospitalList)}" class="swiper-container" style="height: 0px;" data-space-between='10' data-pagination='.swiper-pagination' data-autoplay="1000">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide" th:each="hospital : ${carouselHospitalList}">
+                <a th:href="@{/h5/hospital/info(id=${hospital.id})}">
+                    <img th:src="${hospital.coverPic}" th:alt="${hospital.name}" /></a>
+            </div>
+        </div>
+        <!-- If we need pagination -->
+        <div class="swiper-pagination"></div>
+    </div>
+
+    <div class="weui-panel weui-panel_access" style="margin: 0;">
+        <div class="weui-panel__hd" style="text-align: center;">样板医院</div>
+        <div class="weui-panel__bd">
+            <a th:href="@{/h5/hospital/info(id=${hospital.id})}" class="weui-media-box weui-media-box_appmsg" th:each="hospital : ${hospitalList}">
+                <div class="weui-media-box__hd">
+                    <img class="weui-media-box__thumb" th:src="${hospital.coverPic}" th:alt="${hospital.name}">
+                </div>
+                <div class="weui-media-box__bd">
+                    <h4 class="weui-media-box__title" th:text="${hospital.name}"></h4>
+                    <p class="weui-media-box__desc" th:text="${hospital.abstracts}"></p>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
+
+<div layout:fragment="includeScript">
+    <script type='text/javascript' src='/jquery-weui/js/swiper.min.js' th:src="@{/jquery-weui/js/swiper.min.js}" charset='utf-8'></script>
+</div>
+<script type="text/javascript" layout:fragment="script">/*<![CDATA[*/
+var $swiperContainer = $(".swiper-container");
+$(function() {
+    $swiperContainer.height("10rem");
+
+    $swiperContainer.swiper({
+        loop: true,
+        autoplay: 3000
+    });
+
+    $swiperContainer.show();
+});
+/*]]>*/</script>
+
+</html>

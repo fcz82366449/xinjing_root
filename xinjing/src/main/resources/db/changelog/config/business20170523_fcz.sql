@@ -1,0 +1,1 @@
+INSERT INTO `pb_config` VALUES ('b0000000000000000000000000012132', 'EVALUATING_STATUS_ENUM', '评测信息状态枚举', '5', '4', '7', '1:草稿\r\n2:已发布\r\n3:未发布', null, '评测信息状态枚举',null, null, null,null);

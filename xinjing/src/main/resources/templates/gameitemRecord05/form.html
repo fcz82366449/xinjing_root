@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layout">
+
+<div layout:fragment="body">
+    <form id="gameitemRecord05-form" method="post" th:action="@{/gameitemRecord05/form}" th:object="${gameitemRecord05}" liger="{type : 'ligerForm'}">
+        <input type="hidden" th:field="*{id}"/>
+        <table class="l-table-form">
+            <tr>
+                <th th:text="#{gameitemRecord05.gameheadRecordId}"></th>
+                <td><input type="text" ltype="text" th:placeholder="#{gameitemRecord05.gameheadRecordId}" th:field="*{gameheadRecordId}" validate="{required:true}"/></td>
+            </tr>
+            <tr>
+                <th th:text="#{gameitemRecord05.gamephase}"></th>
+                <td><input type="text" ltype="text" th:placeholder="#{gameitemRecord05.gamephase}" th:field="*{gamephase}" validate="{required:true}"/></td>
+            </tr>
+            <tr>
+                <th th:text="#{gameitemRecord05.operationnumber}"></th>
+                <td><input type="text" ltype="text" th:placeholder="#{gameitemRecord05.operationnumber}" th:field="*{operationnumber}" validate="{required:true}"/></td>
+            </tr>
+            <tr>
+                <th th:text="#{gameitemRecord05.totalnumber}"></th>
+                <td><input type="text" ltype="text" th:placeholder="#{gameitemRecord05.totalnumber}" th:field="*{totalnumber}" validate="{required:true}"/></td>
+            </tr>
+            <tr>
+                <th th:text="#{gameitemRecord05.correctnumber}"></th>
+                <td><input type="text" ltype="text" th:placeholder="#{gameitemRecord05.correctnumber}" th:field="*{correctnumber}" validate="{required:true}"/></td>
+            </tr>
+            <tr>
+                <th th:text="#{gameitemRecord05.correctrate}"></th>
+                <td><input type="text" ltype="text" th:placeholder="#{gameitemRecord05.correctrate}" th:field="*{correctrate}" validate="{required:true}"/></td>
+            </tr>
+            <tr>
+                <th th:text="#{gameitemRecord05.timeconsuming}"></th>
+                <td><input type="text" ltype="text" th:placeholder="#{gameitemRecord05.timeconsuming}" th:field="*{timeconsuming}" validate="{required:true}"/></td>
+            </tr>
+            <tr>
+                <th th:text="#{gameitemRecord05.completeif}"></th>
+                <td><input type="text" ltype="text" th:placeholder="#{gameitemRecord05.completeif}" th:field="*{completeif}" validate="{required:true}"/></td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+<script type="text/javascript" layout:fragment="script">/*<![CDATA[*/
+var $form;
+$(function() {
+
+});
+/*]]>*/</script>
+
+</html>

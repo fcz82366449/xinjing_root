@@ -1,0 +1,1 @@
+INSERT INTO `pb_config` VALUES ('b0000000000000000000000000000026', 'USER_VR_ROOM_TYPE_ENUM', 'VR室管理员类型枚举', '5', '4', '7', '1:VR室桌面程序用户\r\n2:VR室移动控制端用户\r\n3:VR室APP端用户', null, 'VR室管理员类型枚举',null, null, null,null);

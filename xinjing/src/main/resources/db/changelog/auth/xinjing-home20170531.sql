@@ -1,0 +1,1 @@
+INSERT INTO `pb_auth_permission` VALUES ('xj_home_000000000000000123002200', 'home', null, null, '银行档案', 'xj_home_000000000000000000002000', 3, '/banks', '0');

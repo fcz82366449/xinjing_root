@@ -1,0 +1,1 @@
+INSERT INTO `pb_config` VALUES ('b0000000000000000000000000000031', 'PRESCRIPTION_CONTENT_STATUS_ENUM', '电子处方内容状态枚举', '5', '4', '7', '1:未开始\r\n2:进行中\r\n3:已完成\r\n9:已中止', null, '电子处方内容状态枚举',null, null, null,null);

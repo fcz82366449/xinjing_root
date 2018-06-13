@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layout">
+
+<div layout:fragment="body">
+    <div id="toptoolbar"></div>
+    <div id="searchformDiv">
+        <form id='searchform' class="l-search-form">
+            <table>
+                <tr>
+                    <td>
+                        <input type="text" class="l-text" name="search_LIKE_title" th:placeholder="#{advertisement.title}" />
+                    </td>
+                    <td>
+                        <input type="text" ltype="text" th:placeholder="#{advertisement.type}" liger="{type:'comboBox',valueFieldID:'search_EQ_type',configCode:'ADVERTISEMENT_TYPE_ENUM'}"/>
+                        <input id="search_EQ_type" name="search_EQ_type" style="display: none;">
+                    </td>
+                    <td>
+                        <input type="text" ltype="text" th:placeholder="#{advertisement.status}" liger="{type:'comboBox',valueFieldID:'search_EQ_status',configCode:'ADVERTISEMENT_STATUS_ENUM'}"/>
+                        <input id="search_EQ_status" name="search_EQ_status" style="display: none;">
+                    </td>
+                    <td>
+                        <input type="reset" class="l-reset" th:value="#{reset}" />
+                        <input type="button" class="l-search" th:value="#{search}" onclick="f_search();" />
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+    <div id="maingrid"></div>
+</div>
+
+<!-- page specific plugin scripts -->
+<script type="text/javascript" layout:fragment="script">/*<![CDATA[*/
+var maingrid;
+$(function() {
+    maingrid = newGrid("maingrid", {
+        columns : [
+            {
+                display : '[[#{advertisement.title}]]',
+                name : 'title',
+                align : 'left',
+                width : 250
+            },{
+                display : '[[#{advertisement.content}]]',
+                name : 'content',
+                align : 'left',
+                width : 360
+            },{
+                display : '[[#{advertisement.type}]]',
+                name : 'config_type',
+                width : 120
+            },{
+                display : '[[#{advertisement.status}]]',
+                name : 'config_status',
+                width : 80
+            },{
+                   display : '[[#{createdAt}]]',
+                name : 'createdAt',
+                type : 'datetime',
+                width : 120
+            },{
+                   display : '[[#{updatedAt}]]',
+                name : 'updatedAt',
+                type : 'datetime',
+                width : 120
+            }],
+        url : '/advertisement/list'
+    });
+
+    $("#toptoolbar").ligerToolBar({
+        items : [ {
+            text : '增加',
+            click : addClick,
+            icon : 'add'
+        }, {
+            text : '修改',
+            click : modifyClick,
+            icon : 'modify'
+        }, {
+            text : '删除',
+            click : deleteClick,
+            icon : 'delete'
+        },{
+            line : true
+        },{
+            text : '发布',
+            click : publishClick,
+            icon : 'right'
+        } ]
+    });
+
+    maingrid.setHeight(document.documentElement.clientHeight - $("#toptoolbar").height() -  $("#searchform").height() - 18);
+});
+
+function addClick(item) {
+    openForm({url : '/advertisement/form',title : '新增',
+        callback : function(item, dialog) {
+            f_save(item, dialog);
+        }})
+}
+
+function modifyClick(item) {
+    isSingleSelected(maingrid, function(row) {
+        openForm({
+            url : '/advertisement/form?id=' + row['id'],
+            title : '编辑',
+            callback : function(item, dialog) {
+                f_save(item, dialog);
+            }
+        });
+    });
+}
+
+function f_save(item, dialog){
+    var form = dialog.frame.f_save();
+    if (form) {
+        top.$.ligerDialog.waitting('数据处理中,请稍候...');
+        form.ajaxSubmit({
+            type : 'POST',
+            dataType : "json",
+            success : function(reply) {
+                top.$.ligerDialog.closeWaitting();
+                if (reply.success) {
+                    if (reply.message) {
+                        top.$.ligerDialog.success(reply.message);
+                    }
+                    f_reload();
+                    dialog.close();
+                } else {
+                    if (reply.message) {
+                        top.$.ligerDialog.error(reply.message);
+                    }
+                }
+            }
+        });
+    }
+}
+
+function deleteClick(item) {
+    isSingleSelected(maingrid, function(row) {
+        top.$.ligerDialog.confirm('确定要删除', function(yes) {
+            if (yes) {
+                ajaxDo('/advertisement/delete?id=' + row['id']);
+            }
+        });
+    });
+}
+
+function publishClick(item) {
+    isSingleSelected(maingrid, function(row) {
+        top.$.ligerDialog.confirm('确定要发布该广告', function(yes) {
+            if (yes) {
+                ajaxDo('/advertisement/publish?id=' + row['id']);
+            }
+        });
+    });
+}
+
+function f_search() {
+    loadGridData(maingrid, "searchform");
+}
+
+function f_reload() {
+    maingrid.loadData(true);
+}
+/*]]>*/</script>
+</html>

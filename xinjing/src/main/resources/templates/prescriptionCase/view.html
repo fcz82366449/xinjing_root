@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layout">
+
+<div layout:fragment="body">
+    <div class="l-form">
+        <table class="l-table-form">
+                        <tr>
+                    <th th:text="#{prescriptionCase.userId}"></th>
+                    <td th:text="${prescriptionCase.userId}"></td>
+                </tr>
+                <tr>
+                    <th th:text="#{prescriptionCase.code}"></th>
+                    <td th:text="${prescriptionCase.code}"></td>
+                </tr>
+                <tr>
+                    <th th:text="#{prescriptionCase.name}"></th>
+                    <td th:text="${prescriptionCase.name}"></td>
+                </tr>
+                <tr>
+                    <th th:text="#{prescriptionCase.gender}"></th>
+                    <td th:text="${prescriptionCase.gender}"></td>
+                </tr>
+                <tr>
+                    <th th:text="#{prescriptionCase.recordno}"></th>
+                    <td th:text="${prescriptionCase.recordno}"></td>
+                </tr>
+                <tr>
+                    <th th:text="#{prescriptionCase.icd10}"></th>
+                    <td th:text="${prescriptionCase.icd10}"></td>
+                </tr>
+                <tr>
+                    <th th:text="#{prescriptionCase.bornDate}"></th>
+                    <td th:text="${prescriptionCase.bornDate}"></td>
+                </tr>
+                <tr>
+                    <th th:text="#{prescriptionCase.hospitalDate}"></th>
+                    <td th:text="${prescriptionCase.hospitalDate}"></td>
+                </tr>
+                <tr>
+                    <th th:text="#{prescriptionCase.schooling}"></th>
+                    <td th:text="${prescriptionCase.schooling}"></td>
+                </tr>
+                <tr>
+                    <th th:text="#{prescriptionCase.marriage}"></th>
+                    <td th:text="${prescriptionCase.marriage}"></td>
+                </tr>
+                <tr>
+                    <th th:text="#{prescriptionCase.medicareType}"></th>
+                    <td th:text="${prescriptionCase.medicareType}"></td>
+                </tr>
+                <tr>
+                    <th th:text="#{prescriptionCase.medicareCardNumber}"></th>
+                    <td th:text="${prescriptionCase.medicareCardNumber}"></td>
+                </tr>
+                <tr>
+                    <th th:text="#{prescriptionCase.idNumber}"></th>
+                    <td th:text="${prescriptionCase.idNumber}"></td>
+                </tr>
+                <tr>
+                    <th th:text="#{prescriptionCase.age}"></th>
+                    <td th:text="${prescriptionCase.age}"></td>
+                </tr>
+                <tr>
+                    <th th:text="#{prescriptionCase.address}"></th>
+                    <td th:text="${prescriptionCase.address}"></td>
+                </tr>
+                <tr>
+                    <th th:text="#{prescriptionCase.emergencyContact}"></th>
+                    <td th:text="${prescriptionCase.emergencyContact}"></td>
+                </tr>
+                <tr>
+                    <th th:text="#{prescriptionCase.emergencyContactPhone}"></th>
+                    <td th:text="${prescriptionCase.emergencyContactPhone}"></td>
+                </tr>
+                <tr>
+                    <th th:text="#{prescriptionCase.pushId}"></th>
+                    <td th:text="${prescriptionCase.pushId}"></td>
+                </tr>
+        </table>
+    </div>
+</div>
+
+<script type="text/javascript" layout:fragment="script">/*<![CDATA[*/
+$(function() {
+
+});
+/*]]>*/</script>
+
+</html>

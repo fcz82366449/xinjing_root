@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layout">
+
+<div layout:fragment="body">
+    <div id="toptoolbar"></div>
+    <div id="searchformDiv">
+        <form id='searchform' class="l-search-form">
+            <table>
+                <tr>
+                    <td>
+                        <input th:placeholder="#{vrRoomAppointment.type}" liger="{type:'comboBox',valueFieldID:'search_EQ_type',configCode:'VR_ROOM_APPOINTMENT_TYPE_ENUM'}"/>
+                        <input name="search_EQ_type" id="search_EQ_type" style="display: none;"/>
+                    </td>
+                    <td>
+                        <input th:placeholder="#{vrRoomAppointment.status}" liger="{type:'comboBox',valueFieldID:'search_EQ_status',configCode:'VR_ROOM_APPOINTMENT_STATUS_ENUM'}"/>
+                        <input name="search_EQ_status" id="search_EQ_status" style="display: none;"/>
+                    </td>
+                    <td>
+                        <input type="reset" class="l-reset" th:value="#{reset}" />
+                        <input type="button" class="l-search" th:value="#{search}" onclick="f_search();" />
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+    <div id="maingrid"></div>
+</div>
+
+<!-- page specific plugin scripts -->
+<script type="text/javascript" layout:fragment="script">/*<![CDATA[*/
+var maingrid;
+$(function() {
+    maingrid = newGrid("maingrid", {
+        columns : [
+            {
+                display : '[[#{vrRoomAppointment.vrRoomId}]]',
+                name : 'vrRoom_name',
+                align : 'left',
+                width : 200
+            },{
+                display : '[[#{vrRoomAppointment.type}]]',
+                name : 'config_type',
+                width : 80
+            },{
+                display : '[[#{vrRoomAppointment.bookingPerson}]]',
+                name : 'bookingPerson',
+                width : 80
+            },{
+                display : '[[#{vrRoomAppointment.bookingContact}]]',
+                name : 'bookingContact',
+                align : 'left',
+                width : 160
+            },{
+                display : '[[#{vrRoomAppointment.startAt}]]',
+                name : 'startAt',
+                type : 'datetime',
+                width : 120
+            },{
+                display : '[[#{vrRoomAppointment.endAt}]]',
+                name : 'endAt',
+                type : 'datetime',
+                width : 120
+            },{
+                display : '[[#{vrRoomAppointment.status}]]',
+                name : 'config_status',
+                width : 80
+            },{
+                display : '[[#{createdAt}]]',
+                name : 'createdAt',
+                type : 'datetime',
+                width : 120
+            },{
+                display : '[[#{updatedAt}]]',
+                name : 'updatedAt',
+                type : 'datetime',
+                width : 120
+            }],
+        url : '/vrRoomAppointment/list'
+    });
+
+    $("#toptoolbar").ligerToolBar({
+        items : [ {
+            text : '增加',
+            click : addClick,
+            icon : 'add'
+        }, {
+            text : '修改',
+            click : modifyClick,
+            icon : 'modify'
+        }, {
+            text : '删除',
+            click : deleteClick,
+            icon : 'delete'
+        }, {
+            line : true
+        }, {
+            text : '预约',
+            click : orderClick,
+            icon : 'right'
+        }, {
+            text : '取消预约',
+            click : cancelOrderClick,
+            icon : 'delete'
+        } ]
+    });
+
+    maingrid.setHeight(document.documentElement.clientHeight - $("#toptoolbar").height() -  $("#searchform").height() - 18);
+});
+
+function addClick(item) {
+    openForm({url : '/vrRoomAppointment/form',title : '新增'})
+}
+
+function modifyClick(item) {
+    isSingleSelected(maingrid, function(row) {
+        openForm({
+            url : '/vrRoomAppointment/form?id=' + row['id'],
+            title : '编辑'
+        });
+    });
+}
+
+function deleteClick(item) {
+    isSingleSelected(maingrid, function(row) {
+        top.$.ligerDialog.confirm('确定要删除', function(yes) {
+            if (yes) {
+                ajaxDo('/vrRoomAppointment/delete?id=' + row['id']);
+            }
+        });
+    });
+}
+
+function orderClick(item) {
+    isSingleSelected(maingrid, function(row) {
+        top.$.ligerDialog.confirm('确定要预约', function(yes) {
+            if (yes) {
+                ajaxDo('/vrRoomAppointment/order?id=' + row['id']);
+            }
+        });
+    });
+}
+
+function cancelOrderClick(item) {
+    isSingleSelected(maingrid, function(row) {
+        top.$.ligerDialog.confirm('确定要取消预约', function(yes) {
+            if (yes) {
+                ajaxDo('/vrRoomAppointment/cancelOrder?id=' + row['id']);
+            }
+        });
+    });
+}
+
+function f_search() {
+    loadGridData(maingrid, "searchform");
+}
+
+function f_reload() {
+    maingrid.loadData(true);
+}
+/*]]>*/</script>
+</html>

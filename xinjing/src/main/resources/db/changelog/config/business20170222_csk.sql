@@ -1,0 +1,1 @@
+INSERT INTO `pb_config` VALUES ('b0000000000000000000000000000018', 'APP_CLIENT_ENUM', 'APP客户端枚举', '5', '4', '9', 'DOCTOR_IOS:医生苹果APP\r\nDOCTOR_ANDROID:医生安卓APP\r\nPATIENT_IOS:患者苹果APP\r\nPATIENT_ANDROID:患者安卓APP\r\nVR_ANDROID:VR室安卓APP', null, 'APP客户端枚举',null, null, null,null);

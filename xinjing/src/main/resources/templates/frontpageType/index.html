@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layout">
+
+<div layout:fragment="body">
+    <div id="toptoolbar"></div>
+    <div id="searchformDiv">
+        <form id='searchform' class="l-search-form">
+            <table>
+                <tr>
+                    <td>查询条件</td>
+                    <td>
+                        <input type="reset" class="l-reset" th:value="#{reset}" />
+                        <input type="button" class="l-search" th:value="#{search}" onclick="f_search();" />
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+    <div id="maingrid"></div>
+</div>
+
+<!-- page specific plugin scripts -->
+<script type="text/javascript" layout:fragment="script">/*<![CDATA[*/
+var maingrid;
+$(function() {
+    maingrid = newTreeGrid("maingrid", {
+        columns : [
+            {
+                display : '[[#{frontpageType.helpCode}]]',
+                name : 'helpCode',
+                align : 'left',
+                width : 120
+            },{
+                display : '[[#{frontpageType.name}]]',
+                name : 'name',
+                align : 'left',
+                width : 120
+            },{
+                display : '[[#{frontpageType.sort}]]',
+                name : 'sort',
+                align : 'left',
+                width : 120
+            },{
+                display : '[[#{frontpageType.remark}]]',
+                name : 'remark',
+                align : 'left',
+                width : 120
+            },{
+                display : '[[#{frontpageType.status}]]',
+                name : 'config_status',
+                align : 'left',
+                width : 120
+            },{
+                   display : '[[#{createdAt}]]',
+                name : 'createdAt',
+                type : 'datetime',
+                width : 120
+            },{
+                   display : '[[#{updatedAt}]]',
+                name : 'updatedAt',
+                type : 'datetime',
+                width : 120
+            },{
+                display: '操作',
+                width: '14%',
+                render: function (row) {
+                    return '<a href="javascript:void(0);" onclick="addSonClick(\'' + row.id + '\')"> 新增子类</a>'
+                            + ' <a href="javascript:void(0);" onclick="modifyClick(\'' + row.id + '\')"> 编辑</a>'
+                            + ' <a href="javascript:void(0);" onclick="deleteClick(\'' + row.id + '\')"> 删除</a>'
+                            + ' <a href="javascript:void(0);" onclick="moveClick(\'' + row.id + '\')"> 移动</a>';
+                }
+            }
+
+            ],
+        url : '/frontpageType/list'
+    });
+
+    $("#toptoolbar").ligerToolBar({
+        items : [ {
+            text : '增加',
+            click : addClick,
+            icon : 'add'
+        }, {
+            text : '发布',
+            click : publishClick,
+            icon : 'right'
+        }, {
+            text : '下架',
+            click : unPublishClick,
+            icon : 'delete'
+        } /*, {
+            text : '修改',
+            click : modifyClick,
+            icon : 'modify'
+        }, {
+            text : '删除',
+            click : deleteClick,
+            icon : 'delete'
+        }*/
+        ]
+    });
+
+    maingrid.setHeight(document.documentElement.clientHeight - $("#toptoolbar").height() -  $("#searchform").height() - 18);
+});
+
+function addClick(item) {
+    openForm({url : '/frontpageType/form',title : '新增'})
+}
+
+function modifyClick(item) {
+    isSingleSelected(maingrid, function(row) {
+        openForm({
+            url : '/frontpageType/form?id=' + row['id'],
+            title : '编辑'
+        });
+    });
+}
+
+function deleteClick(item) {
+    isSingleSelected(maingrid, function(row) {
+        top.$.ligerDialog.confirm('确定要删除', function(yes) {
+            if (yes) {
+                ajaxDo('/frontpageType/delete?id=' + row['id']);
+            }
+        });
+    });
+}
+
+function publishClick(item) {
+    isSingleSelected(maingrid, function(row) {
+        top.$.ligerDialog.confirm('确定要发布该头条分类', function(yes) {
+            if (yes) {
+                ajaxDo('/disease/publish?id=' + row['id']);
+            }
+        });
+    });
+}
+
+function unPublishClick(item) {
+    isSingleSelected(maingrid, function(row) {
+        top.$.ligerDialog.confirm('确定要下架该头条分类', function(yes) {
+            if (yes) {
+                ajaxDo('/disease/unPublish?id=' + row['id']);
+            }
+        });
+    });
+}
+
+function f_search() {
+    loadGridData(maingrid, "searchform");
+}
+
+function f_reload() {
+    maingrid.loadData(true);
+}
+
+function addSonClick(id) {
+    openForm({url : '/frontpageType/form?id=' + id + '&type=addSon',title : '子类新增'})
+}
+
+//移动节点
+function moveClick(id){
+    openForm({
+        url : '/frontpageType/move?moveId=' + id,
+        title : '分类移动',
+        callback : function(item, dialog) {
+            f_office_save(item, dialog);
+        }
+    });
+}
+function f_office_save(item, dialog) {
+    var isSave = dialog.frame.f_save();
+    if (isSave) {
+        postForm("/frontpageType/move", isSave, dialog);
+    }
+}
+function modifyClick(id) {
+    openForm({
+        width : 1000,
+        url : '/frontpageType/form?id=' + id,
+        title : '编辑'
+    });
+}
+function deleteClick(id) {
+    top.$.ligerDialog.confirm('确定要删除', function(yes) {
+        if (yes) {
+            ajaxDo('/frontpageType/delete?id=' + id);
+        }
+    });
+}
+
+/*]]>*/</script>
+</html>

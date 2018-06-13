@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layout">
+
+<div layout:fragment="body">
+    <div id="toptoolbar"></div>
+    <div id="searchformDiv">
+        <form id='searchform' class="l-search-form">
+            <table>
+                <tr>
+                    <td>
+                        <input type="text" class="l-text" id="search_LIKE_user.username" name="search_LIKE_user.username" th:placeholder="#{user.username}" />
+                    </td>
+                    <td>
+                        <input type="text" class="l-text" id="search_LIKE_user.realname" name="search_LIKE_user.realname" th:placeholder="#{user.realname}" />
+                    </td>
+                    <td>
+                        <input type="text" class="l-text" id="search_LIKE_user.mobile" name="search_LIKE_user.mobile" th:placeholder="#{user.mobile}" />
+                    </td>
+                    <td>
+                        <input type="reset" class="l-reset" th:value="#{reset}" />
+                        <input type="button" class="l-search" th:value="#{search}" onclick="f_search();" />
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+    <div id="maingrid"></div>
+</div>
+
+<!-- page specific plugin scripts -->
+<script type="text/javascript" layout:fragment="script">/*<![CDATA[*/
+var maingrid;
+$(function() {
+    maingrid = newGrid("maingrid", {
+        columns : [
+            {
+                display : '[[#{user.realname}]]',
+                name : 'user_realname',
+                align : 'left',
+                width : 80
+            }, {
+                display : '[[#{user.username}]]',
+                name : 'user_username',
+                align : 'left',
+                width : 80
+            }, {
+                display : '[[#{user.mobile}]]',
+                name : 'user_mobile',
+                width : 100
+            }, {
+                display : '[[#{userPatient.medicareType}]]',
+                name : 'medicareType',
+                align : 'left',
+                width : 80
+            },{
+                display : '[[#{userPatient.medicareCardNumber}]]',
+                name : 'medicareCardNumber',
+                align : 'left',
+                width : 120
+            },{
+                display : '[[#{userPatient.idNumber}]]',
+                name : 'idNumber',
+                align : 'left',
+                width : 160
+            },{
+                display : '[[#{userPatient.age}]]',
+                name : 'age',
+                align : 'left',
+                width : 60
+            },{
+                display : '[[#{userPatient.address}]]',
+                name : 'address',
+                align : 'left',
+                width : 200
+            },{
+                display : '[[#{userPatient.emergencyContact}]]',
+                name : 'emergencyContact',
+                align : 'left',
+                width : 80
+            },{
+                display : '[[#{userPatient.emergencyContactPhone}]]',
+                name : 'emergencyContactPhone',
+                align : 'left',
+                width : 100
+            },],
+        url : '/userPatient/list'
+    });
+
+    $("#toptoolbar").ligerToolBar({
+        items : [ /*{
+            text : '增加',
+            click : addClick,
+            icon : 'add'
+        }, {
+            text : '修改',
+            click : modifyClick,
+            icon : 'modify'
+        }, {
+            text : '删除',
+            click : deleteClick,
+            icon : 'delete'
+        } */
+            {
+                text: '查看',
+                click : viewClick,
+                icon : 'view'
+            }]
+    });
+
+    maingrid.setHeight(document.documentElement.clientHeight - $("#toptoolbar").height() -  $("#searchform").height() - 18);
+});
+
+function addClick(item) {
+    openForm({url : '/userPatient/form',title : '新增'})
+}
+
+function modifyClick(item) {
+    isSingleSelected(maingrid, function(row) {
+        openForm({
+            url : '/userPatient/form?id=' + row['id'],
+            title : '编辑'
+        });
+    });
+}
+
+function deleteClick(item) {
+    isSingleSelected(maingrid, function(row) {
+        top.$.ligerDialog.confirm('确定要删除', function(yes) {
+            if (yes) {
+                ajaxDo('/userPatient/delete?id=' + row['id']);
+            }
+        });
+    });
+}
+
+function f_search() {
+    loadGridData(maingrid, "searchform");
+}
+
+function f_reload() {
+    maingrid.loadData(true);
+}
+
+function viewClick(item) {
+    isSingleSelected(maingrid, function(row) {
+        openDialog({
+            url: '/userPatient/view?id=' + row['id'],
+            title: '查看'
+        })
+    });
+}
+/*]]>*/</script>
+</html>

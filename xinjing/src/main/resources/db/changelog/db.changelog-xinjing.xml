@@ -1,0 +1,1817 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet id="10000" author="chenzy">
+
+        <createTable tableName="xj_user_doctor" remarks="医生信息扩展表">
+            <column name="id" type="char(32)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+
+            <column name="user_id" type="char(32)" remarks="用户ID"/>
+            <column name="certificate" type="varchar(100)" remarks="从业资格证"/>
+            <column name="id_card_front" type="varchar(100)" remarks="身份证正面"/>
+            <column name="id_card_inverse" type="varchar(100)" remarks="身份证反面"/>
+            <column name="photo" type="varchar(100)" remarks="照片"/>
+
+            <column name="hospital" type="varchar(100)" remarks="在职医院"/>
+            <column name="entry_date" type="datetime" remarks="入职日期"/>
+            <column name="introduction" type="varchar(2000)" remarks="自我介绍"/>
+            <column name="expertise" type="varchar(1000)" remarks="专长"/>
+            <column name="id_number" type="varchar(100)" remarks="身份证号"/>
+            <column name="age" type="int" remarks="年龄"/>
+
+            <column name="level" type="int" remarks="星级"/>
+            <column name="status" type="int" remarks="状态"/> <!-- 待审核、审核不通过、停诊，正常 -->
+
+            <column name="schedule_info" type="varchar(1000)" remarks="排班信息"/>
+
+            <column name="push_id" type="varchar(100)" remarks="推送ID"/>
+
+            <column name="hidden" type="int" remarks="是否隐藏"></column>
+
+            <column name="creator" type="char(32)"></column>
+            <column name="created_at" type="datetime"></column>
+            <column name="updator" type="char(32)"></column>
+            <column name="updated_at" type="datetime"></column>
+        </createTable>
+
+        <createTable tableName="xj_user_patient" remarks="患者信息扩展表">
+            <column name="id" type="char(32)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+
+            <column name="user_id" type="char(32)" remarks="用户ID"/>
+            <column name="medicare_type" type="int" remarks="医保类型"/> <!--新农村合作医疗、城镇居民医疗保险、职工医疗保险 -->
+            <column name="medicare_card_number" type="varchar(100)" remarks="医保卡号"/>
+            <column name="id_number" type="varchar(100)" remarks="身份证号"/>
+            <column name="age" type="int" remarks="年龄"/>
+            <column name="address" type="varchar(100)" remarks="家庭住址"/>
+            <column name="emergency_contact" type="varchar(50)" remarks="紧急联系人"/>
+            <column name="emergency_contact_phone" type="varchar(100)" remarks="紧急联系人电话"/>
+
+            <column name="push_id" type="varchar(100)" remarks="设备ID"/>
+
+            <column name="hidden" type="int" remarks="是否隐藏"></column>
+
+            <column name="creator" type="char(32)"></column>
+            <column name="created_at" type="datetime"></column>
+            <column name="updator" type="char(32)"></column>
+            <column name="updated_at" type="datetime"></column>
+        </createTable>
+
+        <createTable tableName="xj_disease" remarks="病种分类表">
+            <column name="id" type="char(32)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+
+            <column name="help_code" type="varchar(50)" remarks="助记码"></column>
+            <column name="name" type="varchar(200)" remarks="名称"></column>
+            <column name="pid" type="char(32)" remarks="父节点ID"></column>
+            <column name="sort" type="int" remarks="排序"></column>
+            <column name="remark" type="varchar(1000)" remarks="备注"/>
+
+            <column name="status" type="int" remarks="状态"/><!--草稿、已发布、未发布-->
+
+            <column name="hidden" type="int" remarks="是否隐藏"></column>
+
+            <column name="creator" type="char(32)"></column>
+            <column name="created_at" type="datetime"></column>
+            <column name="updator" type="char(32)"></column>
+            <column name="updated_at" type="datetime"></column>
+        </createTable>
+
+        <createTable tableName="xj_therapy" remarks="疗法分类表">
+            <column name="id" type="char(32)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+
+            <column name="help_code" type="varchar(50)" remarks="助记码"></column>
+            <column name="name" type="varchar(200)" remarks="名称"></column>
+            <column name="pid" type="char(32)" remarks="父节点ID"></column>
+            <column name="sort" type="int" remarks="排序"></column>
+            <column name="remark" type="varchar(1000)" remarks="备注"/>
+
+            <column name="status" type="int" remarks="状态"/><!--草稿、已发布、未发布-->
+
+            <column name="hidden" type="int" remarks="是否隐藏"></column>
+
+            <column name="creator" type="char(32)"></column>
+            <column name="created_at" type="datetime"></column>
+            <column name="updator" type="char(32)"></column>
+            <column name="updated_at" type="datetime"></column>
+        </createTable>
+
+
+        <createTable tableName="xj_content" remarks="内容表">
+            <column name="id" type="char(32)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+
+            <column name="help_code" type="varchar(50)" remarks="助记码"></column>
+            <column name="name" type="varchar(200)" remarks="名称"></column>
+            <column name="type" type="int" remarks="类型"/><!-- type: 视频、音频、图片集、文章、电子表格-->
+            <column name="is_free" type="int" remarks="是否免费"/>
+            <column name="price" type="decimal(8,2)" remarks="价格"/>
+            <column name="remark" type="varchar(1000)" remarks="备注"/>
+
+            <column name="status" type="int" remarks="状态"/><!--草稿、已发布、未发布-->
+
+            <column name="hidden" type="int" remarks="是否隐藏"></column>
+
+            <column name="creator" type="char(32)"></column>
+            <column name="created_at" type="datetime"></column>
+            <column name="updator" type="char(32)"></column>
+            <column name="updated_at" type="datetime"></column>
+        </createTable>
+
+        <createTable tableName="xj_content_video" remarks="内容视频类表">
+            <column name="id" type="char(32)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="content_id" type="char(32)" remarks="内容表ID"/>
+            <column name="content" type="varchar(100)" remarks="内容"/>
+            <column name="creator" type="char(32)"></column>
+            <column name="created_at" type="datetime"></column>
+            <column name="updator" type="char(32)"></column>
+            <column name="updated_at" type="datetime"></column>
+        </createTable>
+
+        <createTable tableName="xj_content_audio" remarks="内容音频类表">
+            <column name="id" type="char(32)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="content_id" type="char(32)" remarks="内容表ID"/>
+            <column name="content" type="varchar(100)" remarks="内容"/>
+            <column name="creator" type="char(32)"></column>
+            <column name="created_at" type="datetime"></column>
+            <column name="updator" type="char(32)"></column>
+            <column name="updated_at" type="datetime"></column>
+        </createTable>
+
+        <createTable tableName="xj_content_pic" remarks="内容图片类表">
+            <column name="id" type="char(32)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="content_id" type="char(32)" remarks="内容表ID"/>
+            <column name="content" type="varchar(200)" remarks="内容"/>
+            <column name="creator" type="char(32)"></column>
+            <column name="created_at" type="datetime"></column>
+            <column name="updator" type="char(32)"></column>
+            <column name="updated_at" type="datetime"></column>
+        </createTable>
+
+        <createTable tableName="xj_content_article" remarks="内容文章类表">
+            <column name="id" type="char(32)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="content_id" type="char(32)" remarks="内容表ID"/>
+            <column name="content" type="text" remarks="内容"/>
+            <column name="creator" type="char(32)"></column>
+            <column name="created_at" type="datetime"></column>
+            <column name="updator" type="char(32)"></column>
+            <column name="updated_at" type="datetime"></column>
+        </createTable>
+
+        <createTable tableName="xj_disease_content" remarks="病种与内容关联表">
+            <column name="id" type="char(32)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+
+            <column name="disease_id" type="char(32)" remarks="病种分类Id"/>
+            <column name="content_id" type="char(32)" remarks="内容Id"/>
+        </createTable>
+
+        <createTable tableName="xj_therapy_content" remarks="疗法与内容关联表">
+            <column name="id" type="char(32)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+
+            <column name="therapy_id" type="char(32)" remarks="疗法分类Id"/>
+            <column name="content_id" type="char(32)" remarks="内容Id"/>
+        </createTable>
+
+        <createTable tableName="xj_prescription" remarks="电子处方表">
+            <column name="id" type="char(32)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+
+            <!-- 电子处方资料关联表: 一对多资料,第一个资料都有一个频率,治疗反馈(其中VR室预约) -->
+            <!-- 电子处方资料关联表: 处方资料对反馈是一对多 -->
+            <column name="status" type="int" remarks="状态"/>
+            <column name="total" type="decimal(8,2)" remarks="合计"/>
+            <!-- 治疗建议 -->
+            <column name="suggestion" type="varchar(1000)" remarks="治疗建议"/>
+            <!-- 医生,患者 -->
+            <column name="doctor_id" type="char(32)" remarks="医生Id"/>
+            <column name="patient_id" type="char(32)" remarks="医患Id"/>
+
+            <column name="hidden" type="int" remarks="是否隐藏"></column>
+
+            <column name="creator" type="char(32)"></column>
+            <column name="created_at" type="datetime"></column>
+            <column name="updator" type="char(32)"></column>
+            <column name="updated_at" type="datetime"></column>
+        </createTable>
+
+        <createTable tableName="xj_order" remarks="订单表">
+            <column name="id" type="char(32)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+
+            <column name="object_id" type="char(32)" remarks="关联ID"></column>
+            <column name="object_type" type="varchar(100)" remarks="关联类型"></column>    <!--内容、电子处方-->
+            <column name="order_no" type="varchar(100)" remarks="订单号"></column>
+            <column name="out_trade_no" type="varchar(100)" remarks="商户订单号"></column>
+            <column name="paid_at" type="datetime" remarks="支付日期"></column>
+            <column name="status" type="int" remarks="状态"></column>
+            <column name="price" type="decimal(8,2)" remarks="价格"></column>
+            <column name="pay_amount" type="decimal(8,2)" remarks="付款金额"></column>
+
+            <column name="hidden" type="int" remarks="是否隐藏"></column>
+
+            <column name="creator" type="char(32)"></column>
+            <column name="created_at" type="datetime"></column>
+            <column name="updator" type="char(32)"></column>
+            <column name="updated_at" type="datetime"></column>
+        </createTable>
+
+        <createTable tableName="xj_prescription_content" remarks="电子处方内容关联表">
+            <column name="id" type="char(32)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+
+            <column name="prescription_id" type="char(32)" remarks="电子处方Id"/>
+            <column name="content_id" type="char(32)" remarks="内容Id"/>
+            <column name="price" type="decimal(8,2)" remarks="价格"/>
+            <column name="frequency_info" type="varchar(500)" remarks="频率"/>
+            <column name="status" type="int" remarks="状态"/><!--待定-->
+
+            <column name="creator" type="char(32)"></column>
+            <column name="created_at" type="datetime"></column>
+            <column name="updator" type="char(32)"></column>
+            <column name="updated_at" type="datetime"></column>
+        </createTable>
+
+        <createTable tableName="xj_prescription_content_feedback" remarks="电子处方内容反馈表">
+            <column name="id" type="char(32)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+
+            <column name="prescription_id" type="char(32)" remarks="电子处方Id"/>
+            <column name="content_id" type="char(32)" remarks="内容Id"/>
+            <column name="prescription_content_id" type="char(32)" remarks="电子处方内容关联Id"/>
+            <column name="use_at" type="datetime" remarks="使用时间"/>
+
+            <column name="creator" type="char(32)"></column>
+            <column name="created_at" type="datetime"></column>
+            <column name="updator" type="char(32)"></column>
+            <column name="updated_at" type="datetime"></column>
+        </createTable>
+
+        <createTable tableName="xj_vr_room" remarks="VR室">
+            <column name="id" type="char(32)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+
+            <column name="name" type="varchar(100)" remarks="名称"/>
+            <column name="region" type="varchar(6)" remarks="地区编码"></column>
+            <column name="address" type="varchar(100)" remarks="地址"></column>
+            <column name="status" type="int" remarks="状态"/><!--初始、正常、暂停-->
+            <column name="schedule_info" type="varchar(1000)" remarks="排班信息"/>
+            <column name="remark" type="varchar(1000)" remarks="备注"/>
+
+            <column name="hidden" type="int" remarks="是否隐藏"></column>
+
+            <column name="creator" type="char(32)"></column>
+            <column name="created_at" type="datetime"></column>
+            <column name="updator" type="char(32)"></column>
+            <column name="updated_at" type="datetime"></column>
+        </createTable>
+
+        <createTable tableName="xj_vr_room_appointment" remarks="VR室预约表">
+            <column name="id" type="char(32)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+
+            <column name="vr_room_id" type="char(32)" remarks="VR室ID"/>
+
+            <column name="start_at" type="datetime" remarks="开始时间"/>
+            <column name="end_at" type="datetime" remarks="结束时间"/>
+            <column name="type" type="int" remarks="类型"/> <!--线上，线下-->
+            <column name="status" type="int" remarks="状态"/>
+            <column name="booking_person" type="varchar(50)" remarks="预约人"/>
+            <column name="booking_person_id" type="char(32)" remarks="预约人Id"/>
+            <column name="content_id" type="char(32)" remarks="内容Id"/>
+
+            <column name="hidden" type="int" remarks="是否隐藏"></column>
+
+            <column name="creator" type="char(32)"></column>
+            <column name="created_at" type="datetime"></column>
+            <column name="updator" type="char(32)"></column>
+            <column name="updated_at" type="datetime"></column>
+        </createTable>
+
+        <createTable tableName="xj_comment" remarks="评论表">
+            <column name="id" type="char(32)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+
+            <column name="object_id" type="char(32)" remarks="关联ID"></column>
+            <column name="object_type" type="varchar(100)" remarks="关联类型"></column>    <!-- 医生,内容，…… -->
+            <column name="content" type="varchar(1000)" remarks="评论内容"></column>
+            <column name="status" type="int" remarks="状态"></column><!--未审核仅本人可见，其它会员可见，不可见-->
+            <column name="feedback" type="varchar(2000)" remarks="回复信息"></column>
+            <column name="score" type="int" remarks="评分"></column>
+
+            <column name="hidden" type="int" remarks="是否隐藏"></column>
+
+            <column name="creator" type="char(32)"></column>
+            <column name="created_at" type="datetime"></column>
+            <column name="updator" type="char(32)"></column>
+            <column name="updated_at" type="datetime"></column>
+        </createTable>
+
+        <createTable tableName="xj_doctor_appointment" remarks="医生预约表">
+            <column name="id" type="char(32)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+
+            <column name="start_at" type="datetime" remarks="开始时间"/>
+            <column name="end_at" type="datetime" remarks="结束时间"/>
+            <column name="status" type="int" remarks="状态"/>
+            <column name="booking_person" type="varchar(50)" remarks="预约人"/>
+            <column name="booking_person_id" type="char(32)" remarks="预约人Id"/>
+            <column name="doctor_id" type="char(32)" remarks="医生Id"/>
+            <column name="hidden" type="int" remarks="是否隐藏"></column>
+
+            <column name="creator" type="char(32)"></column>
+            <column name="created_at" type="datetime"></column>
+            <column name="updator" type="char(32)"></column>
+            <column name="updated_at" type="datetime"></column>
+        </createTable>
+
+        <createTable tableName="xj_doctor_article" remarks="医生文章表">
+            <column name="id" type="char(32)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+
+            <column name="title" type="varchar(100)"></column>
+            <column name="content" type="text"></column>
+            <column name="status" type="int"></column><!-- 草稿、待审核、已审核 -->
+            <column name="doctor_id" type="char(32)" remarks="医生Id"/>
+            <column name="hidden" type="int" remarks="是否隐藏"></column>
+
+            <column name="creator" type="char(32)"></column>
+            <column name="created_at" type="datetime"></column>
+            <column name="updator" type="char(32)"></column>
+            <column name="updated_at" type="datetime"></column>
+        </createTable>
+
+        <createTable tableName="xj_doctor_patient" remarks="医生病患关系表">
+            <column name="id" type="char(32)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+
+            <column name="doctor_id" type="char(32)" remarks="医生Id"/>
+            <column name="patient_id" type="char(32)" remarks="患者Id"/>
+
+            <column name="creator" type="char(32)"></column>
+            <column name="created_at" type="datetime"></column>
+            <column name="updator" type="char(32)"></column>
+            <column name="updated_at" type="datetime"></column>
+        </createTable>
+    </changeSet>
+    <changeSet id="10001" author="wangyx">
+        <sqlFile dbms="mysql" encoding="utf8" path="auth/xinjing-home.sql"
+                 relativeToChangelogFile="true" splitStatements="true" stripComments="true"/>
+        <sqlFile dbms="mysql" encoding="utf8" path="config/business20160805_wyx.sql"
+                 relativeToChangelogFile="true" splitStatements="true" stripComments="true"/>
+    </changeSet>
+
+    <changeSet id="10002" author="chenzy">
+        <update tableName="pb_config">
+            <column name="value" value="心景运营管理平台"></column>
+            <where>code='WEB_SITE_TITLE'</where>
+        </update>
+        <update tableName="pb_config">
+            <column name="value" value="Copyright © 2016-2017 心景科技"></column>
+            <where>code='COPY_RIGHT'</where>
+        </update>
+    </changeSet>
+
+    <changeSet id="10003" author="chenzy">
+
+        <!--删除模型管理模块-->
+        <sqlFile dbms="mysql" encoding="utf8" path="base-remove-model.sql"
+                 relativeToChangelogFile="true" splitStatements="true" stripComments="true"/>
+
+    </changeSet>
+
+    <changeSet id="10004" author="chenzy">
+        <createTable tableName="xj_approve_log" remarks="审核日志表">
+            <column name="id" type="char(32)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+
+            <column name="object_id" type="char(32)" remarks="关联ID"></column>
+            <column name="object_type" type="varchar(100)" remarks="关联类型"></column>    <!-- 医生，…… -->
+
+            <column name="result" type="varchar(100)" remarks="审核结果"/>
+            <column name="remark" type="varchar(1000)" remarks="审核意见"/>
+
+            <column name="creator" type="char(32)"></column>
+            <column name="created_at" type="datetime"></column>
+            <column name="updator" type="char(32)"></column>
+            <column name="updated_at" type="datetime"></column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="10005" author="chenzy">
+        <addColumn tableName="xj_content">
+            <column name="cover_pic" type="varchar(2000)" remarks="缩略图"></column>
+        </addColumn>
+
+        <createTable tableName="xj_content_collect" remarks="内容收藏表">
+            <column name="id" type="char(32)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+
+            <column name="content_id" type="char(32)" remarks="内容ID"/>
+            <column name="user_id" type="char(32)" remarks="用户ID"/>
+
+            <column name="creator" type="char(32)"></column>
+            <column name="created_at" type="datetime"></column>
+            <column name="updator" type="char(32)"></column>
+            <column name="updated_at" type="datetime"></column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="10006" author="chenzy">
+        <createTable tableName="xj_app_token" remarks="app授权表">
+            <column name="id" type="char(32)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+
+            <column name="app_version" type="varchar(100)" remarks="APP版本信息"></column>
+            <column name="device_system" type="varchar(100)" remarks="设备系统平台"></column>
+            <column name="device_version" type="varchar(100)" remarks="设备系统版本"></column>
+            <column name="device_model" type="varchar(100)" remarks="设备型号"></column>
+            <column name="app_id" type="varchar(100)" remarks="客户端唯一标识"></column>
+            <column name="channel" type="varchar(100)" remarks="推广通道"></column>
+            <column name="user_id" type="char(32)" remarks="用户ID"></column>
+            <column name="user_type" type="int" remarks="用户类型"></column>
+
+            <column name="creator" type="char(32)"></column>
+            <column name="created_at" type="datetime"></column>
+            <column name="updator" type="char(32)"></column>
+            <column name="updated_at" type="datetime"></column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="10007" author="wangyx">
+        <sqlFile dbms="mysql" encoding="utf8" path="config/business20161010_wyx.sql"
+                 relativeToChangelogFile="true" splitStatements="true" stripComments="true"/>
+    </changeSet>
+
+    <changeSet id="10008" author="chenzy">
+        <addColumn tableName="xj_user_doctor">
+            <column name="head_picture_url" type="varchar(100)" remarks="头像"></column>
+            <column name="balance" type="decimal(8,2)" remarks="余额" defaultValue="0"></column>
+            <column name="region" type="varchar(6)" remarks="地区编码"></column>
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="10009" author="chenzy">
+        <addColumn tableName="xj_order">
+            <column name="from_user_id" type="char(32)" remarks="付款方"></column>
+            <column name="to_user_id" type="char(32)" remarks="收款方"></column>
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="10011" author="chenzy">
+        <addColumn tableName="xj_user_doctor">
+            <column name="signature" type="varchar(500)" value="个性签名"></column>
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="10012" author="chenzy">
+        <addColumn tableName="xj_user_doctor">
+            <column name="title_certificate" type="varchar(100)" value="职称资格证"></column>
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="10013" author="caosk">
+        <modifyDataType tableName="xj_content_pic" columnName="content" newDataType="varchar(2000)"></modifyDataType>
+    </changeSet>
+
+    <changeSet id="10014" author="chenzy">
+        <addColumn tableName="xj_user_doctor">
+            <column name="min_price" type="decimal(8,2)" remarks="问诊最低价格" defaultValue="500"></column>
+        </addColumn>
+
+        <addColumn tableName="xj_app_token">
+            <column name="status" type="int" remarks="状态" defaultValue="1"></column>
+            <column name="logoutAt" type="datetime" remarks="退出登录时间"></column>
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="10015" author="chenzy">
+        <renameColumn tableName="xj_app_token" oldColumnName="logoutAt" newColumnName="logout_at" columnDataType="datetime"/>
+    </changeSet>
+
+    <changeSet id="10016" author="chenzy">
+        <addColumn tableName="xj_user_doctor">
+            <column name="title" type="varchar(100)" remarks="职称"></column>
+            <column name="consultation_times" type="int" remarks="咨询次数" defaultValue="0"></column>
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="10017" author="caosk">
+        <sqlFile dbms="mysql" encoding="utf8" path="config/business20161120_csk.sql"
+                 relativeToChangelogFile="true" splitStatements="true" stripComments="true"/>
+    </changeSet>
+
+    <changeSet id="10018" author="chenzy">
+        <addColumn tableName="xj_prescription">
+            <column name="source" type="int" remarks="来源"></column>
+            <column name="doctor_name" type="varchar(100)" remarks="医生姓名" />
+            <column name="admission_number" type="varchar(100)" remarks="住院号" />
+            <column name="outpatient_number" type="varchar(100)" remarks="门诊号" />
+            <column name="disease" type="varchar(500)" remarks="病症" />
+        </addColumn>
+
+        <dropColumn tableName="xj_prescription_content" columnName="frequency_info"/>
+
+        <addColumn tableName="xj_prescription_content">
+            <column name="times" type="int" remarks="次数"></column>
+            <column name="frequency" type="int" remarks="频率"></column>
+
+            <column name="unit_price" type="decimal(8,2)" remarks="单价" />
+
+            <column name="use_times" type="int" remarks="使用次数" />
+            <column name="last_use_at" type="datetime" remarks="最后一次使用时间" />
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="10019" author="chenzy">
+        <sqlFile dbms="mysql" encoding="utf8" path="config/business20161206_czy.sql"
+                 relativeToChangelogFile="true" splitStatements="true" stripComments="true"/>
+    </changeSet>
+
+    <changeSet id="10020" author="wangyx">
+        <createTable tableName="xj_content_game" remarks="游戏扩展表">
+            <column name="id" type="char(32)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="content_id" type="char(32)" remarks="内容表ID"/>
+            <column name="content" type="varchar(100)" remarks="内容"/>
+            <column name="creator" type="char(32)"></column>
+            <column name="created_at" type="datetime"></column>
+            <column name="updator" type="char(32)"></column>
+            <column name="updated_at" type="datetime"></column>
+        </createTable>
+        <update tableName="xj_therapy">
+            <column name="hidden" value="0"></column>
+            <where>hidden is null</where>
+        </update>
+        <update tableName="xj_disease">
+            <column name="hidden" value="0"></column>
+            <where>hidden is null</where>
+        </update>
+    </changeSet>
+    <changeSet id="10021" author="chenzy">
+        <sqlFile dbms="mysql" encoding="utf8" path="config/business20161221_wyx.sql"
+                 relativeToChangelogFile="true" splitStatements="true" stripComments="true"/>
+    </changeSet>
+
+    <changeSet id="10022" author="chenzy">
+        <sqlFile dbms="mysql" encoding="utf8" path="config/business20170110_czy.sql"
+                 relativeToChangelogFile="true" splitStatements="true" stripComments="true"/>
+
+        <addColumn tableName="xj_prescription_content">
+            <column name="period" type="int" remarks="周期"></column>
+        </addColumn>
+
+        <addColumn tableName="xj_prescription_content">
+            <column name="period_unit" type="int" remarks="周期"></column>
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="10023" author="wangyx">
+        <createTable tableName="xj_user_vr_room" remarks="VR室管理员">
+            <column name="id" type="char(32)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="user_id" type="char(32)" remarks="用户ID"/>
+            <column name="vr_room_id" type="char(32)" remarks="VR室ID"/>
+            <column name="remark" type="varchar(1000)" remarks="备注"/>
+        </createTable>
+
+        <createTable tableName="xj_content_combo" remarks="套餐内容表">
+            <column name="id" type="char(32)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="content_id" type="char(32)" remarks="内容表ID"/>
+            <column name="re_content_id" type="varchar(300)" remarks="套餐关联的内容表ID"/>
+            <column name="unit_price" type="decimal(8,2)" remarks="单价"/>
+            <column name="discount_price" type="decimal(8,2)" remarks="优惠价"/>
+            <column name="sort" type="int" remarks="排序"/>
+
+            <column name="creator" type="char(32)"></column>
+            <column name="created_at" type="datetime"></column>
+            <column name="updator" type="char(32)"></column>
+            <column name="updated_at" type="datetime"></column>
+        </createTable>
+
+        <sqlFile dbms="mysql" encoding="utf8" path="config/business20170117_wyx.sql"
+                 relativeToChangelogFile="true" splitStatements="true" stripComments="true"/>
+        <sqlFile dbms="mysql" encoding="utf8" path="auth/xinjing-home20170117.sql"
+                 relativeToChangelogFile="true" splitStatements="true" stripComments="true"/>
+    </changeSet>
+
+    <changeSet id="10024" author="chenzy">
+        <dropColumn tableName="xj_vr_room_appointment" columnName="content_id" />
+
+        <addColumn tableName="xj_vr_room_appointment">
+            <column name="booking_contact" type="varchar(200)" remarks="预约人联系方式"></column>
+            <column name="remark" type="varchar(1000)" remarks="备注"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="10025" author="chenzy">
+        <createTable tableName="xj_section_office" remarks="科室表">
+            <column name="id" type="char(32)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+
+            <column name="help_code" type="varchar(50)" remarks="助记码"></column>
+            <column name="name" type="varchar(200)" remarks="名称"></column>
+            <column name="pid" type="char(32)" remarks="父节点ID"></column>
+            <column name="sort" type="int" remarks="排序"></column>
+            <column name="remark" type="varchar(1000)" remarks="备注"/>
+
+            <column name="status" type="int" remarks="状态"/><!--草稿、已发布、未发布-->
+
+            <column name="hidden" type="int" remarks="是否隐藏"></column>
+
+            <column name="creator" type="char(32)"></column>
+            <column name="created_at" type="datetime"></column>
+            <column name="updator" type="char(32)"></column>
+            <column name="updated_at" type="datetime"></column>
+        </createTable>
+
+        <createTable tableName="xj_section_office_disease" remarks="科室与病种关联表">
+            <column name="id" type="char(32)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+
+            <column name="section_office_id" type="char(32)" remarks="科室Id"/>
+            <column name="disease_id" type="char(32)" remarks="病种Id"/>
+
+            <column name="creator" type="char(32)"></column>
+            <column name="created_at" type="datetime"></column>
+            <column name="updator" type="char(32)"></column>
+            <column name="updated_at" type="datetime"></column>
+        </createTable>
+
+    </changeSet>
+    <changeSet id="10026" author="wangyx">
+        <sqlFile dbms="mysql" encoding="utf8" path="auth/xinjing-home20170206.sql"
+                 relativeToChangelogFile="true" splitStatements="true" stripComments="true"/>
+    </changeSet>
+    <changeSet id="10027" author="wangyx">
+        <sqlFile dbms="mysql" encoding="utf8" path="config/business20170207_wyx.sql"
+                 relativeToChangelogFile="true" splitStatements="true" stripComments="true"/>
+    </changeSet>
+
+    <changeSet id="10028" author="caosk">
+        <createTable tableName="xj_app_version" remarks="APP版本信息表">
+            <column name="id" type="char(32)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+
+            <column name="app_code" type="varchar(500)" remarks="APP编码"/>
+            <column name="download_url" type="varchar(500)" remarks="下载地址"/>
+            <column name="version_code" type="varchar(20)" remarks="版本编号"/>
+            <column name="version_desc" type="varchar(1000)" remarks="版本描述"/>
+            <column name="version_name" type="varchar(100)" remarks="版本名称"/>
+            <column name="version_size" type="varchar(20)" remarks="版本大小"/>
+
+            <column name="creator" type="char(32)"></column>
+            <column name="created_at" type="datetime"></column>
+            <column name="updator" type="char(32)"></column>
+            <column name="updated_at" type="datetime"></column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="10029" author="wangyx">
+        <sqlFile dbms="mysql" encoding="utf8" path="config/business20170222_csk.sql"
+                 relativeToChangelogFile="true" splitStatements="true" stripComments="true"/>
+        <sqlFile dbms="mysql" encoding="utf8" path="auth/xinjing-home20170222.sql"
+                 relativeToChangelogFile="true" splitStatements="true" stripComments="true"/>
+    </changeSet>
+
+    <changeSet id="10030" author="chenzy">
+        <createTable tableName="xj_content_outside_game" remarks="外部游戏内容表">
+            <column name="id" type="char(32)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="content_id" type="char(32)" remarks="内容表ID"/>
+
+            <column name="content" type="varchar(100)" remarks="内容"/>
+
+            <column name="creator" type="char(32)"></column>
+            <column name="created_at" type="datetime"></column>
+            <column name="updator" type="char(32)"></column>
+            <column name="updated_at" type="datetime"></column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="10031" author="chenzy">
+        <addColumn tableName="xj_prescription">
+            <column name="pay_status" type="int" remarks="支付状态"></column>
+        </addColumn>
+
+        <update tableName="pb_config">
+            <column name="value" value="1:未开始\r\n2:进行中\r\n3:已完成\r\n9:已中止"></column>
+            <where>code='PRESCRIPTION_STATUS_ENUM'</where>
+        </update>
+
+
+        <sqlFile dbms="mysql" encoding="utf8" path="config/business20170320_czy.sql"
+                 relativeToChangelogFile="true" splitStatements="true" stripComments="true"/>
+    </changeSet>
+
+    <changeSet id="10032" author="chenzy">
+
+        <sqlFile dbms="mysql" encoding="utf8" path="config/business20170404_czy.sql"
+                 relativeToChangelogFile="true" splitStatements="true" stripComments="true"/>
+
+        <createTable tableName="xj_doctor_bank_card" remarks="医生银行卡">
+            <column name="id" type="char(32)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+
+            <column name="bank_name" type="varchar(100)" remarks="银行名称"/>
+            <column name="deposit_bank" type="varchar(100)" remarks="开户行"/>
+            <column name="cardholder" type="varchar(50)" remarks="持卡人姓名"/>
+            <column name="card_number" type="varchar(100)" remarks="卡号"/>
+
+            <column name="doctor_id" type="char(32)" remarks="医生Id"/>
+
+            <column name="hidden" type="int" remarks="是否隐藏"></column>
+
+            <column name="creator" type="char(32)"></column>
+            <column name="created_at" type="datetime"></column>
+            <column name="updator" type="char(32)"></column>
+            <column name="updated_at" type="datetime"></column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="10033" author="chenzy">
+        <dropColumn tableName="xj_user_doctor" columnName="certificate" />
+        <dropColumn tableName="xj_user_doctor" columnName="title_certificate" />
+        <dropColumn tableName="xj_user_doctor" columnName="title" />
+
+        <addColumn tableName="xj_user_doctor">
+            <column name="professional_title_id" type="int" remarks="职称Id"></column>
+            <column name="workplace_type" type="int" remarks="工作场所类型"></column>
+            <column name="position" type="varchar(100)" remarks="职位"></column>
+            <column name="department" type="varchar(100)" remarks="科室"></column>
+            <column name="psychological_consultant_image_id" type="varchar(500)" remarks="心理咨询师证图片Id"></column>
+            <column name="employee_image_id" type="varchar(500)" remarks="工作证图片Id"></column>
+            <column name="doctor_profession_image_id" type="varchar(500)" remarks="医师职业证图片Id"></column>
+            <column name="professional_qualification_image_id" type="varchar(500)" remarks="职称资格证图片Id"></column>
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="10034" author="chenzy">
+
+        <renameColumn tableName="xj_user_doctor" oldColumnName="psychological_consultant_image_id" columnDataType="varchar(500)" newColumnName="psychological_consultant_image_url" />
+        <renameColumn tableName="xj_user_doctor" oldColumnName="employee_image_id" columnDataType="varchar(500)" newColumnName="employee_image_url" />
+        <renameColumn tableName="xj_user_doctor" oldColumnName="doctor_profession_image_id" columnDataType="varchar(500)" newColumnName="doctor_profession_image_url" />
+        <renameColumn tableName="xj_user_doctor" oldColumnName="professional_qualification_image_id" columnDataType="varchar(500)" newColumnName="professional_qualification_image_url" />
+    </changeSet>
+
+    <changeSet id="10035" author="chenzy">
+        <createTable tableName="xj_vr_room_app_task" remarks="Vr室APP任务表">
+            <column name="id" type="char(32)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+
+            <column name="type" type="int" remarks="指令类型"/>
+            <column name="content" type="varchar(500)" remarks="指令内容"/>
+            <column name="user_id" type="char(32)" remarks="Vr室管理员"/>
+
+            <column name="status" type="int" remarks="状态"/>
+
+            <column name="creator" type="char(32)"></column>
+            <column name="created_at" type="datetime"></column>
+            <column name="updator" type="char(32)"></column>
+            <column name="updated_at" type="datetime"></column>
+        </createTable>
+
+
+        <sqlFile dbms="mysql" encoding="utf8" path="config/business20170406_czy.sql"
+                 relativeToChangelogFile="true" splitStatements="true" stripComments="true"/>
+    </changeSet>
+
+    <changeSet id="10036" author="wangyx">
+        <createTable tableName="xj_advertisement" remarks="广告表">
+            <column name="id" type="char(32)">
+                <constraints primaryKey="true" nullable="false" />
+            </column>
+            <column name="title" type="varchar(100)" remarks="标题"></column>
+            <column name="summary" type="varchar(500)" remarks="摘要"></column>
+            <column name="content" type="varchar(500)" remarks="内容（链接）"></column>
+            <column name="type" type="int" remarks="类型"></column>
+            <column name="status" type="int" remarks="状态"></column>
+            <column name="pic" type="varchar(2000)" remarks="图片"></column>
+
+            <column name="creator" type="char(32)"></column>
+            <column name="created_at" type="datetime"></column>
+            <column name="updator" type="char(32)"></column>
+            <column name="updated_at" type="datetime"></column>
+        </createTable>
+
+        <addColumn tableName="xj_user_doctor">
+            <column name="point" type="int" remarks="积分" defaultValue="0"></column>
+        </addColumn>
+        <sqlFile dbms="mysql" encoding="utf8" path="auth/xinjing-home20170406.sql"
+                 relativeToChangelogFile="true" splitStatements="true" stripComments="true"/>
+        <sqlFile dbms="mysql" encoding="utf8" path="config/business20170406_wyx.sql"
+                 relativeToChangelogFile="true" splitStatements="true" stripComments="true"/>
+    </changeSet>
+
+    <changeSet id="10037" author="chenzy">
+
+        <createTable tableName="xj_user_doctor_approve" remarks="医生信息审核表">
+            <column name="id" type="char(32)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+
+            <column name="user_id" type="char(32)" remarks="用户ID"/>
+
+            <column name="realname" type="varchar(50)" remarks="真实姓名"></column>
+            <column name="gender" type="int" remarks="性别"></column>
+            <column name="region" type="varchar(6)" remarks="地区编码"></column>
+            <column name="professional_title_id" type="int" remarks="职称Id"></column>
+            <column name="workplace_type" type="int" remarks="工作场所类型"></column>
+            <column name="hospital" type="varchar(100)" remarks="在职医院"/>
+            <column name="position" type="varchar(100)" remarks="职位"></column>
+            <column name="department" type="varchar(100)" remarks="科室"></column>
+            <column name="head_picture_url" type="varchar(100)" remarks="头像"></column>
+
+            <column name="introduction" type="varchar(2000)" remarks="自我介绍"/>
+            <column name="expertise" type="varchar(1000)" remarks="专长"/>
+
+            <column name="psychological_consultant_image_url" type="varchar(500)" remarks="心理咨询师证"></column>
+            <column name="employee_image_url" type="varchar(500)" remarks="工作证"></column>
+            <column name="doctor_profession_image_url" type="varchar(500)" remarks="医师职业证"></column>
+            <column name="professional_qualification_image_url" type="varchar(500)" remarks="职称资格证"></column>
+
+            <!-- 审核相关信息 -->
+            <column name="status" type="int" remarks="状态" />
+            <column name="approver" type="char(32)" remarks="审批人" />
+            <column name="remark" type="varchar(1000)" remarks="审核意见"/>
+
+            <column name="creator" type="char(32)"></column>
+            <column name="created_at" type="datetime"></column>
+            <column name="updator" type="char(32)"></column>
+            <column name="updated_at" type="datetime"></column>
+        </createTable>
+
+        <sqlFile dbms="mysql" encoding="utf8" path="auth/xinjing-home20170407.sql"
+                 relativeToChangelogFile="true" splitStatements="true" stripComments="true"/>
+        <sqlFile dbms="mysql" encoding="utf8" path="config/business20170407_czy.sql"
+                 relativeToChangelogFile="true" splitStatements="true" stripComments="true"/>
+
+    </changeSet>
+
+
+    <changeSet id="10038" author="chenzy">
+        <addColumn tableName="xj_user_doctor_approve">
+            <column name="approve_at" type="datetime"></column>
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="10039" author="caosk">
+        <createTable tableName="xj_bills" remarks="账单表">
+            <column name="id" type="char(32)">
+                <constraints primaryKey="true" nullable="false" />
+            </column>
+            <column name="type" type="int" remarks="类型"></column>
+            <column name="status" type="int" remarks="状态"></column>
+            <column name="amount" type="decimal(8,2)" remarks="账单金额"></column>
+            <column name="date" type="datetime" remarks="账单生成时间"></column>
+
+            <column name="creator" type="char(32)"></column>
+            <column name="created_at" type="datetime"></column>
+            <column name="updator" type="char(32)"></column>
+            <column name="updated_at" type="datetime"></column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="10040" author="wangyx">
+        <sqlFile dbms="mysql" encoding="utf8" path="config/business20170407_wyx.sql"
+                 relativeToChangelogFile="true" splitStatements="true" stripComments="true"/>
+    </changeSet>
+
+    <changeSet id="10041" author="wangyx">
+        <addColumn tableName="xj_user_patient">
+            <column name="head_picture_url" type="varchar(100)" remarks="头像"></column>
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="10042" author="chenzy">
+        <addColumn tableName="xj_user_vr_room">
+            <column name="creator" type="char(32)"></column>
+            <column name="created_at" type="datetime"></column>
+            <column name="updator" type="char(32)"></column>
+            <column name="updated_at" type="datetime"></column>
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="10043" author="chenzy">
+        <update tableName="pb_config">
+            <column name="value" value="2:待认证\r\n3:认证不通过\r\n4:认证通过" ></column>
+            <where>code='USER_DOCTOR_APPROVE_STATUS_ENUM'</where>
+        </update>
+
+        <addColumn tableName="xj_vr_room_app_task">
+            <column name="prescription_content_id" type="char(32)" remarks="电子处方内容关联Id"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="10044" author="wangyx">
+        <createTable tableName="xj_disease_therapy" remarks="病种与疗法关联表">
+            <column name="id" type="char(32)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+
+            <column name="disease_id" type="char(32)" remarks="病种Id"/>
+            <column name="therapy_id" type="char(32)" remarks="疗法Id"/>
+
+            <column name="creator" type="char(32)"></column>
+            <column name="created_at" type="datetime"></column>
+            <column name="updator" type="char(32)"></column>
+            <column name="updated_at" type="datetime"></column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="10045" author="wangyx">
+        <addColumn tableName="xj_content">
+            <column name="clicks" type="int" defaultValue="0" remarks="点击量"></column>
+            <column name="duration" type="int" defaultValue="0" remarks="时长"></column>
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="10046" author="chenzy">
+        <addColumn tableName="xj_user_vr_room">
+            <column name="type" type="int" remarks="用户类型"></column>
+        </addColumn>
+
+        <sqlFile dbms="mysql" encoding="utf8" path="config/business20170414_czy.sql"
+                 relativeToChangelogFile="true" splitStatements="true" stripComments="true"/>
+    </changeSet>
+
+    <changeSet id="10047" author="chenzy">
+        <update tableName="pb_config">
+            <column name="value"
+                    value="DOCTOR_IOS:医生苹果APP\r\nDOCTOR_ANDROID:医生安卓APP\r\nPATIENT_IOS:患者苹果APP\r\nPATIENT_ANDROID:患者安卓APP\r\nVR_ANDROID:VR室安卓APP\r\nVR_CONTROL_ANDROID:VR室控制端安卓APP\r\nVR_CONTROL_IOS:VR室控制端苹果APP">
+            </column>
+            <where>
+                code='APP_CLIENT_ENUM'
+            </where>
+        </update>
+    </changeSet>
+
+    <changeSet id="10048" author="caosk">
+        <dropTable tableName="xj_bills" />
+
+        <addColumn tableName="xj_order">
+            <column name="pay_way" type="int" remarks="支付方式"></column>
+        </addColumn>
+
+        <createTable tableName="xj_capital_flow" remarks="资金流水表">
+            <column name="id" type="char(32)">
+                <constraints primaryKey="true" nullable="false" />
+            </column>
+            <column name="user_id" type="char(32)" remarks="用户ID" />
+            <column name="type" type="int" remarks="流水类型"></column>
+            <column name="status" type="int" remarks="状态"></column>
+            <column name="amount" type="decimal(8,2)" remarks="金额"></column>
+            <column name="balance" type="decimal(8,2)" remarks="账户余额"></column>
+            <column name="happened_time" type="datetime" remarks="账单生成时间"></column>
+
+            <column name="creator" type="char(32)"></column>
+            <column name="created_at" type="datetime"></column>
+            <column name="updator" type="char(32)"></column>
+            <column name="updated_at" type="datetime"></column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="10049" author="caosk">
+        <addColumn tableName="xj_user_doctor">
+            <column name="receivable_amount" type="decimal(8,2)" remarks="待收金额" defaultValue="0"></column>
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="10050" author="caosk">
+        <dropColumn tableName="xj_order" columnName="price"></dropColumn>
+        <dropColumn tableName="xj_order" columnName="pay_amount"></dropColumn>
+        <dropColumn tableName="xj_order" columnName="order_no"></dropColumn>
+
+        <addColumn tableName="xj_order">
+            <column name="amount" type="decimal(8,2)" remarks="发生金额"></column>
+        </addColumn>
+
+        <addColumn tableName="xj_capital_flow">
+            <column name="order_id" type="char(32)" remarks="心景订单ID"></column>
+            <column name="fee_type" type="int" remarks="费用类型"></column>
+        </addColumn>
+
+
+        <sqlFile dbms="mysql" encoding="utf8" path="config/business20170416_csk.sql"
+                 relativeToChangelogFile="true" splitStatements="true" stripComments="true"/>
+    </changeSet>
+
+    <changeSet id="10051" author="chenzy">
+        <sqlFile dbms="mysql" encoding="utf8" path="config/business20170502_czy.sql"
+                 relativeToChangelogFile="true" splitStatements="true" stripComments="true"/>
+    </changeSet>
+
+    <changeSet id="10052" author="chenzy">
+        <addColumn tableName="xj_disease">
+            <column name="description" type="text" remarks="描述"></column>
+        </addColumn>
+
+        <addColumn tableName="xj_therapy">
+            <column name="description" type="text" remarks="描述"></column>
+        </addColumn>
+
+        <addColumn tableName="xj_content">
+            <column name="description" type="text" remarks="描述"></column>
+        </addColumn>
+
+        <sql>
+            update xj_disease set description = remark;
+            update xj_therapy set description = remark;
+            update xj_content set description = remark;
+        </sql>
+    </changeSet>
+
+    <changeSet id="10053" author="fanchengzhi">
+
+        <addColumn tableName="xj_vr_room">
+            <column name="description" type="text" remarks="描述"></column>
+        </addColumn>
+
+    </changeSet>
+
+
+    <!-- begin 2017-05-04：fanchengzhi 医院、医院与VR室关联表-->
+    <changeSet id="10054" author="fanchengzhi">
+        <createTable tableName="xj_hospital" remarks="医院表">
+            <column name="id" type="char(32)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+
+            <column name="help_code" type="varchar(50)" remarks="助记码"></column>
+            <column name="name" type="varchar(200)" remarks="名称"></column>
+            <column name="region" type="varchar(6)" remarks="地区"></column>
+            <column name="address" type="varchar(100)" remarks="地址"></column>
+            <column name="sort" type="int" remarks="排序"></column>
+            <column name="remark" type="varchar(1000)" remarks="备注"/>
+            <column name="abstracts" type="varchar(1000)" remarks="摘要"/>
+            <column name="description" type="text" remarks="介绍"></column>
+            <column name="status" type="int" remarks="状态"/><!--草稿、已发布、未发布-->
+
+            <column name="hidden" type="int" remarks="是否隐藏"></column>
+
+            <column name="creator" type="char(32)"></column>
+            <column name="created_at" type="datetime"></column>
+            <column name="updator" type="char(32)"></column>
+            <column name="updated_at" type="datetime"></column>
+        </createTable>
+
+
+        <sqlFile dbms="mysql" encoding="utf8" path="config/business20170504_fcz.sql"
+                 relativeToChangelogFile="true" splitStatements="true" stripComments="true"/>
+        <sqlFile dbms="mysql" encoding="utf8" path="auth/xinjing-home20170504.sql"
+                 relativeToChangelogFile="true" splitStatements="true" stripComments="true"/>
+    </changeSet>
+    <!-- end 2017-05-04：fanchengzhi 医院、医院与VR室关联表-->
+
+    <changeSet id="10056" author="fanchengzhi">
+
+        <addColumn tableName="xj_vr_room">
+            <column name="hospital_id" type="char(32)" remarks="医院id"></column>
+        </addColumn>
+
+    </changeSet>
+
+    <changeSet id="10057" author="fanchengzhi">
+        <addColumn tableName="xj_hospital">
+            <column name="cover_pic" type="varchar(2000)" remarks="缩略图"></column>
+            <column name="carousel" type="int" remarks="是否轮播"></column>
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="10058" author="fanchengzhi">
+        <addColumn tableName="xj_prescription">
+            <column name="billno" type="varchar(32)" remarks="订单编号"></column>
+            <column name="hospital_id" type="char(32)" remarks="医院"></column>
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="10059" author="fanchengzhi">
+        <addColumn tableName="xj_hospital">
+            <column name="isdisplay" type="int" remarks="是否样板展示"></column>
+        </addColumn>
+        <addColumn tableName="xj_vr_room">
+            <column name="cover_pic" type="varchar(2000)" remarks="缩略图"></column>
+            <column name="carousel" type="int" remarks="是否轮播"></column>
+        </addColumn>
+    </changeSet>
+
+
+    <changeSet id="10060" author="fanchengzhi">
+        <sqlFile dbms="mysql" encoding="utf8" path="autoNoConfig/xinjingNo20170508.sql"
+                 relativeToChangelogFile="true" splitStatements="true" stripComments="true"/>
+    </changeSet>
+
+    <changeSet id="10061" author="fanchengzhi">
+        <addColumn tableName="xj_prescription">
+            <column name="vr_room_id" type="char(32)" remarks="VR室ID"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="10062" author="fanchengzhi">
+        <dropColumn tableName="xj_prescription" columnName="vr_room_id" />
+    </changeSet>
+
+    <changeSet id="10063" author="fanchengzhi">
+        <createTable tableName="xj_frontpage" remarks="心景头条表">
+            <column name="id" type="char(32)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="themes" type="varchar(200)" remarks="主题"></column>
+            <column name="abstracts" type="varchar(1000)" remarks="摘要"/>
+            <column name="author" type="varchar(200)" remarks="作者"></column>
+            <column name="release_time" type="datetime" remarks="发布时间"></column>
+            <column name="rublisher" type="varchar(200)" remarks="发布人"></column>
+            <column name="description" type="text" remarks="内容"></column>
+            <column name="browse_times" type="int" remarks="浏览次数" defaultValue="0"></column>
+            <column name="thumbup_times" type="int" remarks="点赞次数" defaultValue="0"></column>
+            <column name="cover_pic" type="varchar(2000)" remarks="缩略图"></column>
+            <column name="carousel" type="int" remarks="是否轮播"></column>
+            <column name="linkurl" type="varchar(1000)" remarks="链接"/>
+            <column name="sort" type="int" remarks="排序"></column>
+            <column name="remark" type="varchar(1000)" remarks="备注"/>
+            <column name="status" type="int" remarks="状态"/>
+            <column name="hidden" type="int" remarks="是否隐藏"></column>
+            <column name="creator" type="char(32)"></column>
+            <column name="created_at" type="datetime"></column>
+            <column name="updator" type="char(32)"></column>
+            <column name="updated_at" type="datetime"></column>
+        </createTable>
+
+
+        <sqlFile dbms="mysql" encoding="utf8" path="config/business20170517_fcz.sql"
+                 relativeToChangelogFile="true" splitStatements="true" stripComments="true"/>
+        <sqlFile dbms="mysql" encoding="utf8" path="auth/xinjing-home20170517.sql"
+                 relativeToChangelogFile="true" splitStatements="true" stripComments="true"/>
+    </changeSet>
+
+    <changeSet id="10064" author="fanchengzhi">
+    <createTable tableName="xj_frontpage_type" remarks="心景头条分类管理表">
+        <column name="id" type="char(32)">
+            <constraints primaryKey="true" nullable="false"/>
+        </column>
+
+        <column name="help_code" type="varchar(50)" remarks="助记码"></column>
+        <column name="name" type="varchar(200)" remarks="名称"></column>
+        <column name="pid" type="char(32)" remarks="父节点ID"></column>
+        <column name="sort" type="int" remarks="排序"></column>
+        <column name="remark" type="varchar(1000)" remarks="备注"/>
+
+        <column name="status" type="int" remarks="状态"/><!--草稿、已发布、未发布-->
+
+        <column name="hidden" type="int" remarks="是否隐藏"></column>
+
+        <column name="creator" type="char(32)"></column>
+        <column name="created_at" type="datetime"></column>
+        <column name="updator" type="char(32)"></column>
+        <column name="updated_at" type="datetime"></column>
+
+
+    </createTable>
+        <sqlFile dbms="mysql" encoding="utf8" path="config/business20170519_fcz.sql"
+                 relativeToChangelogFile="true" splitStatements="true" stripComments="true"/>
+        <sqlFile dbms="mysql" encoding="utf8" path="auth/xinjing-home20170519.sql"
+                 relativeToChangelogFile="true" splitStatements="true" stripComments="true"/>
+    </changeSet>
+
+    <changeSet id="10065" author="fanchengzhi">
+        <addColumn tableName="xj_frontpage">
+            <column name="frontpage_type_id" type="char(32)" remarks="心景头条分类id"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="10066" author="fanchengzhi">
+        <createTable tableName="xj_frontpage_ftype" remarks="头条与头条分类关联表">
+            <column name="id" type="char(32)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+
+            <column name="frontpage_type_id" type="char(32)" remarks="头条分类Id"/>
+            <column name="frontpage_id" type="char(32)" remarks="头条id"/>
+        </createTable>
+    </changeSet>
+
+
+    <changeSet id="10067" author="fanchengzhi">
+    <createTable tableName="xj_evaluating" remarks="评测信息表">
+        <column name="id" type="char(32)">
+            <constraints primaryKey="true" nullable="false"/>
+        </column>
+
+        <column name="name" type="varchar(200)" remarks="名称"></column>
+        <column name="code" type="char(32)" remarks="评测编码"></column>
+        <column name="cover_pic" type="varchar(2000)" remarks="缩略图"></column>
+        <column name="description" type="text" remarks="介绍"></column>
+        <column name="remark" type="varchar(1000)" remarks="备注"/>
+        <column name="status" type="int" remarks="状态"/><!--草稿、已发布、未发布-->
+        <column name="hidden" type="int" remarks="是否隐藏"></column>
+        <column name="creator" type="char(32)"></column>
+        <column name="created_at" type="datetime"></column>
+        <column name="updator" type="char(32)"></column>
+        <column name="updated_at" type="datetime"></column>
+
+
+    </createTable>
+    <sqlFile dbms="mysql" encoding="utf8" path="config/business20170523_fcz.sql"
+             relativeToChangelogFile="true" splitStatements="true" stripComments="true"/>
+    <sqlFile dbms="mysql" encoding="utf8" path="auth/xinjing-home20170523.sql"
+             relativeToChangelogFile="true" splitStatements="true" stripComments="true"/>
+</changeSet>
+
+
+    <changeSet id="10068" author="fanchengzhi">
+        <createTable tableName="xj_singlesel" remarks="评测题信息表">
+            <column name="id" type="char(32)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+
+            <column name="name" type="varchar(200)" remarks="题目内容"></column>
+            <column name="code" type="char(32)" remarks="问题编号"></column>
+            <column name="evaluating_id" type="char(32)" remarks="评测编码"></column>
+            <column name="singtype" type="int" remarks="问题类型"/>
+            <column name="options01" type="varchar(1000)" remarks="选项1"/>
+            <column name="options02" type="varchar(1000)" remarks="选项2"/>
+            <column name="options03" type="varchar(1000)" remarks="选项3"/>
+            <column name="options04" type="varchar(1000)" remarks="选项4"/>
+            <column name="options05" type="varchar(1000)" remarks="选项5"/>
+            <column name="options06" type="varchar(1000)" remarks="选项6"/>
+            <column name="tmscore" type="decimal(8,2)" remarks="题目分值"></column>
+            <column name="remark" type="varchar(1000)" remarks="备注"/>
+            <column name="status" type="int" remarks="状态"/><!--草稿、已发布、未发布-->
+            <column name="hidden" type="int" remarks="是否隐藏"></column>
+            <column name="creator" type="char(32)"></column>
+            <column name="created_at" type="datetime"></column>
+            <column name="updator" type="char(32)"></column>
+            <column name="updated_at" type="datetime"></column>
+        </createTable>
+
+        <createTable tableName="xj_singlesel_record" remarks="评测记录表">
+            <column name="id" type="char(32)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="evaluation_people" type="char(32)" remarks="评测人"></column>
+            <column name="evaluating_id" type="char(32)" remarks="评测主键"></column>
+            <column name="singlesel_id" type="char(32)" remarks="评测题目主键"></column>
+            <column name="tmscore" type="decimal(8,2)" remarks="题目分值"></column>
+            <column name="description" type="text" remarks="答案"></column>
+            <column name="evaluation_time" type="datetime" remarks="评测时间"></column>
+
+            <column name="remark" type="varchar(1000)" remarks="备注"/>
+            <column name="hidden" type="int" remarks="是否隐藏"></column>
+            <column name="creator" type="char(32)"></column>
+            <column name="created_at" type="datetime"></column>
+            <column name="updator" type="char(32)"></column>
+            <column name="updated_at" type="datetime"></column>
+        </createTable>
+
+        <sqlFile dbms="mysql" encoding="utf8" path="config/business20170523(2)_fcz.sql"
+                 relativeToChangelogFile="true" splitStatements="true" stripComments="true"/>
+        <sqlFile dbms="mysql" encoding="utf8" path="auth/xinjing-home20170523(2).sql"
+                 relativeToChangelogFile="true" splitStatements="true" stripComments="true"/>
+    </changeSet>
+
+    <changeSet id="10069" author="fanchengzhi">
+        <update tableName="pb_auth_permission">
+            <column name="url" value="/singleselRecord">
+            </column>
+            <where>
+                id='xj_home_000000000000000000315500'
+            </where>
+        </update>
+        
+    </changeSet>
+
+    <changeSet id="10070" author="fanchengzhi">
+        <addColumn tableName="xj_singlesel">
+            <column name="description" type="text" remarks="评测内容介绍"></column>
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="10071" author="fanchengzhi">
+        <createTable tableName="xj_banks" remarks="银行档案">
+            <column name="id" type="char(32)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+
+            <column name="name" type="varchar(200)" remarks="名称"></column>
+            <column name="code" type="char(32)" remarks="编码"></column>
+
+            <column name="hidden" type="int" remarks="是否隐藏"></column>
+            <column name="creator" type="char(32)"></column>
+            <column name="created_at" type="datetime"></column>
+            <column name="updator" type="char(32)"></column>
+            <column name="updated_at" type="datetime"></column>
+
+
+        </createTable>
+
+        <sqlFile dbms="mysql" encoding="utf8" path="auth/xinjing-home20170531.sql"
+                 relativeToChangelogFile="true" splitStatements="true" stripComments="true"/>
+    </changeSet>
+
+    <changeSet id="10072" author="fanchengzhi">
+        <sqlFile dbms="mysql" encoding="utf8" path="auth/xinjing-home20170601.sql"
+                 relativeToChangelogFile="true" splitStatements="true" stripComments="true"/>
+    </changeSet>
+
+    <changeSet id="10073" author="fanchengzhi">
+        <addColumn tableName="xj_doctor_bank_card">
+            <column name="bank_id" type="char(32)" remarks="银行档案主键"></column>
+        </addColumn>
+    </changeSet>
+
+
+    <changeSet id="10074" author="fanchengzhi">
+        <addColumn tableName="xj_content">
+            <column name="otherdisease" type="varchar(200)" remarks="其它病症"></column>
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="10075" author="fanchengzhi">
+        <addColumn tableName="xj_content">
+            <column name="videoupdate_at" type="datetime" remarks="最后修改视频的时间戳"></column>
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="10076" author="fanchengzhi">
+        <createTable tableName="xj_game_efs" remarks="加密绑定表">
+            <column name="id" type="char(32)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+
+            <column name="ip" type="char(32)" remarks="ip"></column>
+            <column name="mac" type="char(32)" remarks="mac地址"></column>
+            <column name="disk" type="char(32)" remarks="硬盘地址"></column>
+
+            <column name="hidden" type="int" remarks="是否隐藏"></column>
+            <column name="creator" type="char(32)"></column>
+            <column name="created_at" type="datetime"></column>
+            <column name="updator" type="char(32)"></column>
+            <column name="updated_at" type="datetime"></column>
+
+
+        </createTable>
+        <sqlFile dbms="mysql" encoding="utf8" path="auth/xinjing-home20170616.sql"
+                 relativeToChangelogFile="true" splitStatements="true" stripComments="true"/>
+    </changeSet>
+    <changeSet id="10077" author="fanchengzhi">
+        <addColumn tableName="xj_game_efs">
+            <column name="vruser" type="char(32)" remarks="vr室用户"></column>
+            <column name="vr_room_id" type="char(32)" remarks="vr室"></column>
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="10078" author="fanchengzhi">
+        <addColumn tableName="xj_content_video">
+            <column name="videopassword" type="int" remarks="视频密钥" value="123"></column>
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="10079" author="fanchengzhi">
+        <createTable tableName="xj_voide_efs" remarks="视频密钥维护表">
+            <column name="id" type="char(32)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+
+            <column name="password" type="int" remarks="密钥"></column>
+            <column name="password2" type="int" remarks="预留密钥"></column>
+
+            <column name="hidden" type="int" remarks="是否隐藏"></column>
+            <column name="creator" type="char(32)"></column>
+            <column name="created_at" type="datetime"></column>
+            <column name="updator" type="char(32)"></column>
+            <column name="updated_at" type="datetime"></column>
+
+
+        </createTable>
+        <sqlFile dbms="mysql" encoding="utf8" path="auth/xinjing-home20170621.sql"
+                 relativeToChangelogFile="true" splitStatements="true" stripComments="true"/>
+    </changeSet>
+
+
+    <changeSet id="10080" author="fanchengzhi">
+        <createTable tableName="xj_gamehead_record" remarks="游戏记录头表">
+            <column name="id" type="char(32)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="loginuserid" type="char(32)" remarks="VR室登陆人用户id"></column>
+            <column name="patientid" type="char(32)" remarks="患者id"></column>
+            <column name="gameid" type="char(32)" remarks="游戏id"></column>
+            <column name="contentid" type="char(32)" remarks="内容处方id"></column>
+            <column name="vrroomid" type="char(32)" remarks="VR室id"></column>
+            <column name="gamedatatime" type="varchar(1000)" remarks="游戏总时长"></column>
+            <column name="clickdatatime" type="datetime" remarks="客户端点击播放的时间"></column>
+
+            <column name="hidden" type="int" remarks="是否隐藏"></column>
+            <column name="creator" type="char(32)"></column>
+            <column name="created_at" type="datetime"></column>
+            <column name="updator" type="char(32)"></column>
+            <column name="updated_at" type="datetime"></column>
+        </createTable>
+        <createTable tableName="xj_gameitem_record01" remarks="游戏阶段表01">
+            <column name="id" type="char(32)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="gamehead_record_id" type="char(32)" remarks="游戏记录表头id"></column>
+            <column name="gamephase" type="char(32)" remarks="游戏阶段"></column>
+            <column name="operationnumber" type="int" remarks="做的次数"></column>
+            <column name="totalnumber" type="int" remarks="总个数"></column>
+            <column name="correctnumber" type="int" remarks="正确的个数"></column>
+            <column name="correctrate" type="char(32)" remarks="正确率"></column>
+            <column name="timeconsuming" type="varchar(1000)" remarks="所用时间"></column>
+            <column name="completeif" type="char(32)" remarks="是否完成"></column>
+
+            <column name="hidden" type="int" remarks="是否隐藏"></column>
+            <column name="creator" type="char(32)"></column>
+            <column name="created_at" type="datetime"></column>
+            <column name="updator" type="char(32)"></column>
+            <column name="updated_at" type="datetime"></column>
+        </createTable>
+        <createTable tableName="xj_gameitem_record02" remarks="游戏阶段表02">
+            <column name="id" type="char(32)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="gamehead_record_id" type="char(32)" remarks="游戏记录表头id"></column>
+            <column name="gamephase" type="char(32)" remarks="游戏阶段"></column>
+            <column name="operationnumber" type="int" remarks="做的次数"></column>
+            <column name="totalnumber" type="int" remarks="总个数"></column>
+            <column name="correctnumber" type="int" remarks="正确的个数"></column>
+            <column name="correctrate" type="char(32)" remarks="正确率"></column>
+            <column name="timeconsuming" type="varchar(1000)" remarks="所用时间"></column>
+            <column name="completeif" type="char(32)" remarks="是否完成"></column>
+
+            <column name="hidden" type="int" remarks="是否隐藏"></column>
+            <column name="creator" type="char(32)"></column>
+            <column name="created_at" type="datetime"></column>
+            <column name="updator" type="char(32)"></column>
+            <column name="updated_at" type="datetime"></column>
+        </createTable>
+        <createTable tableName="xj_gameitem_record03" remarks="游戏阶段表03">
+            <column name="id" type="char(32)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="gamehead_record_id" type="char(32)" remarks="游戏记录表头id"></column>
+            <column name="gamephase" type="char(32)" remarks="游戏阶段"></column>
+            <column name="operationnumber" type="int" remarks="做的次数"></column>
+            <column name="totalnumber" type="int" remarks="总个数"></column>
+            <column name="correctnumber" type="int" remarks="正确的个数"></column>
+            <column name="correctrate" type="char(32)" remarks="正确率"></column>
+            <column name="timeconsuming" type="varchar(1000)" remarks="所用时间"></column>
+            <column name="completeif" type="char(32)" remarks="是否完成"></column>
+
+            <column name="hidden" type="int" remarks="是否隐藏"></column>
+            <column name="creator" type="char(32)"></column>
+            <column name="created_at" type="datetime"></column>
+            <column name="updator" type="char(32)"></column>
+            <column name="updated_at" type="datetime"></column>
+        </createTable>
+        <createTable tableName="xj_gameitem_record04" remarks="游戏阶段表04">
+            <column name="id" type="char(32)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="gamehead_record_id" type="char(32)" remarks="游戏记录表头id"></column>
+            <column name="gamephase" type="char(32)" remarks="游戏阶段"></column>
+            <column name="operationnumber" type="int" remarks="做的次数"></column>
+            <column name="totalnumber" type="int" remarks="总个数"></column>
+            <column name="correctnumber" type="int" remarks="正确的个数"></column>
+            <column name="correctrate" type="char(32)" remarks="正确率"></column>
+            <column name="timeconsuming" type="varchar(1000)" remarks="所用时间"></column>
+            <column name="completeif" type="char(32)" remarks="是否完成"></column>
+
+            <column name="hidden" type="int" remarks="是否隐藏"></column>
+            <column name="creator" type="char(32)"></column>
+            <column name="created_at" type="datetime"></column>
+            <column name="updator" type="char(32)"></column>
+            <column name="updated_at" type="datetime"></column>
+        </createTable>
+        <createTable tableName="xj_gameitem_record05" remarks="游戏阶段表05">
+            <column name="id" type="char(32)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="gamehead_record_id" type="char(32)" remarks="游戏记录表头id"></column>
+            <column name="gamephase" type="char(32)" remarks="游戏阶段"></column>
+            <column name="operationnumber" type="int" remarks="做的次数"></column>
+            <column name="totalnumber" type="int" remarks="总个数"></column>
+            <column name="correctnumber" type="int" remarks="正确的个数"></column>
+            <column name="correctrate" type="char(32)" remarks="正确率"></column>
+            <column name="timeconsuming" type="varchar(1000)" remarks="所用时间"></column>
+            <column name="completeif" type="char(32)" remarks="是否完成"></column>
+
+            <column name="hidden" type="int" remarks="是否隐藏"></column>
+            <column name="creator" type="char(32)"></column>
+            <column name="created_at" type="datetime"></column>
+            <column name="updator" type="char(32)"></column>
+            <column name="updated_at" type="datetime"></column>
+        </createTable>
+    </changeSet>
+    <changeSet id="10081" author="fanchengzhi">
+        <createTable tableName="xj_prescription_case" remarks="患者表（病案号类型）">
+            <column name="id" type="char(32)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="user_id" type="char(32)" remarks="用户ID"/>
+            <column name="code" type="varchar(200)" remarks="患者编码"/>
+            <column name="name" type="varchar(200)" remarks="患者名称"></column>
+            <column name="gender" type="int" remarks="性别"></column>
+            <column name="recordno" type="varchar(200)" remarks="病历号"/>
+            <column name="icd10" type="varchar(200)" remarks="ICD10码"/>
+            <column name="born_date" type="datetime" remarks="出生日期"/>
+            <column name="hospital_date" type="datetime" remarks="入院日期"/>
+            <column name="schooling" type="varchar(200)" remarks="文化程度"/>
+            <column name="marriage" type="varchar(200)" remarks="婚姻状况"/>
+            <column name="vrroomid" type="char(32)" remarks="VR室id"></column>
+            <column name="source" type="int" remarks="来源"></column>
+
+            <column name="status" type="int" remarks="状态"/> <!-- 待审核、审核不通过、停诊，正常 -->
+            <column name="medicare_type" type="int" remarks="医保类型"/> <!--新农村合作医疗、城镇居民医疗保险、职工医疗保险 -->
+            <column name="medicare_card_number" type="varchar(100)" remarks="医保卡号"/>
+            <column name="id_number" type="varchar(100)" remarks="身份证号"/>
+            <column name="age" type="int" remarks="年龄"/>
+            <column name="address" type="varchar(100)" remarks="家庭住址"/>
+            <column name="emergency_contact" type="varchar(50)" remarks="紧急联系人"/>
+            <column name="emergency_contact_phone" type="varchar(100)" remarks="紧急联系人电话"/>
+            <column name="push_id" type="varchar(100)" remarks="设备ID"/>
+            <column name="hidden" type="int" remarks="是否隐藏"></column>
+
+            <column name="creator" type="char(32)"></column>
+            <column name="created_at" type="datetime"></column>
+            <column name="updator" type="char(32)"></column>
+            <column name="updated_at" type="datetime"></column>
+
+        </createTable>
+        <sqlFile dbms="mysql" encoding="utf8" path="config/business20170628_fcz.sql"
+                 relativeToChangelogFile="true" splitStatements="true" stripComments="true"/>
+        <sqlFile dbms="mysql" encoding="utf8" path="auth/xinjing-home20170628.sql"
+                 relativeToChangelogFile="true" splitStatements="true" stripComments="true"/>
+    </changeSet>
+
+
+    <changeSet id="10082" author="fanchengzhi">
+        <createTable tableName="xj_charges" remarks="咨询收费">
+            <column name="id" type="char(32)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+
+            <column name="doctor_id" type="char(32)" remarks="医生Id"/>
+            <column name="patient_id" type="char(32)" remarks="医患Id"/>
+            <column name="doctor_name" type="char(32)" remarks="医生名称"/>
+            <column name="patient_name" type="char(32)" remarks="医患名称"/>
+            <column name="charges_amount" type="decimal(8,2)" remarks="咨询金额"></column>
+            <column name="pay_status" type="int" remarks="支付状态"/>
+            <column name="remark" type="varchar(1000)" remarks="备注"/>
+
+            <column name="hidden" type="int" remarks="是否隐藏"></column>
+            <column name="creator" type="char(32)"></column>
+            <column name="created_at" type="datetime"></column>
+            <column name="updator" type="char(32)"></column>
+            <column name="updated_at" type="datetime"></column>
+        </createTable>
+
+        <createTable tableName="xj_calllimit" remarks="医生通话权限">
+            <column name="id" type="char(32)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+
+            <column name="doctor_id" type="char(32)" remarks="医生Id"/>
+            <column name="patient_id" type="char(32)" remarks="医患Id"/>
+            <column name="doctor_name" type="char(32)" remarks="医生名称"/>
+            <column name="patient_name" type="char(32)" remarks="医患名称"/>
+            <column name="pay_status" type="int" remarks="状态"/>
+
+            <column name="remark" type="varchar(1000)" remarks="备注"/>
+            <column name="hidden" type="int" remarks="是否隐藏"></column>
+            <column name="creator" type="char(32)"></column>
+            <column name="created_at" type="datetime"></column>
+            <column name="updator" type="char(32)"></column>
+            <column name="updated_at" type="datetime"></column>
+        </createTable>
+
+        <sqlFile dbms="mysql" encoding="utf8" path="config/business20170628_fcz(2).sql"
+                 relativeToChangelogFile="true" splitStatements="true" stripComments="true"/>
+        <sqlFile dbms="mysql" encoding="utf8" path="auth/xinjing-home20170628(2).sql"
+                 relativeToChangelogFile="true" splitStatements="true" stripComments="true"/>
+    </changeSet>
+
+    <changeSet id="10083" author="fanchengzhi">
+        <createTable tableName="xj_frontpage_collect" remarks="新闻头条收藏表">
+            <column name="id" type="char(32)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+
+            <column name="news_id" type="char(32)" remarks="行业新闻头条ID"/>
+            <column name="user_id" type="char(32)" remarks="用户ID"/>
+            <column name="is_collect" type="int" remarks="是否收藏"/>
+            <column name="hidden" type="int" remarks="是否隐藏"></column>
+
+            <column name="creator" type="char(32)"></column>
+            <column name="created_at" type="datetime"></column>
+            <column name="updator" type="char(32)"></column>
+            <column name="updated_at" type="datetime"></column>
+        </createTable>
+    </changeSet>
+    <changeSet id="10084" author="fanchengzhi">
+        <addColumn tableName="xj_prescription_case">
+            <column name="icd10name" type="char(32)" remarks="icd10name"></column>
+            <column name="patientid" type="char(32)" remarks="患者id"></column>
+            <column name="mobile" type="char(32)" remarks="手机号码"></column>
+            <column name="hospital_id" type="varchar(100)" remarks="在职医院"/>
+            <column name="email" type="varchar(100)" remarks="email"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="10085" author="fanchengzhi">
+        <createTable tableName="xj_click_record" remarks="点播记录">
+            <column name="id" type="char(32)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+
+            <column name="content_id" type="char(32)" remarks="场景"/>
+            <column name="click_date" type="char(32)" remarks="点播时间"/>
+            <column name="user_id" type="char(32)" remarks="点播用户"/>
+            <column name="hidden" type="int" remarks="是否隐藏"></column>
+
+            <column name="creator" type="char(32)"></column>
+            <column name="created_at" type="datetime"></column>
+            <column name="updator" type="char(32)"></column>
+            <column name="updated_at" type="datetime"></column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="10086" author="fanchengzhi">
+        <addColumn tableName="xj_click_record">
+            <column name="hospital_id" type="varchar(100)" remarks="在职医院"/>
+            <column name="patientcase_id" type="char(32)" remarks="医患Id"/>
+        </addColumn>
+    </changeSet>
+
+
+    <changeSet id="10087" author="fanchengzhi">
+        <addColumn tableName="xj_prescription">
+            <column name="patientcase_id" type="char(32)" remarks="医患病案号版本Id"/>
+        </addColumn>
+    </changeSet>
+
+
+
+    <changeSet id="10088" author="fanchengzhi">
+
+        <update tableName="pb_config">
+            <column name="value" value="1:未开始\r\n2:进行中\r\n3:已完成\r\n9:已中止\r\n4:线下已付"></column>
+            <where>code='PRESCRIPTION_STATUS_ENUM'</where>
+        </update>
+
+    </changeSet>
+
+
+    <changeSet id="10089" author="fanchengzhi">
+
+        <sqlFile dbms="mysql" encoding="utf8" path="config/business20170713_fcz.sql"
+                 relativeToChangelogFile="true" splitStatements="true" stripComments="true"/>
+    </changeSet>
+
+
+    <changeSet id="10090" author="fanchengzhi">
+        <createTable tableName="xj_doctor_patientcase" remarks="医生与病案号患者关系表">
+            <column name="id" type="char(32)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+
+            <column name="doctor_id" type="char(32)" remarks="医生Id"/>
+            <column name="prescriptioncase_id" type="char(32)" remarks="病案号患者Id"/>
+            <column name="hospital_id" type="char(32)" remarks="医院"/>
+            <column name="remark" type="varchar(1000)" remarks="备注"/>
+
+            <column name="creator" type="char(32)"></column>
+            <column name="created_at" type="datetime"></column>
+            <column name="updator" type="char(32)"></column>
+            <column name="updated_at" type="datetime"></column>
+        </createTable>
+
+    </changeSet>
+
+
+    <changeSet id="10091" author="fanchengzhi">
+
+        <update tableName="pb_config">
+            <column name="value" value="1:未付款\r\n2:已付款\r\n4:线下已付"></column>
+            <where>code='PRESCRIPTION_PAY_STATUS_ENUM'</where>
+        </update>
+
+    </changeSet>
+
+    <changeSet id="10092" author="fanchengzhi">
+        <addColumn tableName="xj_prescription_case">
+            <column name="ts" type="datetime" remarks="ts时间戳"/>
+        </addColumn>
+    </changeSet>
+
+
+    <changeSet id="10093" author="fanchengzhi">
+        <addColumn tableName="xj_prescription_case">
+            <column name="hospital_name" type="char(100)" remarks="hospital_name"></column>
+        </addColumn>
+    </changeSet>
+
+
+    <changeSet id="10094" author="fanchengzhi">
+        <createTable tableName="xj_pc_version" remarks="PC版本信息表">
+            <column name="id" type="char(32)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+
+            <column name="app_code" type="varchar(500)" remarks="pc编码"/>
+            <column name="download_url" type="varchar(500)" remarks="下载地址"/>
+            <column name="version_code" type="varchar(20)" remarks="版本编号"/>
+            <column name="version_desc" type="varchar(1000)" remarks="版本描述"/>
+            <column name="version_name" type="varchar(100)" remarks="版本名称"/>
+            <column name="version_size" type="varchar(20)" remarks="版本大小"/>
+            <column name="version_simtdate" type="datetime" remarks="发布日期"/>
+            <column name="version_vendor" type="varchar(20)" remarks="软件厂商"/>
+            <column name="version_phone" type="varchar(20)" remarks="服务热线"/>
+
+            <column name="creator" type="char(32)"></column>
+            <column name="created_at" type="datetime"></column>
+            <column name="updator" type="char(32)"></column>
+            <column name="updated_at" type="datetime"></column>
+        </createTable>
+        <sqlFile dbms="mysql" encoding="utf8" path="auth/xinjing-home20170728.sql"
+                 relativeToChangelogFile="true" splitStatements="true" stripComments="true"/>
+    </changeSet>
+
+    <changeSet id="10095" author="fanchengzhi">
+        <addColumn tableName="xj_gamehead_record">
+            <column name="hospital_id" type="char(32)" remarks="hospital_id"></column>
+        </addColumn>
+    </changeSet>
+    <changeSet id="10096" author="fanchengzhi">
+        <addColumn tableName="xj_click_record">
+            <column name="type" type="int" remarks="type"></column>
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="89887" author="fanchengzhi">
+        <addColumn tableName="xj_gameitem_record01">
+            <column name="inaccuracynumber" type="int" remarks="错误的个数" value="0"></column>
+            <column name="inaccuracyrate" type="char(32)" remarks="错误率" ></column>
+        </addColumn>
+        <addColumn tableName="xj_gameitem_record02">
+            <column name="inaccuracynumber" type="int" remarks="错误的个数" value="0" ></column>
+            <column name="inaccuracyrate" type="char(32)" remarks="错误率" ></column>
+        </addColumn>
+        <addColumn tableName="xj_gameitem_record03">
+            <column name="inaccuracynumber" type="int" remarks="错误的个数" value="0" ></column>
+            <column name="inaccuracyrate" type="char(32)" remarks="错误率" ></column>
+        </addColumn>
+        <addColumn tableName="xj_gameitem_record04">
+            <column name="inaccuracynumber" type="int" remarks="错误的个数" value="0" ></column>
+            <column name="inaccuracyrate" type="char(32)" remarks="错误率" ></column>
+        </addColumn>
+        <addColumn tableName="xj_gameitem_record05">
+            <column name="inaccuracynumber" type="int" remarks="错误的个数" value="0" ></column>
+            <column name="inaccuracyrate" type="char(32)" remarks="错误率" ></column>
+        </addColumn>
+    </changeSet>
+
+</databaseChangeLog>

@@ -1,0 +1,1 @@
+INSERT INTO `pb_config` VALUES ('b0000000000000000000000000000014', 'VR_ROOM_APPOINTMENT_STATUS_ENUM', 'VR室预约状态枚举', '5', '4', '7', '1:预约成功\r\n2:取消预约\r\n3:已完成', null, 'VR室预约状态枚举',null, null, null,null);

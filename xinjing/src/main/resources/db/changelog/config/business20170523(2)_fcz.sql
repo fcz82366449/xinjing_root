@@ -1,0 +1,1 @@
+INSERT INTO `pb_config` VALUES ('b0000000000000000000000000022132', 'EVALUATINGTYPE_STATUS_ENUM', '问题类型枚举', '5', '4', '7', '1:单选题\r\n2:分值题\r\n3:其它', null, '问题类型枚举',null, null, null,null);

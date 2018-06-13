@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layout">
+
+<div layout:fragment="body">
+    <form id="charges-form" method="post" th:action="@{/charges/form}" th:object="${charges}" liger="{type : 'ligerForm'}">
+        <input type="hidden" th:field="*{id}"/>
+        <table class="l-table-form">
+            <tr>
+                <th th:text="#{charges.doctorId}"></th>
+                <td><input type="text" ltype="text"  th:field="*{doctorName}" validate="{required:true}"/></td>
+            </tr>
+            <tr>
+                <th th:text="#{charges.patientId}"></th>
+                <td><input type="text" ltype="text" th:field="*{patientName}" validate="{required:true}"/></td>
+            </tr>
+            <tr>
+                <th th:text="#{charges.chargesAmount}"></th>
+                <td><input type="text" ltype="text" th:placeholder="#{charges.chargesAmount}" th:field="*{chargesAmount}" validate="{required:true}"/></td>
+            </tr>
+            <tr>
+                <th th:text="#{charges.payStatus}"></th>
+                <td><input type="text" ltype="text" th:placeholder="#{charges.payStatus}" th:field="*{payStatus}" validate="{required:true}"/></td>
+            </tr>
+            <tr>
+                <th th:text="#{charges.remark}"></th>
+                <td><textarea cols="60" rows="4" th:placeholder="#{charges.remark}" th:field="*{remark}" />
+                    </td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+<script type="text/javascript" layout:fragment="script">/*<![CDATA[*/
+var $form;
+$(function() {
+
+});
+/*]]>*/</script>
+
+</html>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layout">
+
+<div layout:fragment="body">
+    <form id="calllimit-form" method="post" th:action="@{/calllimit/form}" th:object="${calllimit}" liger="{type : 'ligerForm'}">
+        <input type="hidden" th:field="*{id}"/>
+        <table class="l-table-form">
+            <tr>
+                <th th:text="#{calllimit.doctorId}"></th>
+                <td><input type="text" ltype="text" th:placeholder="#{calllimit.doctorId}" th:field="*{doctorId}" validate="{required:true}"/></td>
+            </tr>
+            <tr>
+                <th th:text="#{calllimit.patientId}"></th>
+                <td><input type="text" ltype="text" th:placeholder="#{calllimit.patientId}" th:field="*{patientId}" validate="{required:true}"/></td>
+            </tr>
+            <tr>
+                <th th:text="#{calllimit.payStatus}"></th>
+                <td><input type="text" ltype="text" th:placeholder="#{calllimit.payStatus}" th:field="*{payStatus}" validate="{required:true}"/></td>
+            </tr>
+            <tr>
+                <th th:text="#{calllimit.remark}"></th>
+                <td><textarea cols="60" rows="4" th:placeholder="#{calllimit.remark}" th:field="*{remark}" />
+                    </td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+<script type="text/javascript" layout:fragment="script">/*<![CDATA[*/
+var $form;
+$(function() {
+
+});
+/*]]>*/</script>
+
+</html>
